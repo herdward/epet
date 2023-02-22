@@ -1,1 +1,3 @@
-# CS-3110-Final-Project
+Aroma Dong (jd778)
+Troy Moslemi (tcm83)
+Boinzemwende Jarmila Roxane Ouango (bo93)
