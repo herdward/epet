@@ -1,0 +1,9 @@
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 I: Start test test suite for final project:5:description of samplejson.json, should be "a normal cat".
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Test test suite for final project:5:description of samplejson.json, should be "a normal cat" exited with an error.
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Yojson.Basic.Util.Type_error("Expected int, got null", 870828711) in test test suite for final project:5:description of samplejson.json, should be "a normal cat".
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Raised at Yojson.Basic.Util.typerr in file "util.ml", line 15, characters 20-60
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Called from Game__Pet.from_json in file "src/pet.ml", line 19, characters 11-48
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Called from Dune__exe__Main.pet_tests.(fun) in file "test/main.ml", line 74, characters 57-75
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 E: 
+2023-03-19T18:22:12+00:00 DESKTOP-M6UDL1R#06 I: End test test suite for final project:5:description of samplejson.json, should be "a normal cat".

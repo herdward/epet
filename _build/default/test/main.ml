@@ -53,3 +53,28 @@ open Command
     (********************************************************************
        End helper functions.
      ********************************************************************)
+     
+     (*Loading files from data directory*)
+     let data_dir_prefix = "data" ^ Filename.dir_sep
+
+     let sample = Yojson.Basic.from_file (data_dir_prefix ^ "samplejson.json")
+
+     (*Pet tests*)
+     let pet_tests = [( {|name of samplejson.json, should be "cat"|} >:: fun _ ->
+      assert_equal "cat" (getName (from_json sample)) );
+      
+      ( {|health of samplejson.json, should be 100|} >:: fun _ ->
+        assert_equal 100 (getHealth (from_json sample)) );
+        ( {|hunger of samplejson.json, should be 0|} >:: fun _ ->
+          assert_equal 0 (getHunger (from_json sample)) );
+          ( {|description of samplejson.json, should be "a normal cat"|} >:: fun _ ->
+            assert_equal "a normal cat" (getDescription (from_json sample)) );]
+
+
+let command_tests = []
+
+let suite =
+  "test suite for final project"
+  >::: List.flatten [ cmp_demo; pet_tests; command_tests; ]
+
+let _ = run_test_tt_main suite
