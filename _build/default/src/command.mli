@@ -17,8 +17,8 @@ type object_phrase = string list
     - If the player command is ["feed orange juice"], then the object phrase is
       [\["orange"; "juice"\]].
 
-    - If the player command is ["feed orange    juice"], then the object phrase is
-      again [\["orange"; "juice"\]]. *)
+    - If the player command is ["feed orange    juice"], then the object phrase
+      is again [\["orange"; "juice"\]]. *)
 
 (* Note that the backslashes in the OCamldoc comment above are inserted by
    OCamlformat for sake of the HTML version of the documentation. When reading
@@ -27,7 +27,7 @@ type object_phrase = string list
 
 (** The type [command] represents a player command that is decomposed into a
     verb and possibly an object phrase. Invariant: the [object_phrase] carried
-    by [Feed]  or [Clean] must not be empty. *)
+    by [Feed] or [Clean] must not be empty. *)
 type command =
   | Feed of object_phrase
   | Clean of object_phrase
@@ -53,6 +53,6 @@ val parse : string -> command
     Raises: [Empty] if [str] is the empty string or contains only spaces.
 
     Raises: [Malformed] if the command is malformed. A command is malformed if
-    the verb is neither "quit" nor "feed" nor "clean", or if the verb is "quit" and there is a
-    non-empty object phrase, or if the verb is "feed" or "clean" and there is an empty object
-    phrase.*)
+    the verb is neither "quit" nor "feed" nor "clean", or if the verb is "quit"
+    and there is a non-empty object phrase, or if the verb is "feed" or "clean"
+    and there is an empty object phrase.*)

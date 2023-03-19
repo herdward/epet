@@ -4,11 +4,20 @@ open Stdlib
 open Game
 open Pet
 
-let play_game f =
-  Stdlib.print_string
-    (Pet.getDescription (Pet.pet_of_json (Yojson.Basic.from_file f)))
+(* let play_game f = Stdlib.print_string (Pet.getDescription (Pet.pet_of_json
+   (Yojson.Basic.from_file f))) *)
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
+
+let play_game_helper1 f n =
+  Stdlib.print_string
+    (Pet.getDescription
+       (Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file f)) n))
+
+let play_game f =
+  print_string "Enter Name of pet > ";
+  match f with
+  | read_line -> play_game_helper1 f read_line
 
 (** [main ()] prompts for the game to play, then starts it. *)
 
