@@ -33,3 +33,4 @@ let main () =
 (* Execute the game engine. *)
 
 let () = main ()
+let () = print_char 'c'
