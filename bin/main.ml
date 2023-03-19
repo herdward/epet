@@ -11,7 +11,7 @@ let data_dir_prefix = "data" ^ Filename.dir_sep
 
 let play_game_helper1 f n =
   Stdlib.print_string
-    (Pet.getDescription
+    (Pet.get_description
        (Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file f)) n))
 
 let play_game f =

@@ -22,9 +22,15 @@
    game__Pet.cmt
    game__Pet.cmti
    game__Pet.cmx
+   game__State.cmi
+   game__State.cmt
+   game__State.cmti
+   game__State.cmx
    opam
    pet.ml
-   pet.mli))
+   pet.mli
+   state.ml
+   state.mli))
  (libexec (game.cmxs))
  (doc (LICENSE README.md)))
 (library
@@ -56,5 +62,9 @@
      (module
       (obj_name game__Pet)
       (visibility public)
-      (source (path Pet) (intf (path pet.mli)) (impl (path pet.ml))))))
+      (source (path Pet) (intf (path pet.mli)) (impl (path pet.ml))))
+     (module
+      (obj_name game__State)
+      (visibility public)
+      (source (path State) (intf (path state.mli)) (impl (path state.ml))))))
    (wrapped true))))

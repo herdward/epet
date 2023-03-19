@@ -1,9 +1,9 @@
-# dune exec bin/main.exe
+# dune exec test/main.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Workspace root: /home/edis2/CS-3110-Final-Project
 # Auto-detected concurrency: 8
-$ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_89b9d1_output
+$ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_7937e9_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -112,10 +112,3 @@ $ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_89b9d1_outp
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/state.mli) > _build/default/src/.game.objs/game__State.intf.d
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__State.cmi -c -intf src/state.mli)
-> File "src/state.mli", line 16, characters 17-28:
-> 16 | val init_state : Adventure.t -> t
->                       ^^^^^^^^^^^
-> Error: Unbound module Adventure
-[2]

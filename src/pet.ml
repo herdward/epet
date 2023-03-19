@@ -29,7 +29,7 @@ let get_hunger pet = pet.hunger
 let get_description pet = pet.description
 let get_name pet = pet.name
 
-let update_pet_hunger pet 5 =
+let update_pet_hunger pet =
   let current_pet_hunger = get_hunger pet in
   {
     name = get_name pet;

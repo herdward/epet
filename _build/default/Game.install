@@ -18,9 +18,15 @@ lib: [
   "_build/install/default/lib/Game/game__Pet.cmt"
   "_build/install/default/lib/Game/game__Pet.cmti"
   "_build/install/default/lib/Game/game__Pet.cmx"
+  "_build/install/default/lib/Game/game__State.cmi"
+  "_build/install/default/lib/Game/game__State.cmt"
+  "_build/install/default/lib/Game/game__State.cmti"
+  "_build/install/default/lib/Game/game__State.cmx"
   "_build/install/default/lib/Game/opam"
   "_build/install/default/lib/Game/pet.ml"
   "_build/install/default/lib/Game/pet.mli"
+  "_build/install/default/lib/Game/state.ml"
+  "_build/install/default/lib/Game/state.mli"
 ]
 libexec: [
   "_build/install/default/lib/Game/game.cmxs"

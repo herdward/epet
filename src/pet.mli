@@ -31,7 +31,7 @@ val get_health : pet -> int
 val get_hunger : pet -> int
 (** [getHunger p] is the hunger of pet [p]. *)
 
-val get_gender : pet -> int
+val get_gender : pet -> string
 (** [get_gender p ] is the gender of the pet [p]*)
 
 val get_description : pet -> string
