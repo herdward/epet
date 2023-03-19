@@ -17,7 +17,6 @@ let pet_of_json pet_json =
     description = pet_json |> member "description" |> to_string;
     health = pet_json |> member "health" |> to_int;
     hunger = pet_json |> member "hunger" |> to_int;
-    x;
   }
 
 let pets_of_json pets_json =

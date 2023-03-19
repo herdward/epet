@@ -1,96 +1,101 @@
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Runner: processes
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Chooser: simple
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration suite_name = "test suite for final project"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration cache_filename = "/home/edis2/CS-3110-Final-Project/_build/oUnit-$(suite_name).cache"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration run_gc_full_major = "true"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration display = "true"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration results_style_1_X = "false"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration testdata_dir = "/home/edis2/CS-3110-Final-Project/data"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration health_check_interval = "1."
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration verbose = "false"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration chooser = "simple"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_html_dir = "none"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration processes_kill_period = "5."
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration runner = "processes"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration shards = "4"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration processes_grace_period = "5."
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration log_encoding = "utf-8"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_junit_file = "none"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration ci = "false"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_file = "/home/edis2/CS-3110-Final-Project/_build/oUnit-$(suite_name)-$(shard_id).log"
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Using 4 workers maximum.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#01.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#01 started.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#02.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#02 started.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#03.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#03 started.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#04.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#04 started.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#01 I: Start test test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: Start test test suite for final project:1:name of samplejson.json, should be "cat".
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#03 I: Start test test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#01 I: Test test suite for final project:0:order is irrelevant is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: Test test suite for final project:1:name of samplejson.json, should be "cat" is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#01 I: End test test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: End test test suite for final project:1:name of samplejson.json, should be "cat".
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: Start test test suite for final project:4:description of samplejson.json, should be "a normal cat".
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#03 I: Test test suite for final project:2:health of samplejson.json, should be 100 is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#03 I: End test test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: Test test suite for final project:4:description of samplejson.json, should be "a normal cat" is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#02 I: End test test suite for final project:4:description of samplejson.json, should be "a normal cat".
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 2 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 2 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#04 I: Start test test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#04 I: Test test suite for final project:3:hunger of samplejson.json, should be 0 is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#04 I: End test test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:3:hunger of samplejson.json, should be 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: 0 tests running: .
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#01 has ended.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#03 has ended.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#02 has ended.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#04 has ended.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Used 4 worker during test execution.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#04.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#01.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Run 2 tests with shard LAPTOP-0GNKBIDE#02.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#03.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#04, 1 times.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#01, 10 times.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#03, 6 times.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#02, 5 times.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: ==============
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Summary:
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:3:hunger of samplejson.json, should be 0 is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:4:description of samplejson.json, should be "a normal cat" is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:2:health of samplejson.json, should be 100 is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:1:name of samplejson.json, should be "cat" is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:0:order is irrelevant is successful.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Ran: 5 tests in: 0.11 seconds.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Cases: 5.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Tried: 5.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Errors: 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Failures: 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Skip: 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Todo: 0.
-2023-03-19T21:06:06+00:00 LAPTOP-0GNKBIDE#00 I: Timeout: 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Runner: processes
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Chooser: simple
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration suite_name = "test suite for final project"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration cache_filename = "/home/edis2/CS-3110-Final-Project/_build/oUnit-$(suite_name).cache"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration run_gc_full_major = "true"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration display = "true"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration results_style_1_X = "false"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration testdata_dir = "/home/edis2/CS-3110-Final-Project/data"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration health_check_interval = "1."
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration verbose = "false"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration chooser = "simple"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_html_dir = "none"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration processes_kill_period = "5."
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration runner = "processes"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration shards = "4"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration processes_grace_period = "5."
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration log_encoding = "utf-8"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_junit_file = "none"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration ci = "false"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Configuration output_file = "/home/edis2/CS-3110-Final-Project/_build/oUnit-$(suite_name)-$(shard_id).log"
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Using 4 workers maximum.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#01.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#01 started.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#02.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#02 started.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#03.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#03 started.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Starting worker number LAPTOP-0GNKBIDE#04.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#04 started.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#01 I: Start test test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: Start test test suite for final project:1:name of samplejson.json, should be "cat".
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#01 I: Test test suite for final project:0:order is irrelevant is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: Test test suite for final project:1:name of samplejson.json, should be "cat" is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#01 I: End test test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: End test test suite for final project:1:name of samplejson.json, should be "cat".
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 4 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100, test suite for final project:1:name of samplejson.json, should be "cat", test suite for final project:0:order is irrelevant.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: Start test test suite for final project:4:description of samplejson.json, should be "a normal cat".
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#04 I: Start test test suite for final project:3:hunger of samplejson.json, should be 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: Test test suite for final project:4:description of samplejson.json, should be "a normal cat" is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#02 I: End test test suite for final project:4:description of samplejson.json, should be "a normal cat".
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 3 tests running : test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 3 tests running: test suite for final project:4:description of samplejson.json, should be "a normal cat", test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 2 tests running : test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 2 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#04 I: Test test suite for final project:3:hunger of samplejson.json, should be 0 is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 2 tests running : test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 2 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#04 I: End test test suite for final project:3:hunger of samplejson.json, should be 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 2 tests running : test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 2 tests running: test suite for final project:3:hunger of samplejson.json, should be 0, test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#03 I: Start test test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#03 I: Test test suite for final project:2:health of samplejson.json, should be 100 is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#03 I: End test test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Still 1 tests running : test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 1 tests running: test suite for final project:2:health of samplejson.json, should be 100.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: 0 tests running: .
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#01 has ended.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#02 has ended.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#03 has ended.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Worker LAPTOP-0GNKBIDE#04 died unexpectedly.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Used 4 worker during test execution.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#04.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#01.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Run 2 tests with shard LAPTOP-0GNKBIDE#02.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Run 1 tests with shard LAPTOP-0GNKBIDE#03.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#04, 6 times.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#01, 13 times.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#02, 8 times.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Check health of shard LAPTOP-0GNKBIDE#03, 1 times.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: ==============
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Summary:
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:2:health of samplejson.json, should be 100 is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:3:hunger of samplejson.json, should be 0 is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:4:description of samplejson.json, should be "a normal cat" is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:1:name of samplejson.json, should be "cat" is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Test test suite for final project:0:order is irrelevant is successful.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Ran: 5 tests in: 0.12 seconds.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Cases: 5.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Tried: 5.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Errors: 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Failures: 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Skip: 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Todo: 0.
+2023-03-19T21:32:25+00:00 LAPTOP-0GNKBIDE#00 I: Timeout: 0.

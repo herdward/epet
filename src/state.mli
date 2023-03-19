@@ -18,15 +18,6 @@ val init_state : Pet.pet -> state
     In that state the adventurer is currently located in the starting room, and
     they have visited only that room. *)
 
-val current_room_id : Pet.pet -> string
-(** [current_room_id st] is the identifier of the room in which the adventurer
-    is currently located in state [st]. *)
-
-val visited : Pet.pet -> string list
-(** [visited st] is a set-like list of the room identifiers the adventurer has
-    visited in state [st]. The adventurer has visited a room [rm] if their
-    current room location is or has ever been [rm]. *)
-
 (** The type representing the result of an attempted interaction , such as
     feeding, cleaning, petting, playing, etc. *)
 type result =
