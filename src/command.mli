@@ -14,11 +14,11 @@ type object_phrase = string list
     internal, or trailing spaces. The list is in the same order as the words in
     the original player command. For example:
 
-    - If the player command is ["go clock tower"], then the object phrase is
-      [\["clock"; "tower"\]].
+    - If the player command is ["feed orange juice"], then the object phrase is
+      [\["orange"; "juice"\]].
 
-    - If the player command is ["go clock     tower"], then the object phrase is
-      again [\["clock"; "tower"\]]. *)
+    - If the player command is ["feed orange    juice"], then the object phrase is
+      again [\["orange"; "juice"\]]. *)
 
 (* Note that the backslashes in the OCamldoc comment above are inserted by
    OCamlformat for sake of the HTML version of the documentation. When reading
@@ -27,9 +27,10 @@ type object_phrase = string list
 
 (** The type [command] represents a player command that is decomposed into a
     verb and possibly an object phrase. Invariant: the [object_phrase] carried
-    by [Go] must not be empty. *)
+    by [Feed]  or [Clean] must not be empty. *)
 type command =
-  | Go of object_phrase
+  | Feed of object_phrase
+  | Clean of object_phrase
   | Quit
 
 exception Empty
@@ -43,7 +44,7 @@ val parse : string -> command
     word (i.e., consecutive sequence of non-space characters) of [str] becomes
     the verb. The rest of the words, if any, become the object phrase. Examples:
 
-    - [parse "    go   clock   tower   "] is [Go \["clock"; "tower"\]]
+    - [parse " feed   orange juice "] is [Feed \["orange"; "juice"\]]
     - [parse "quit"] is [Quit].
 
     Requires: [str] contains only alphanumeric (A-Z, a-z, 0-9) and space
@@ -52,6 +53,6 @@ val parse : string -> command
     Raises: [Empty] if [str] is the empty string or contains only spaces.
 
     Raises: [Malformed] if the command is malformed. A command is malformed if
-    the verb is neither "quit" nor "go", or if the verb is "quit" and there is a
-    non-empty object phrase, or if the verb is "go" and there is an empty object
+    the verb is neither "quit" nor "feed" nor "clean", or if the verb is "quit" and there is a
+    non-empty object phrase, or if the verb is "feed" or "clean" and there is an empty object
     phrase.*)

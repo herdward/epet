@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: /home/edis2/CS-3110-Final-Project
 # Auto-detected concurrency: 8
-$ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_ad3702_output
+$ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_282a54_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -112,5 +112,14 @@ $ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_ad3702_outp
 #      ; windows_unicode = false
 #      }
 #  }
+$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/command.mli) > _build/default/src/.game.objs/game__Command.intf.d
+$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/command.ml) > _build/default/src/.game.objs/game__Command.impl.d
+$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmi -c -intf src/command.mli)
+$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I test/.main.eobjs/byte -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2 -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmi -c -intf test/main.mli)
+$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Command.cmx -c -impl src/command.ml)
+> File "src/command.ml", line 36, characters 54-56:
+> 36 |       | "feed" -> if t = [] then raise Malformed else Go pet
+>                                                            ^^
+> Error: Unbound constructor Go
+[2]
 $ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2 -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -o test/main.exe /home/edis2/.opam/cs3110-2023sp/lib/yojson/yojson.cmxa /home/edis2/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /home/edis2/.opam/cs3110-2023sp/lib/ocaml -I /home/edis2/.opam/cs3110-2023sp/lib/ocaml /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal/ANSITerminal.cmxa -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal src/game.cmxa /home/edis2/.opam/cs3110-2023sp/lib/stdlib-shims/stdlib_shims.cmxa /home/edis2/.opam/cs3110-2023sp/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/edis2/.opam/cs3110-2023sp/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
