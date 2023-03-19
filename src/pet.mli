@@ -39,3 +39,5 @@ val get_description : pet -> string
 
 val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
+
+val update_pet_hunger : pet -> pet
