@@ -53,6 +53,6 @@ val parse : string -> command
     Raises: [Empty] if [str] is the empty string or contains only spaces.
 
     Raises: [Malformed] if the command is malformed. A command is malformed if
-    the verb is neither "quit" nor "go", or if the verb is "quit" and there is a
-    non-empty object phrase, or if the verb is "go" and there is an empty object
+    the verb is neither "quit" nor "feed" nor "clean", or if the verb is "quit" and there is a
+    non-empty object phrase, or if the verb is "feed" or "clean" and there is an empty object
     phrase.*)

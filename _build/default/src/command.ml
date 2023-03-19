@@ -33,7 +33,7 @@ let parse str =
   | [] -> raise Empty
   | h :: t -> (
       match h with
-      | "feed" -> if t = [] then raise Malformed else Go pet
-      | "clean" -> if t = [] then raise Malformed else Clean pet
+      | "feed" -> if t = [] then raise Malformed else Feed t
+      | "clean" -> if t = [] then raise Malformed else Clean t
       | "quit" -> if t <> [] then raise Malformed else Quit
       | _ -> raise Malformed)

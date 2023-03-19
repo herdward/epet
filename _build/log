@@ -1,9 +1,9 @@
-# dune exec test/main.exe
+# dune build
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Workspace root: /home/edis2/CS-3110-Final-Project
-# Auto-detected concurrency: 8
-$ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_282a54_output
+# Workspace root: /home/derpachu/cs3110/final_proj
+# Auto-detected concurrency: 6
+$ /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_c7b40a_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -13,37 +13,40 @@ $ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_282a54_outp
 #  ; fdo_target_exe = None
 #  ; build_dir = In_build_dir "default"
 #  ; toplevel_path =
-#      Some External "/home/edis2/.opam/cs3110-2023sp/lib/toplevel"
-#  ; ocaml_bin = External "/home/edis2/.opam/cs3110-2023sp/bin"
-#  ; ocaml = Ok External "/home/edis2/.opam/cs3110-2023sp/bin/ocaml"
-#  ; ocamlc = External "/home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt"
+#      Some External "/home/derpachu/.opam/cs3110-2023sp/lib/toplevel"
+#  ; ocaml_bin = External "/home/derpachu/.opam/cs3110-2023sp/bin"
+#  ; ocaml = Ok External "/home/derpachu/.opam/cs3110-2023sp/bin/ocaml"
+#  ; ocamlc = External "/home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt"
+#  ; ocamlopt =
+#      Ok External "/home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt"
+#  ; ocamldep =
+#      Ok External "/home/derpachu/.opam/cs3110-2023sp/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/home/edis2/.opam/cs3110-2023sp/bin/ocamlmklib.opt"
+#      Ok External "/home/derpachu/.opam/cs3110-2023sp/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/edis2/.opam/cs3110-2023sp/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/edis2/.opam/cs3110-2023sp/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/edis2/CS-3110-Final-Project"
-#        ; "INSIDE_DUNE" : "/home/edis2/CS-3110-Final-Project/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/derpachu/.opam/cs3110-2023sp/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/derpachu/.opam/cs3110-2023sp/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/derpachu/cs3110/final_proj"
+#        ; "INSIDE_DUNE" : "/home/derpachu/cs3110/final_proj/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/edis2/CS-3110-Final-Project/_build/install/default/lib"
+#            "/home/derpachu/cs3110/final_proj/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/home/edis2/CS-3110-Final-Project/_build/install/default/lib"
+#            "/home/derpachu/cs3110/final_proj/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/edis2/CS-3110-Final-Project/_build/install/default/lib/toplevel"
+#            "/home/derpachu/cs3110/final_proj/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_paths = [ External "/home/edis2/.opam/cs3110-2023sp/lib" ]
+#  ; findlib_paths = [ External "/home/derpachu/.opam/cs3110-2023sp/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.14.0"
-#      ; standard_library_default = "/home/edis2/.opam/cs3110-2023sp/lib/ocaml"
-#      ; standard_library = "/home/edis2/.opam/cs3110-2023sp/lib/ocaml"
+#      ; standard_library_default =
+#          "/home/derpachu/.opam/cs3110-2023sp/lib/ocaml"
+#      ; standard_library = "/home/derpachu/.opam/cs3110-2023sp/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
@@ -112,14 +115,24 @@ $ /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -config > /tmp/dune_282a54_outp
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/command.mli) > _build/default/src/.game.objs/game__Command.intf.d
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/command.ml) > _build/default/src/.game.objs/game__Command.impl.d
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmi -c -intf src/command.mli)
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I test/.main.eobjs/byte -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2 -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmi -c -intf test/main.mli)
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Command.cmx -c -impl src/command.ml)
-> File "src/command.ml", line 36, characters 54-56:
-> 36 |       | "feed" -> if t = [] then raise Malformed else Go pet
->                                                            ^^
-> Error: Unbound constructor Go
-[2]
-$ (cd _build/default && /home/edis2/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/edis2/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2 -I /home/edis2/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/edis2/.opam/cs3110-2023sp/lib/seq -I /home/edis2/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/edis2/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/command.mli) > _build/default/src/.game.objs/game__Command.intf.d
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/pet.ml) > _build/default/src/.game.objs/game__Pet.impl.d
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -impl src/command.ml) > _build/default/src/.game.objs/game__Command.impl.d
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I src/.game.objs/byte -no-alias-deps -opaque -o src/.game.objs/byte/game.cmo -c -impl src/game.ml-gen)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamldep.opt -modules -intf src/pet.mli) > _build/default/src/.game.objs/game__Pet.intf.d
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmi -c -intf src/command.mli)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Pet.cmi -c -intf src/pet.mli)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Command.cmo -c -impl src/command.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I src/.game.objs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/byte/game__Pet.cmo -c -impl src/pet.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o src/.game.objs/native/game.cmx -c -impl src/game.ml-gen)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I bin/.main.eobjs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o bin/.main.eobjs/byte/dune__exe__Main.cmi -c -intf bin/main.mli)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Command.cmx -c -impl src/command.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -bin-annot -I test/.main.eobjs/byte -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/ounit2 -I /home/derpachu/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmi -c -intf test/main.mli)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -a -o src/game.cma src/.game.objs/byte/game.cmo src/.game.objs/byte/game__Pet.cmo src/.game.objs/byte/game__Command.cmo)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I src/.game.objs/byte -I src/.game.objs/native -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -intf-suffix .ml -no-alias-deps -opaque -open Game -o src/.game.objs/native/game__Pet.cmx -c -impl src/pet.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -a -o src/game.cmxa src/.game.objs/native/game.cmx src/.game.objs/native/game__Pet.cmx src/.game.objs/native/game__Command.cmx)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal -I /home/derpachu/.opam/cs3110-2023sp/lib/ounit2 -I /home/derpachu/.opam/cs3110-2023sp/lib/ounit2/advanced -I /home/derpachu/.opam/cs3110-2023sp/lib/seq -I /home/derpachu/.opam/cs3110-2023sp/lib/stdlib-shims -I /home/derpachu/.opam/cs3110-2023sp/lib/yojson -I src/.game.objs/byte -I src/.game.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -shared -linkall -I src -o src/game.cmxs src/game.cmxa)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -o bin/main.exe /home/derpachu/.opam/cs3110-2023sp/lib/yojson/yojson.cmxa /home/derpachu/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /home/derpachu/.opam/cs3110-2023sp/lib/ocaml -I /home/derpachu/.opam/cs3110-2023sp/lib/ocaml /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal/ANSITerminal.cmxa -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal src/game.cmxa bin/.main.eobjs/native/dune__exe__Main.cmx)
+$ (cd _build/default && /home/derpachu/.opam/cs3110-2023sp/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66..70 -warn-error -a+31 -g -o test/main.exe /home/derpachu/.opam/cs3110-2023sp/lib/yojson/yojson.cmxa /home/derpachu/.opam/cs3110-2023sp/lib/ocaml/unix.cmxa -I /home/derpachu/.opam/cs3110-2023sp/lib/ocaml -I /home/derpachu/.opam/cs3110-2023sp/lib/ocaml /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal/ANSITerminal.cmxa -I /home/derpachu/.opam/cs3110-2023sp/lib/ANSITerminal src/game.cmxa /home/derpachu/.opam/cs3110-2023sp/lib/stdlib-shims/stdlib_shims.cmxa /home/derpachu/.opam/cs3110-2023sp/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/derpachu/.opam/cs3110-2023sp/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
