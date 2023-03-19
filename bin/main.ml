@@ -16,7 +16,7 @@ let play_game_helper1 f n =
 
 let play_game f =
   print_string "Enter Name of pet > ";
-  match f with
+  match read_line () with
   | read_line -> play_game_helper1 f read_line
 
 (** [main ()] prompts for the game to play, then starts it. *)
