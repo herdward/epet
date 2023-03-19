@@ -1,6 +1,7 @@
 {
   "pets": [
     {
+      "gender": "male",
       "name": "cat",
       "description": "a normal cat",
       "health": 100,
