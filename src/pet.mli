@@ -5,9 +5,9 @@ type pet
 
 val from_json : Yojson.Basic.t -> pet
 
-val getHealth : pet -> string
+val getHealth : pet -> int
 
-val getHunger : pet -> string
+val getHunger : pet -> int
 
 val getDescription : pet -> string
 
