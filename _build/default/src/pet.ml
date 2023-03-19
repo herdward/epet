@@ -1,4 +1,5 @@
 
+
 type pet = {
   name: string;
   gender: string;
@@ -7,10 +8,12 @@ type pet = {
   hunger: int;
   (*hygiene: int;*)
 }
+type pets = {
+  pets: pet list;
+}
 
 open Yojson.Basic.Util
-
-let from_json pet_json = 
+let pet_of_json pet_json = 
   {
   name = pet_json |> member "name"  |> to_string;
   gender = pet_json |> member "gender" |> to_string;
@@ -18,6 +21,10 @@ let from_json pet_json =
   health = pet_json |> member "health" |> to_int;
   hunger = pet_json |> member "hunger" |> to_int; 
   }
+let pets_of_json pets_json = 
+  {pets = pets_json |> member "pets" |> to_list |> List.map pet_of_json;}
+
+let get_pet pets name = List.find (fun pet -> pet.name = name ) pets.pets 
 let getHealth pet = pet.health
 
 let getHunger pet = pet.hunger

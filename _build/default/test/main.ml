@@ -58,17 +58,19 @@ open Command
      let data_dir_prefix = "data" ^ Filename.dir_sep
 
      let sample = Yojson.Basic.from_file (data_dir_prefix ^ "samplejson.json")
-
+    let indiv_pet_sample = Yojson.Basic.from_file (data_dir_prefix ^ "individual_pet.json")
      (*Pet tests*)
+
+    let cat =  get_pet(pets_of_json sample) "cat"
      let pet_tests = [( {|name of samplejson.json, should be "cat"|} >:: fun _ ->
-      assert_equal "cat" (getName (from_json sample)) );
+      assert_equal "cat" (getName (cat)) );
       
       ( {|health of samplejson.json, should be 100|} >:: fun _ ->
-        assert_equal 100 (getHealth (from_json sample)) );
+        assert_equal 100 (getHealth (cat)) );
         ( {|hunger of samplejson.json, should be 0|} >:: fun _ ->
-          assert_equal 0 (getHunger (from_json sample)) );
+          assert_equal 0 (getHunger (cat)) );
           ( {|description of samplejson.json, should be "a normal cat"|} >:: fun _ ->
-            assert_equal "a normal cat" (getDescription (from_json sample)) );]
+            assert_equal "a normal cat" (getDescription (cat)) );]
 
 
 let command_tests = []

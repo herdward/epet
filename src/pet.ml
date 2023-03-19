@@ -24,6 +24,7 @@ let pet_of_json pet_json =
 let pets_of_json pets_json = 
   {pets = pets_json |> member "pets" |> to_list |> List.map pet_of_json;}
 
+let get_pet pets name = List.find (fun pet -> pet.name = name ) pets.pets 
 let getHealth pet = pet.health
 
 let getHunger pet = pet.hunger
