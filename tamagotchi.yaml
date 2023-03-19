@@ -1,0 +1,30 @@
+---
+# Members of your group.
+group:
+  - name: Aroma Dong
+    netid: jd778
+  - name: Troy Moslemi
+    netid: tcm83
+  - name: Amy Li
+    netid: ayl53
+  - name: Edward He
+    netid: eh538
+# Your PM.
+pm:
+  name: Paul Sachs
+  netid: prs242
+# Set to false if you don't want your gallery entry to be public.
+publish: true
+# Pithy title
+title: "Tamagotchi in OCaml"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/jd778/CS-3110-Final-Project"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  Our project is an imitation of the famous virtual pet simulation game, 
+  Tamagotchi. It features many interactions with your virtual pet, such as 
+  feeding, showering, and playing with your pet. There will also be different
+  types of interactions available depending on the level of intimacy with your
+  pet. 
