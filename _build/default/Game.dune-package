@@ -1,0 +1,60 @@
+(lang dune 3.7)
+(name Game)
+(sections (lib .) (libexec .) (doc ../../doc/Game))
+(files
+ (lib
+  (META
+   command.ml
+   command.mli
+   dune-package
+   game.a
+   game.cma
+   game.cmi
+   game.cmt
+   game.cmx
+   game.cmxa
+   game.ml
+   game__Command.cmi
+   game__Command.cmt
+   game__Command.cmti
+   game__Command.cmx
+   game__Pet.cmi
+   game__Pet.cmt
+   game__Pet.cmti
+   game__Pet.cmx
+   opam
+   pet.ml
+   pet.mli))
+ (libexec (game.cmxs))
+ (doc (LICENSE README.md)))
+(library
+ (name Game)
+ (kind normal)
+ (archives (byte game.cma) (native game.cmxa))
+ (plugins (byte game.cma) (native game.cmxs))
+ (native_archives game.a)
+ (requires yojson ANSITerminal)
+ (main_module_name Game)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name game)
+     (visibility public)
+     (kind alias)
+     (source (path Game) (impl (path game.ml-gen))))
+    (name Game)
+    (modules
+     (module
+      (obj_name game__Command)
+      (visibility public)
+      (source
+       (path Command)
+       (intf (path command.mli))
+       (impl (path command.ml))))
+     (module
+      (obj_name game__Pet)
+      (visibility public)
+      (source (path Pet) (intf (path pet.mli)) (impl (path pet.ml))))))
+   (wrapped true))))
