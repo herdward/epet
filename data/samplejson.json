@@ -1,0 +1,42 @@
+{
+  "pets": [
+    {
+      "name": "cat",
+      "description": "a normal cat",
+      "health": 100,
+      "hunger": 0,
+      "hygiene": 100,
+      "affection": 50,
+      "interactions/placeholder": [
+        {
+          "name": "southwest",
+          "room id": "health"
+        },
+        {
+          "name": "south west",
+          "room id": "health"
+        },
+        {
+          "name": "Cornell Health",
+          "room id": "health"
+        },
+        {
+          "name": "Gannett",
+          "room id": "health"
+        },
+        {
+          "name": "chimes",
+          "room id": "tower"
+        },
+        {
+          "name": "concert",
+          "room id": "tower"
+        },
+        {
+          "name": "clock tower",
+          "room id": "tower"
+        }
+      ]
+    }
+  ]
+}
