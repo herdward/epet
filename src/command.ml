@@ -7,8 +7,8 @@ type command =
   | Clean of object_phrase
   | Quit
 
-(* notes if get an error or something about unbound constructor, then be sure
-   to mirror the changes for type command in both command.mli and command.ml*)
+(* notes if get an error or something about unbound constructor, then be sure to
+   mirror the changes for type command in both command.mli and command.ml*)
 exception Empty
 exception Malformed
 

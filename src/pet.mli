@@ -25,14 +25,17 @@ val pets_of_json : Yojson.Basic.t -> pets
 val get_pet : pets -> string -> pet
 (** [get_pet p n] is a pet with name [n] in the list of pets [p]. *)
 
-val getHealth : pet -> int
+val get_health : pet -> int
 (** [getHealth p] is the health of pet [p]. *)
 
-val getHunger : pet -> int
+val get_hunger : pet -> int
 (** [getHunger p] is the hunger of pet [p]. *)
 
-val getDescription : pet -> string
+val get_gender : pet -> int
+(** [get_gender p ] is the gender of the pet [p]*)
+
+val get_description : pet -> string
 (** [getDescription p] is the description of pet [p]. *)
 
-val getName : pet -> string
+val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
