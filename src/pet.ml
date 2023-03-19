@@ -18,10 +18,10 @@ let from_json pet_json =
   health = pet_json |> member "health" |> to_int;
   hunger = pet_json |> member "hunger" |> to_int; 
   }
-let getHealth : pet -> string = raise (Failure "not done")
+let getHealth pet = pet.health
 
-let getHunger : pet -> string = raise (Failure "not done")
+let getHunger pet = pet.hunger
 
-let getDescription : pet -> string = raise (Failure "not done")
+let getDescription  pet = pet.description
 
-let getName : pet -> string = raise (Failure "not done")
+let getName pet = pet.name;
