@@ -31,7 +31,7 @@ let get_hunger pet = pet.hunger
 let get_description pet = pet.description
 let get_name pet = pet.name
 
-let update_pet_hunger pet =
+let update_pet_hunger pet food_value =
   let current_pet_hunger = get_hunger pet in
   if current_pet_hunger = 0 then raise AlreadyFull
   else
@@ -40,5 +40,5 @@ let update_pet_hunger pet =
       gender = get_gender pet;
       description = get_description pet;
       health = get_health pet;
-      hunger = current_pet_hunger + 5;
+      hunger = current_pet_hunger - food_value;
     }

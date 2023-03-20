@@ -42,7 +42,8 @@ val get_description : pet -> string
 val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
 
-val update_pet_hunger : pet -> pet
-(** [update_pet_hunger p] gives a pet with its hunger attribute updated Raises
+val update_pet_hunger : pet -> int -> pet
+(** [update_pet_hunger p food_value] gives a pet with its hunger attribute
+    updated, to the maximum of (0, current hunger - food_value.) Raises
     [AlreadyFull pet] if [pet]'s fullness level is already 100. This is
     equivalent to [pet]'s hunger level being 0. *)
