@@ -69,6 +69,8 @@ let pet_tests =
       assert_equal 0 (get_hunger cat) );
     ( {|description of samplejson.json, should be "a normal cat"|} >:: fun _ ->
       assert_equal "a normal cat" (get_description cat) );
+    ( {|updating hunger of samplejson.json, should be 5|} >:: fun _ ->
+      assert_equal 5 (get_hunger (update_pet_hunger cat)) );
   ]
 
 let command_tests = []
