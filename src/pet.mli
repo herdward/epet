@@ -7,6 +7,8 @@
     For examples, the specifications in this interface reference the example
     "Sample" pet list found in [data/samplejson.json]. *)
 
+exception AlreadyFull
+
 type pets
 (** The abstract type of values representing pets. *)
 
@@ -41,4 +43,6 @@ val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
 
 val update_pet_hunger : pet -> pet
-(** [update_pet_hunger p] gives a pet with its hunger attribute updated*)
+(** [update_pet_hunger p] gives a pet with its hunger attribute updated Raises
+    [AlreadyFull pet] if [pet]'s fullness level is already 100. This is
+    equivalent to [pet]'s hunger level being 0. *)

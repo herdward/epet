@@ -12,7 +12,10 @@ type result =
 
 let feed fd pet st =
   (*updates the pet's parameters based on feeding*)
-  raise (Failure "Unimplemented state.feed")
+  try
+    let new_hunger_level = st.hunger - 5 in
+    Legal { hunger = new_hunger_level; health = st.health }
+  with Pet.AlreadyFull -> Illegal
 
 (* so using state.ml from A2 for inspiration, essentially what we need to do is
    attempt to try out some function, (probably attempt to feed) and then if it

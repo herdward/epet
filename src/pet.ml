@@ -1,3 +1,5 @@
+exception AlreadyFull
+
 type pet = {
   name : string;
   gender : string;
@@ -31,10 +33,12 @@ let get_name pet = pet.name
 
 let update_pet_hunger pet =
   let current_pet_hunger = get_hunger pet in
-  {
-    name = get_name pet;
-    gender = get_gender pet;
-    description = get_description pet;
-    health = get_health pet;
-    hunger = current_pet_hunger + 5;
-  }
+  if current_pet_hunger = 0 then raise AlreadyFull
+  else
+    {
+      name = get_name pet;
+      gender = get_gender pet;
+      description = get_description pet;
+      health = get_health pet;
+      hunger = current_pet_hunger + 5;
+    }
