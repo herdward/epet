@@ -29,16 +29,16 @@ let play_game f b =
       print_endline ("DEBUG 1: " ^ string_of_int (Pet.get_hunger pet));
       print_string "> ";
       match Stdlib.read_line () with
-      | "yes" -> print_int (Pet.get_hunger (Pet.update_pet_hunger pet))
+      | "yes" -> print_int (Pet.get_hunger (Pet.update_pet_hunger pet 5))
       | _ ->
           ();
           print_endline
             ("DEBUG 2: "
-            ^ string_of_int (Pet.get_hunger (Pet.update_pet_hunger pet))))
+            ^ string_of_int (Pet.get_hunger (Pet.update_pet_hunger pet 5))))
 
 (** [main ()] prompts for the game to play, then starts it. *)
 
-let main () =
+let rec main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "\n\nWelcome to tomagachi game engine.\n";
   print_endline "Please enter the name of the game file you want to load.\n";

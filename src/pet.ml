@@ -42,3 +42,4 @@ let update_pet_hunger pet food_value =
       health = get_health pet;
       hunger = current_pet_hunger - food_value;
     }
+
