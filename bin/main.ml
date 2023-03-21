@@ -9,20 +9,20 @@ open Pet
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
 
-let play_game_helper1 f n b =
+let play_game_helper1 file name b =
   Stdlib.print_string
     (Pet.get_description
-       (Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file f)) n))
+       (Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file file)) name))
 
-let play_game_helper2 f n b =
-  Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file f)) n
+let play_game_helper2 file name b =
+  Pet.get_pet (Pet.pets_of_json (Yojson.Basic.from_file file)) name
 
-let play_game f b =
+let play_game file b =
   print_string "Enter Name of pet > ";
   match read_line () with
   | read_line -> (
-      play_game_helper1 f "null" read_line;
-      let pet = play_game_helper2 f "null" read_line in
+      play_game_helper1 file "null" read_line;
+      let pet = play_game_helper2 file "null" read_line in
       ANSITerminal.print_string [ ANSITerminal.red ]
         "\n\nAmy forgot to feed the cat.\n";
       print_endline "Do you want to feed the cat, type 'yes' to feed.";
