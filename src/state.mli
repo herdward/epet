@@ -24,7 +24,7 @@ type result =
   | Legal of state
   | Illegal
 
-val feed : string -> Pet.pet -> state -> result
+val feed : int -> Pet.pet -> state -> result
 (** [feed food pet st] is the result of attempting to feed the food [food] to
     the pet [pet]
 
@@ -35,3 +35,5 @@ val feed : string -> Pet.pet -> state -> result
     - Otherwise, the result is [Illegal].
 
     (Side) Effects: none. In particular, [feed] does not print anything. *)
+(* note for now, i made it int -> Pet.pet but it should be changed back to
+   string, or a Food type later.*)

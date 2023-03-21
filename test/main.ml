@@ -66,15 +66,40 @@ let pet_tests =
     ( {|health of samplejson.json, should be 100|} >:: fun _ ->
       assert_equal 100 (get_health cat) );
     ( {|hunger of samplejson.json, should be 0|} >:: fun _ ->
-      assert_equal 0 (get_hunger cat) );
+      assert_equal 10 (get_hunger cat) );
     ( {|description of samplejson.json, should be "a normal cat"|} >:: fun _ ->
       assert_equal "a normal cat" (get_description cat) );
-    ( {|updating hunger of samplejson.json, should be 5|} >:: fun _ ->
-      assert_equal 5 (get_hunger (update_pet_hunger cat)) );
+    ( {|updating hunger of samplejson.json, used to be 10, gave it food value 10 , so should be 0|}
+    >:: fun _ -> assert_equal 0 (get_hunger (update_pet_hunger cat 10)) );
   ]
 
-let command_tests = []
+(* BELOW CODE COPIED FROM EH538 A2 submission*)
+let parse_test (name : string) (input_str : string) (expected_output : command)
+    : test =
+  name >:: fun _ -> assert_equal expected_output (parse input_str)
 
+let parse_malformed_test (name : string) (input_str : string) : test =
+  name >:: fun _ -> assert_raises Malformed (fun x -> parse input_str)
+
+let parse_empty_test (name : string) (input_str : string) : test =
+  name >:: fun _ -> assert_raises Empty (fun x -> parse input_str)
+
+let command_tests =
+  [
+    parse_test "quit" "quit" Quit;
+    parse_test "feed orange juice" "feed orange juice"
+      (Feed [ "orange"; "juice" ]);
+    parse_test "feed orange juice with excess whitespace"
+      "    feed  orange   juice   "
+      (Feed [ "orange"; "juice" ]);
+    parse_test "feed watermelon" " feed    watermelon    "
+      (Feed [ "watermelon" ]);
+    parse_malformed_test "feed, with nothing after" "  feed    ";
+    parse_malformed_test "quit, with something after" "quit sus";
+    parse_empty_test "empty" "";
+  ]
+
+(* END CODE COPIED FROM EH538 A2 SUBMISSION*)
 let suite =
   "test suite for final project"
   >::: List.flatten [ cmp_demo; pet_tests; command_tests ]
