@@ -12,9 +12,12 @@ exception AlreadyFull
 type pets
 (** The abstract type of values representing pets. *)
 
+type food
+(** The abstract type of values representing foods. *)
+
 type pet
 (** Values of this type have the following attributes: name, gender,
-    description, health, and hunger. *)
+    description, health, hunger, and bad foods. *)
 
 val pet_of_json : Yojson.Basic.t -> pet
 (** [pet_of__json j] is a representation of a pet from [j]. Requires: [j] is a
@@ -41,6 +44,11 @@ val get_description : pet -> string
 
 val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
+
+val get_bad_food : pet -> string -> food
+val get_bad_food_effect : food -> int
+val get_bad_food_name : food -> string
+val update_pet_health : pet -> int -> pet
 
 val update_pet_hunger : pet -> int -> pet
 (** [update_pet_hunger p food_value] gives a pet with its hunger attribute

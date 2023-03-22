@@ -3,19 +3,19 @@
     {
       "gender": "male",
       "name": "cat",
-      "description": "a normal cat",
+      "description": "cat says: 'nice to meet you' in cat language. It looks hungry!",
       "health": 100,
       "hunger": 10,
       "hygiene": 100,
       "affection": 50,
-      "prohibited foods": [
+      "bad food": [
         {
-          "name": "chocolate",
-          "health effect": -5
+          "bad food name": "chocolate",
+          "bad health effect": -5
         },
         {
-          "name": "grapes",
-          "health effect": -2
+          "bad food name": "grapes",
+          "bad health effect": -2
         }
       ]
     }
