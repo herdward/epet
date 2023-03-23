@@ -11,11 +11,33 @@
       "bad food": [
         {
           "bad food name": "chocolate",
-          "bad health effect": -5
+          "bad health effect": -10
         },
         {
           "bad food name": "grapes",
-          "bad health effect": -2
+          "bad health effect": -8
+        },
+        {
+          "bad food name": "egg",
+          "bad health effect": -5
+        }
+      ],
+      "good food": [
+        {
+          "good food name": "cod",
+          "good affection effect": 5
+        },
+        {
+          "good food name": "milk",
+          "good affection effect": 3
+        },
+        {
+          "good food name": "biscuit",
+          "good affection effect": 1
+        },
+        {
+          "good food name": "sausage",
+          "good affection effect": 2
         }
       ]
     }
