@@ -1,0 +1,6 @@
+After downloading and unzipping the zip file with our system in it,
+run [code .] to open our system in your code editor. Open a terminal
+in the code editor and use [make play] to play our game. 
+
+* When prompted for a pet name, type in [cat]. We have only programmed
+for one pet so far. 
