@@ -1,0 +1,15 @@
+After downloading and unzipping the zip file with our system in it,
+make sure your OPAM is updated. 
+
+1) Run [opam update] in your terminal. 
+
+2) Then run [opam upgrade] in your terminal to upgrade any existing packages.
+
+3) Also install ANSITerminal by running [opam install ANSITerminal] 
+as our system makes use of it. 
+
+Finally, run [code .] to open our system in your code editor. Open a terminal
+in the code editor and use [make play] to play our game. 
+
+* When prompted for a pet name, type in [cat]. We have only programmed
+for one pet so far. 
