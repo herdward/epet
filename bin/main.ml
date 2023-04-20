@@ -28,8 +28,9 @@ let rec bad_food_result food pet =
       (Pet.get_bad_food_effect (Pet.get_bad_food pet food))
   in
   print_string
-    ("\n" ^ Pet.get_name pet ^ " health is "
-    ^ string_of_int (Pet.get_health updated_pet));
+    ("\n" ^ Pet.get_name pet ^ " lost" ^ " "
+    ^ string_of_int (abs (Pet.get_bad_food_effect (Pet.get_bad_food pet food)))
+    ^ " " ^ "health");
   updated_pet
 
 let food_result food pet =
