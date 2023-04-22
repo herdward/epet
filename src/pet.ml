@@ -50,6 +50,7 @@ let get_gender pet = pet.gender
 let get_hunger pet = pet.hunger
 let get_description pet = pet.description
 let get_name pet = pet.name
+let get_bad_foods pet = pet.bad_foods
 
 let get_bad_food (pet : pet) name : food =
   List.find (fun (food : food) -> food.name = name) pet.bad_foods
@@ -82,4 +83,3 @@ let update_pet_health pet food_health_effect =
       hunger = get_hunger pet;
       bad_foods = pet.bad_foods;
     }
-

@@ -45,6 +45,9 @@ val get_description : pet -> string
 val get_name : pet -> string
 (** [getName p] is the name of pet [p]. *)
 
+val get_bad_foods : pet -> food list
+(** [get_bad_foods p] is the list of bad foods for pet [p]. *)
+
 val get_bad_food : pet -> string -> food
 val get_bad_food_effect : food -> int
 val get_bad_food_name : food -> string
