@@ -25,19 +25,19 @@
       "good food": [
         {
           "good food name": "cod",
-          "good affection effect": 5
+          "good health effect": 5
         },
         {
           "good food name": "milk",
-          "good affection effect": 3
+          "good health effect": 3
         },
         {
           "good food name": "biscuit",
-          "good affection effect": 1
+          "good health effect": 1
         },
         {
           "good food name": "sausage",
-          "good affection effect": 2
+          "good health effect": 2
         }
       ]
     }
