@@ -51,6 +51,10 @@ val get_bad_foods : pet -> food list
 val get_bad_food : pet -> string -> food
 val get_bad_food_effect : food -> int
 val get_bad_food_name : food -> string
+val get_good_foods : pet -> food list
+val get_good_food : pet -> string -> food
+val get_good_food_name : food -> string
+val get_good_food_effect : food -> int
 val update_pet_health : pet -> int -> pet
 
 val update_pet_hunger : pet -> int -> pet

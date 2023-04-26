@@ -12,6 +12,7 @@ type pet = {
   health : int;
   hunger : int; (*hygiene: int;*)
   bad_foods : food list;
+  good_foods : food list;
 }
 
 let bad_food_of_json (j : Yojson.Basic.t) =
@@ -23,6 +24,18 @@ let bad_food_of_json (j : Yojson.Basic.t) =
     effect =
       j
       |> Yojson.Basic.Util.member "bad health effect"
+      |> Yojson.Basic.Util.to_int;
+  }
+
+let good_food_of_json (j : Yojson.Basic.t) =
+  {
+    name =
+      j
+      |> Yojson.Basic.Util.member "good food name"
+      |> Yojson.Basic.Util.to_string;
+    effect =
+      j
+      |> Yojson.Basic.Util.member "good health effect"
       |> Yojson.Basic.Util.to_int;
   }
 
@@ -39,6 +52,8 @@ let pet_of_json pet_json =
     hunger = pet_json |> member "hunger" |> to_int;
     bad_foods =
       pet_json |> member "bad food" |> to_list |> List.map bad_food_of_json;
+    good_foods =
+      pet_json |> member "good food" |> to_list |> List.map good_food_of_json;
   }
 
 let pets_of_json pets_json =
@@ -57,6 +72,14 @@ let get_bad_food (pet : pet) name : food =
 
 let get_bad_food_effect food = food.effect
 let get_bad_food_name (food : food) : string = food.name
+let get_good_foods pet = pet.good_foods
+
+let get_good_food (pet : pet) name : food =
+  List.find (fun (food : food) -> food.name = name) pet.good_foods
+
+let get_good_food_effect food = food.effect
+let get_good_food_name (food : food) : string = food.name
+let get_foods pet = List.flatten [ pet.bad_foods; pet.good_foods ]
 
 let update_pet_hunger pet food_value =
   let current_pet_hunger = get_hunger pet in
@@ -67,8 +90,9 @@ let update_pet_hunger pet food_value =
       gender = get_gender pet;
       description = get_description pet;
       health = get_health pet;
-      hunger = current_pet_hunger - food_value;
+      hunger = max (current_pet_hunger - food_value) 0;
       bad_foods = pet.bad_foods;
+      good_foods = pet.good_foods;
     }
 
 let update_pet_health pet food_health_effect =
@@ -82,4 +106,5 @@ let update_pet_health pet food_health_effect =
       health = get_health pet + food_health_effect;
       hunger = get_hunger pet;
       bad_foods = pet.bad_foods;
+      good_foods = pet.good_foods;
     }
