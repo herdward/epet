@@ -10,7 +10,7 @@ type player
 type time
 (** The abstract type of values representing time. *)
 
-type day
+type date
 (** The abstract type of values representing days. *)
 
 type coin
@@ -32,6 +32,6 @@ val current_time : player -> time
 (** [current_time j] is the time representaion from player [j]. Requires: [j] is
     a valid player representation. *)
 
-val current_day : player -> day
+val current_date : player -> date
 (** [current_time j] is the day representaion from player [j]. Requires: [j] is
     a valid player representation. *)
