@@ -14,6 +14,7 @@ type coin = {
 
 type date = {
   month_name : string;
+  month_int : int;
   day_number : int;
   year : int;
   time : time;
@@ -22,7 +23,6 @@ type date = {
 type player = {
   name : string;
   coins : coin;
-  time : time;
   date : date;
 }
 
@@ -33,7 +33,7 @@ let date_info_from_json j n =
           (j |> Yojson.Basic.Util.member "date" |> Yojson.Basic.Util.to_string))
        n)
 
-let get_month_name i =
+let month_name i =
   match i with
   | 1 -> "Jan"
   | 2 -> "Feb"
@@ -59,7 +59,8 @@ let time_from_json j =
 
 let date_of_json j =
   {
-    month_name = get_month_name (date_info_from_json j 0);
+    month_name = month_name (date_info_from_json j 0);
+    month_int = date_info_from_json j 0;
     day_number = date_info_from_json j 1;
     year = date_info_from_json j 2;
     time = time_from_json j;
@@ -80,11 +81,73 @@ let player_from_json (j : Yojson.Basic.t) =
     name =
       j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string;
     coins = coin_of_json j;
-    time = time_from_json j;
     date = date_of_json j;
   }
 
 let player_name p = p.name
-let coins_in_inventory p = p.coins.total_coin
-let current_time p = p.time
-let current_date p = p.date
+let player_coins_total coin = coin.coins.total_coin
+let player_gold_total coin = coin.coins.gold_amount
+let player_silver_total coin = coin.coins.silver_amount
+
+let time_to_string player =
+  match player.date.time with
+  | Morning -> "Morning"
+  | Afternoon -> "Afternoon"
+  | Evening -> "Evening"
+
+let date_to_string player =
+  player.date.month_name ^ " "
+  ^ string_of_int player.date.day_number
+  ^ " "
+  ^ string_of_int player.date.year
+
+let update_time time =
+  match time with
+  | Morning -> Afternoon
+  | Afternoon -> Evening
+  | Evening -> Afternoon
+
+let update_month_int date =
+  if date.month_int < 12 then 1 else date.month_int + 1
+
+let update_player_date player =
+  if player.date.day_number < 30 then
+    {
+      name = player.name;
+      coins = player.coins;
+      date =
+        {
+          month_name = player.date.month_name;
+          month_int = player.date.month_int;
+          day_number = player.date.day_number + 1;
+          year = player.date.year;
+          time = player.date.time;
+        };
+    }
+  else
+    {
+      name = player.name;
+      coins = player.coins;
+      date =
+        {
+          month_name = month_name (update_month_int player.date);
+          month_int = update_month_int player.date;
+          day_number = player.date.day_number;
+          year = player.date.year;
+          time = player.date.time;
+        };
+    }
+
+let update_player_time player =
+  {
+    name = player.name;
+    coins = player.coins;
+    date =
+      {
+        month_name = player.date.month_name;
+        month_int = player.date.month_int;
+        day_number = player.date.day_number + 1;
+        year = player.date.year;
+        time = update_time player.date.time;
+      };
+  }
