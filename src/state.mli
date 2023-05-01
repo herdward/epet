@@ -10,10 +10,14 @@
  * submission.
  **********************************************************************)
 
-type state
-(** The abstract type of values representing the game state. *)
+type state = {
+  current_pet : Pet.pet option;
+  pet_name : string option;
+  pet_hunger : int option;
+  pet_health : int option;
+}
 
-val init_state : Pet.pet -> state
+val init_state : state
 (** [init_state a] is the initial state of the game when playing adventure [a].
     In that state the adventurer is currently located in the starting room, and
     they have visited only that room. *)
@@ -37,3 +41,6 @@ val feed : int -> Pet.pet -> state -> result
     (Side) Effects: none. In particular, [feed] does not print anything. *)
 (* note for now, i made it int -> Pet.pet but it should be changed back to
    string, or a Food type later.*)
+
+val get_pet_name : state -> string
+(** [get_pet_name pet] is the name of the pet [pet]. *)
