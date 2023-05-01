@@ -83,20 +83,12 @@ let food_result food pet =
     bad_food_result food pet
   else if check_if_good_food food (Pet.get_good_foods pet) then
     good_food_result food pet
-  else pet
-(*here should be the application of good_food_result or smth similar*)
-
-let feedencounter (pet : pet) : pet =
-  print_endline ("Looks like Amy Li forgot to feed " ^ Pet.get_name pet ^ "!!!");
-  print_endline
-    (Pet.get_name pet ^ " current health: " ^ string_of_int (Pet.get_health pet));
-  print_endline
-    "\n\
-     You have only chocolate and and grapes. Print the name of the food you \
-     want to feed your pet in all lowercase";
-  print_string "\n> ";
-  match Stdlib.read_line () with
-  | a -> food_result a pet
+  else (
+    ANSITerminal.print_string
+      [ ANSITerminal.red; ANSITerminal.Bold ]
+      ("\nTHAT FOOD IS NOT AVAILABLE, " ^ Pet.get_name pet
+     ^ " was not affected\n");
+    pet)
 
 let feedencounter2 (pet : pet) : pet =
   let good_foods = Pet.get_good_foods pet in
@@ -110,25 +102,7 @@ let feedencounter2 (pet : pet) : pet =
     ^ String.concat ", " available_food_names
     ^ "\n ");
   match Stdlib.read_line () with
-  | a -> food_result a pet
-
-let select_pet () =
-  (* Print the game prompt *)
-  ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to tomagachi game engine.\n";
-  print_string "Please type the name of the pet you would like to check on.";
-  print_string "\n> ";
-  match Stdlib.read_line () with
-  | a ->
-      ANSITerminal.print_string [ ANSITerminal.red ]
-        ("\nYou selected: " ^ Pet.get_name (Pet.get_pet pet_list a));
-      Stdlib.print_endline ("\n" ^ Pet.get_description (Pet.get_pet pet_list a));
-      let pet = Pet.get_pet pet_list a in
-      (* update the interface*)
-      let pet = feedencounter pet in
-
-      ignore pet;
-      ()
+  | input_food -> food_result input_food pet
 
 let available_actions = [ "feed" ]
 
@@ -144,6 +118,10 @@ let rec select_pet (state : State.state) : State.state =
   print_string "\n> ";
   match Stdlib.read_line () with
   | petname -> (
+      let pet = Pet.get_pet pet_list petname in
+      (* update the interface*)
+      (* ask what action want to do, currently the only action is feed*)
+      print_pet_info pet |> ignore;
       match Pet.get_pet pet_list petname with
       | pet ->
           let new_state =
@@ -164,8 +142,12 @@ let rec select_pet (state : State.state) : State.state =
   | _ -> failwith "Not a valid action"
 
 let rec select_action (state : State.state) : State.state =
-  print_string "Please type the name of the action you would like to take.";
-  print_string "\n> ";
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    "\nWhat would you like to do? \n";
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    "\n The available actions are:";
+  ANSITerminal.print_string [ ANSITerminal.yellow ] " feed \n";
+
   match Stdlib.read_line () with
   | action -> (
       match action with
@@ -177,6 +159,7 @@ let rec select_action (state : State.state) : State.state =
               select_action state
           | Some pet ->
               let updatedpet = feedencounter2 pet in
+              print_pet_info updatedpet |> ignore;
               let new_state =
                 {
                   state with
