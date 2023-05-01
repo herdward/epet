@@ -1,7 +1,7 @@
 exception AlreadyFull
 
 type food = {
-  name : string;
+  fname : string;
   effect : int;
 }
 
@@ -17,7 +17,7 @@ type pet = {
 
 let bad_food_of_json (j : Yojson.Basic.t) =
   {
-    name =
+    fname =
       j
       |> Yojson.Basic.Util.member "bad food name"
       |> Yojson.Basic.Util.to_string;
@@ -29,7 +29,7 @@ let bad_food_of_json (j : Yojson.Basic.t) =
 
 let good_food_of_json (j : Yojson.Basic.t) =
   {
-    name =
+    fname =
       j
       |> Yojson.Basic.Util.member "good food name"
       |> Yojson.Basic.Util.to_string;
@@ -68,17 +68,17 @@ let get_name pet = pet.name
 let get_bad_foods pet = pet.bad_foods
 
 let get_bad_food (pet : pet) name : food =
-  List.find (fun (food : food) -> food.name = name) pet.bad_foods
+  List.find (fun (food : food) -> food.fname = name) pet.bad_foods
 
 let get_bad_food_effect food = food.effect
-let get_bad_food_name (food : food) : string = food.name
+let get_bad_food_name (food : food) : string = food.fname
 let get_good_foods pet = pet.good_foods
 
 let get_good_food (pet : pet) name : food =
-  List.find (fun (food : food) -> food.name = name) pet.good_foods
+  List.find (fun (food : food) -> food.fname = name) pet.good_foods
 
 let get_good_food_effect food = food.effect
-let get_good_food_name (food : food) : string = food.name
+let get_good_food_name (food : food) : string = food.fname
 let get_foods pet = List.flatten [ pet.bad_foods; pet.good_foods ]
 
 let update_pet_hunger pet food_value =

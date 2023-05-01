@@ -8,8 +8,9 @@ make sure your OPAM is updated.
 3) Also install ANSITerminal by running [opam install ANSITerminal] 
 as our system makes use of it. 
 
-Finally, run [code .] to open our system in your code editor. Open a terminal
-in the code editor and use [make play] to play our game. 
+Finally, change your working directory to our system, and run [code .] to open 
+our system in your code editor. Open a terminal in the code editor and use 
+[make play] to play our game. 
 
 * When prompted for a pet name, type in [cat]. We have only programmed
 for one pet so far. 
