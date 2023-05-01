@@ -75,7 +75,7 @@ let rec good_food_result food pet =
   print_string
     ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
     ^ string_of_int (Pet.get_good_food_effect (Pet.get_good_food pet food))
-    ^ " " ^ "health");
+    ^ " " ^ "health" ^ "\n");
   updated_pet
 
 let food_result food pet =
@@ -83,20 +83,12 @@ let food_result food pet =
     bad_food_result food pet
   else if check_if_good_food food (Pet.get_good_foods pet) then
     good_food_result food pet
-  else pet
-(*here should be the application of good_food_result or smth similar*)
-
-let feedencounter (pet : pet) : pet =
-  print_endline ("Looks like Amy Li forgot to feed " ^ Pet.get_name pet ^ "!!!");
-  print_endline
-    (Pet.get_name pet ^ " current health: " ^ string_of_int (Pet.get_health pet));
-  print_endline
-    "\n\
-     You have only chocolate and and grapes. Print the name of the food you \
-     want to feed your pet in all lowercase";
-  print_string "\n> ";
-  match Stdlib.read_line () with
-  | a -> food_result a pet
+  else (
+    ANSITerminal.print_string
+      [ ANSITerminal.red; ANSITerminal.Bold ]
+      ("\nTHAT FOOD IS NOT AVAILABLE, " ^ Pet.get_name pet
+     ^ " was not affected\n");
+    pet)
 
 let feedencounter2 (pet : pet) : pet =
   let good_foods = Pet.get_good_foods pet in
@@ -110,54 +102,98 @@ let feedencounter2 (pet : pet) : pet =
     ^ String.concat ", " available_food_names
     ^ "\n ");
   match Stdlib.read_line () with
-  | a -> food_result a pet
-
-let select_pet () =
-  (* Print the game prompt *)
-  ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to tomagachi game engine.\n";
-  print_string "Please type the name of the pet you would like to check on.";
-  print_string "\n> ";
-  match Stdlib.read_line () with
-  | a ->
-      ANSITerminal.print_string [ ANSITerminal.red ]
-        ("\nYou selected: " ^ Pet.get_name (Pet.get_pet pet_list a));
-      Stdlib.print_endline ("\n" ^ Pet.get_description (Pet.get_pet pet_list a));
-      let pet = Pet.get_pet pet_list a in
-      (* update the interface*)
-      let pet = feedencounter pet in
-
-      ignore pet;
-      ()
+  | input_food -> food_result input_food pet
 
 let available_actions = [ "feed" ]
 
-let select_actions () =
-  ANSITerminal.print_string [ ANSITerminal.red ] "\n\nWelcome to E-Pet Game!\n";
+(* Define the game state record *)
+
+(* Initialize the game state *)
+let init_state = State.init_state
+
+(* Function to prompt the user to select a pet *)
+
+let rec select_pet (state : State.state) : State.state =
   print_string "Please type the name of the pet you would like to check on.";
   print_string "\n> ";
   match Stdlib.read_line () with
-  | a -> (
-      let pet = Pet.get_pet pet_list a in
+  | petname -> (
+      let pet = Pet.get_pet pet_list petname in
       (* update the interface*)
       (* ask what action want to do, currently the only action is feed*)
       print_pet_info pet |> ignore;
-      ANSITerminal.print_string [ ANSITerminal.red ]
-        ("\nYou selected: " ^ Pet.get_name (Pet.get_pet pet_list a) ^ "\n");
+      match Pet.get_pet pet_list petname with
+      | pet ->
+          let new_state =
+            {
+              state with
+              current_pet = Some pet;
+              pet_name = Some (Pet.get_name pet);
+              pet_health = Some (Pet.get_health pet);
+              pet_hunger = Some (Pet.get_hunger pet);
+            }
+          in
+          new_state
+      | exception Not_found ->
+          ANSITerminal.print_string [ ANSITerminal.red ]
+            "\nThat pet does not exist. Please try again.";
+          select_pet state)
+  | exception End_of_file -> exit 0
+  | _ -> failwith "Not a valid action"
 
-      ANSITerminal.print_string [ ANSITerminal.yellow ]
-        "\nWhat would you like to do? \n";
-      ANSITerminal.print_string [ ANSITerminal.yellow ]
-        "\n The available actions are: \n";
-      ANSITerminal.print_string [ ANSITerminal.yellow ] "\n feed \n";
+let rec select_action (state : State.state) : State.state =
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    "\nWhat would you like to do? \n";
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    "\n The available actions are:";
+  ANSITerminal.print_string [ ANSITerminal.yellow ] " feed \n";
 
-      match Stdlib.read_line () with
-      | "feed" -> print_pet_info (feedencounter2 pet) |> ignore
-      | _ -> failwith "Not a valid action")
+  match Stdlib.read_line () with
+  | action -> (
+      match action with
+      | "feed" -> (
+          match state.current_pet with
+          | None ->
+              ANSITerminal.print_string [ ANSITerminal.red ]
+                "\nYou must select a pet before you can feed it.";
+              select_action state
+          | Some pet ->
+              let updatedpet = feedencounter2 pet in
+              print_pet_info updatedpet |> ignore;
+              let new_state =
+                {
+                  state with
+                  current_pet = Some updatedpet;
+                  pet_name = Some (Pet.get_name updatedpet);
+                  pet_health = Some (Pet.get_health updatedpet);
+                  pet_hunger = Some (Pet.get_hunger updatedpet);
+                }
+              in
+              select_action new_state)
+      | _ ->
+          ANSITerminal.print_string [ ANSITerminal.red ]
+            "\nThat action does not exist. Please try again.";
+          select_action state)
+  | exception End_of_file -> exit 0
+  | _ -> failwith "Not a valid action"
 
-(* Execute the game engine. *)
-let () = select_actions ()
+(* Game loop *)
 
-(* let () = select_pet() *)
+let rec game_loop (state : State.state) : State.state =
+  if state = init_state then (
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      "\n\nWelcome to E-Pet Game!\nYou are currently not checking on any pet.\n";
+    game_loop (select_pet state))
+  else (
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      ("\n\nWelcome to E-Pet Game!\nYou are currently checking on "
+     ^ State.get_pet_name state ^ "\n");
+    game_loop (select_action state))
+
+(*game_loop (select_action state)*)
+(* If current pet, select action *)
+
+(* Start the game *)
+let () = ignore (game_loop init_state)
 
 open Pet
