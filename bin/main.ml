@@ -90,7 +90,7 @@ let food_result food pet =
      ^ " was not affected\n");
     pet)
 
-let feedencounter2 (pet : pet) : pet =
+let feedencounter (pet : pet) : pet =
   let good_foods = Pet.get_good_foods pet in
   let bad_foods = Pet.get_bad_foods pet in
   let good_foods_names = List.map Pet.get_good_food_name good_foods in
@@ -102,7 +102,7 @@ let feedencounter2 (pet : pet) : pet =
     ^ String.concat ", " available_food_names
     ^ "\n ");
   match Stdlib.read_line () with
-  | input_food -> food_result input_food pet
+  | input_food -> let updatedpet = food_result input_food pet in print_pet_info updatedpet |> ignore; updatedpet (* this is to make sure that the UI gets updated*)
 
 let available_actions = [ "feed" ]
 
@@ -110,36 +110,42 @@ let available_actions = [ "feed" ]
 
 (* Initialize the game state *)
 let init_state = State.init_state
+(* the initial state represents the state with no pet chosen yet*)
 
 (* Function to prompt the user to select a pet *)
 
 let rec select_pet (state : State.state) : State.state =
-  print_string "Please type the name of the pet you would like to check on.";
+  print_string "\n Please type the name of the pet you would like to check on.";
   print_string "\n> ";
   match Stdlib.read_line () with
   | petname -> (
-      let pet = Pet.get_pet pet_list petname in
-      (* update the interface*)
-      (* ask what action want to do, currently the only action is feed*)
-      print_pet_info pet |> ignore;
-      match Pet.get_pet pet_list petname with
-      | pet ->
-          let new_state =
-            {
-              state with
-              current_pet = Some pet;
-              pet_name = Some (Pet.get_name pet);
-              pet_health = Some (Pet.get_health pet);
-              pet_hunger = Some (Pet.get_hunger pet);
-            }
-          in
-          new_state
-      | exception Not_found ->
-          ANSITerminal.print_string [ ANSITerminal.red ]
-            "\nThat pet does not exist. Please try again.";
-          select_pet state)
+      try 
+        let pet = Pet.get_pet pet_list petname in
+        (* update the interface*)
+        (* ask what action want to do, currently the only action is feed*)
+        print_pet_info pet |> ignore;
+        let new_state =
+          {
+            state with
+            current_pet = Some pet;
+            pet_name = Some (Pet.get_name pet);
+            pet_health = Some (Pet.get_health pet);
+            pet_hunger = Some (Pet.get_hunger pet);
+          }
+        in
+        new_state
+      with  
+        | Not_found ->
+            ANSITerminal.print_string [ ANSITerminal.red ]
+              "That pet does not exist. Please try again.";
+            select_pet state
+        | exc -> 
+            ANSITerminal.print_string [ ANSITerminal.red ]
+              "\nAn error occurred while selecting a pet. Please try again.\n";
+            select_pet state)
   | exception End_of_file -> exit 0
-  | _ -> failwith "Not a valid action"
+
+
 
 let rec select_action (state : State.state) : State.state =
   ANSITerminal.print_string [ ANSITerminal.yellow ]
@@ -158,11 +164,9 @@ let rec select_action (state : State.state) : State.state =
                 "\nYou must select a pet before you can feed it.";
               select_action state
           | Some pet ->
-              let updatedpet = feedencounter2 pet in
-              print_pet_info updatedpet |> ignore;
+              let updatedpet = feedencounter pet in
               let new_state =
-                {
-                  state with
+                { state with
                   current_pet = Some updatedpet;
                   pet_name = Some (Pet.get_name updatedpet);
                   pet_health = Some (Pet.get_health updatedpet);
@@ -175,9 +179,10 @@ let rec select_action (state : State.state) : State.state =
             "\nThat action does not exist. Please try again.";
           select_action state)
   | exception End_of_file -> exit 0
-  | _ -> failwith "Not a valid action"
-
 (* Game loop *)
+
+
+
 
 let rec game_loop (state : State.state) : State.state =
   if state = init_state then (
