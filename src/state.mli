@@ -15,6 +15,7 @@ type state = {
   pet_name : string option;
   pet_hunger : int option;
   pet_health : int option;
+  pet_hygiene: int option;
 }
 
 val init_state : state
