@@ -5,6 +5,7 @@ type state = {
   pet_name : string option;
   pet_hunger : int option;
   pet_health : int option;
+  pet_hygiene : int option
 }
 
 let init_state =
@@ -13,6 +14,7 @@ let init_state =
     pet_name = Some "";
     pet_hunger = None;
     pet_health = None;
+    pet_hygiene = None;
   }
 
 type result =
@@ -33,6 +35,7 @@ let feed food pet st =
             pet_name = st.pet_name;
             pet_hunger = Some new_hunger_level;
             pet_health = st.pet_health;
+            pet_hygiene = None;
           }
       with Pet.AlreadyFull -> Illegal)
 

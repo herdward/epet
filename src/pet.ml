@@ -10,7 +10,8 @@ type pet = {
   gender : string;
   description : string;
   health : int;
-  hunger : int; (*hygiene: int;*)
+  hunger : int; 
+  hygiene: int;
   bad_foods : food list;
   good_foods : food list;
 }
@@ -54,6 +55,7 @@ let pet_of_json pet_json =
       pet_json |> member "bad food" |> to_list |> List.map bad_food_of_json;
     good_foods =
       pet_json |> member "good food" |> to_list |> List.map good_food_of_json;
+    hygiene = pet_json |> member "hygiene" |> to_int; 
   }
 
 let pets_of_json pets_json =
@@ -63,6 +65,7 @@ let get_pet pets name = List.find (fun pet -> pet.name = name) pets.pets
 let get_health pet = pet.health
 let get_gender pet = pet.gender
 let get_hunger pet = pet.hunger
+let get_hygiene pet = pet.hygiene
 let get_description pet = pet.description
 let get_name pet = pet.name
 let get_bad_foods pet = pet.bad_foods
@@ -83,7 +86,7 @@ let get_foods pet = List.flatten [ pet.bad_foods; pet.good_foods ]
 
 let update_pet_hunger pet food_value =
   let current_pet_hunger = get_hunger pet in
-  if current_pet_hunger = 0 then raise AlreadyFull
+  if current_pet_hunger >= 10 then raise AlreadyFull
   else
     {
       name = get_name pet;
@@ -93,9 +96,10 @@ let update_pet_hunger pet food_value =
       hunger = max (current_pet_hunger - food_value) 0;
       bad_foods = pet.bad_foods;
       good_foods = pet.good_foods;
+      hygiene = get_hygiene pet;
     }
 
-let update_pet_health pet food_health_effect =
+let update_pet_health pet food_health_effect = begin 
   let current_pet_hunger = get_hunger pet in
   if current_pet_hunger = 0 then raise AlreadyFull
   else
@@ -107,4 +111,10 @@ let update_pet_health pet food_health_effect =
       hunger = get_hunger pet;
       bad_foods = pet.bad_foods;
       good_foods = pet.good_foods;
+      hygiene = get_hygiene pet;  
     }
+  end 
+    let update_pet_hygiene pet hygiene_effect =
+      { pet with hygiene = get_hygiene pet + hygiene_effect }
+    
+

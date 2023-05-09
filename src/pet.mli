@@ -33,6 +33,9 @@ val get_pet : pets -> string -> pet
 val get_health : pet -> int
 (** [getHealth p] is the health of pet [p]. *)
 
+val get_hygiene: pet -> int 
+(** [getHygiene p] is the hygiene of pet [p]. *)
+
 val get_hunger : pet -> int
 (** [getHunger p] is the hunger of pet [p]. *)
 
@@ -55,7 +58,13 @@ val get_good_foods : pet -> food list
 val get_good_food : pet -> string -> food
 val get_good_food_name : food -> string
 val get_good_food_effect : food -> int
+val get_hygiene : pet -> int 
 val update_pet_health : pet -> int -> pet
+val update_pet_hygiene: pet -> int -> pet 
+(** [update_pet_health p health_value] gives a pet with its health attribute
+    updated, to the maximum of (0, current health + health_value.) Raises
+    [AlreadyDead pet] if [pet]'s health level is already 0. This is equivalent
+    to [pet]'s health level being 100. *)
 
 val update_pet_hunger : pet -> int -> pet
 (** [update_pet_hunger p food_value] gives a pet with its hunger attribute
