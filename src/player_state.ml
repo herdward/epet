@@ -20,12 +20,48 @@ type date = {
   time : time;
 }
 
-type player = {
-  name : string;
+type player_state = {
+  name : string option;
   coins : coin;
   date : date;
+  pet_state: State.state option
 }
 
+
+
+
+
+let init_state = {
+  name  = None;
+  coins = { gold_amount = 30; silver_amount = 10; total_coin = 40 };
+  date =
+    {
+      month_name = "Jan";
+      month_int = 1;
+      day_number = 1;
+      year = 2020;
+      time = Morning;
+    };
+  pet_state =Some  State.init_state
+
+}
+let print_player_info player= 
+  ANSITerminal.print_string [ ANSITerminal.green ] "Player Info:"
+let print_player_name player =
+  ANSITerminal.print_string [ ANSITerminal.green ] "Name: ";
+  match player.name with 
+  | None -> ANSITerminal.print_string [ ANSITerminal.green ] "None"
+  | Some name -> ANSITerminal.print_string [ ANSITerminal.green ] name;
+  print_endline ""
+let print_player_coins player =
+  ANSITerminal.print_string [ ANSITerminal.green ] "Coins: ";
+  ANSITerminal.print_string [ ANSITerminal.green ] (string_of_int player.coins.total_coin);
+  print_endline ""
+
+let print_player_state player = 
+  print_player_info player;
+  print_player_name player;
+  print_player_coins player
 let date_info_from_json j n =
   int_of_string
     (List.nth
@@ -79,9 +115,10 @@ let coin_of_json j =
 let player_from_json (j : Yojson.Basic.t) =
   {
     name =
-      j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string;
+      Some( j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string);
     coins = coin_of_json j;
     date = date_of_json j;
+    pet_state = None;
   }
 
 let player_name p = p.name
@@ -123,6 +160,7 @@ let update_player_date player =
           year = player.date.year;
           time = player.date.time;
         };
+        pet_state = player.pet_state;
     }
   else
     {
@@ -136,6 +174,7 @@ let update_player_date player =
           year = player.date.year;
           time = player.date.time;
         };
+        pet_state = player.pet_state;
     }
 
 let update_player_time player =
@@ -150,4 +189,5 @@ let update_player_time player =
         year = player.date.year;
         time = update_time player.date.time;
       };
+      pet_state = player.pet_state;
   }

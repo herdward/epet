@@ -160,14 +160,15 @@ let available_actions = [ "feed"; "clean" ]
 (* Define the game state record *)
 
 (* Initialize the game state *)
-let init_state = State.init_state
+let init_pet_state = State.init_state
 (* the initial state represents the state with no pet chosen yet*)
 
 (* Function to prompt the user to select a pet *)
 
 let rec select_pet (state : State.state) : State.state =
   print_string "\n Please type the name of the pet you would like to check on.";
-  print_string "\n> ";
+  print_string "You can currently check on: cat\n> ";
+  (* right now this is just hardcoded but may need to change*)
   match Stdlib.read_line () with
   | "quit" -> Unix._exit 0
   | petname -> (
@@ -255,21 +256,51 @@ let rec select_action (state : State.state) : State.state =
   | exception End_of_file -> exit 0
 (* Game loop *)
 
-let rec game_loop (state : State.state) : State.state =
-  if state = init_state then (
+let rec pet_game_loop (state : State.state)
+    (player_state : Player_state.player_state) : State.state =
+  Player_state.print_player_state player_state |> ignore;
+  if state = init_pet_state then (
     ANSITerminal.print_string [ ANSITerminal.red ]
-      "\n\nWelcome to E-Pet Game!\nYou are currently not checking on any pet.\n";
-    game_loop (select_pet state))
+      "\nYou are currently not checking on any pet.\n";
+    pet_game_loop (select_pet state) player_state)
   else (
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("\n\nWelcome to E-Pet Game!\nYou are currently checking on "
      ^ State.get_pet_name state ^ "\n");
-    game_loop (select_action state))
+    pet_game_loop (select_action state) player_state)
+
+let init_player_state = Player_state.init_state
+
+let rec player_game_loop (player_state : Player_state.player_state) :
+    Player_state.player_state =
+  if player_state = init_player_state then begin
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      "\n\nWelcome to E-Pet Game!\nWhat is your name? .\n";
+    match Stdlib.read_line () with
+    | input ->
+        let new_state = { player_state with name = Some input } in
+        player_game_loop new_state
+    | exception End_of_file -> exit 0
+  end
+  else
+    let old_pet_state = player_state.pet_state in
+    match old_pet_state with
+    | None ->
+        let new_pet_state = Some (select_pet init_pet_state) in
+        let new_state = { player_state with pet_state = new_pet_state } in
+        Player_state.print_player_state new_state;
+        player_game_loop new_state
+    | Some old_pet_state ->
+        let new_pet_state = pet_game_loop old_pet_state player_state in
+        let new_state = { player_state with pet_state = Some new_pet_state } in
+        Player_state.print_player_state new_state;
+        player_game_loop new_state
 
 (*game_loop (select_action state)*)
 (* If current pet, select action *)
 
 (* Start the game *)
-let () = ignore (game_loop init_state)
+let () = ignore (player_game_loop init_player_state)
+(*let () = ignore (pet_game_loop init_pet_state)*)
 
 open Pet
