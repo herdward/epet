@@ -3,15 +3,35 @@
     This module represents the data stored in the player data JSON file,
     including player name, amount of coins, time, etc.. It handles loading of
     that data from JSON as well as querying the data. *)
-
-type player
-(** The abstract type of values representing the player. *)
+    type time =
+    | Morning
+    | Afternoon
+    | Evening
+  
+  type coin = {
+    gold_amount : int;
+    silver_amount : int;
+    total_coin : int;
+  }
+  
+  type date = {
+    month_name : string;
+    month_int : int;
+    day_number : int;
+    year : int;
+    time : time;
+  }
+type player = {
+        name : string option;
+        coins : coin;
+        date : date;
+      }
 
 val player_from_json : Yojson.Basic.t -> player
 (** [player_from_json j] is the player representaion from [j]. Requires: [j] is
     a valid player JSON data file. *)
 
-val player_name : player -> string
+val player_name : player -> string option
 (** [player_name j] is the string value of the player name from [j]. Requires:
     [j] is a valid player representation. *)
 
@@ -41,3 +61,6 @@ val update_player_time : player -> player
     time. If time is morning, it is changed to afternoon. If afternoon, time is
     changed to evening. If time is evening, time is changed to morning.
     Requires: [j] is a valid player representation. *)
+
+val init_state : player
+(** [init_state] is the initial player state. *)

@@ -21,9 +21,23 @@ type date = {
 }
 
 type player = {
-  name : string;
+  name : string option;
   coins : coin;
   date : date;
+}
+type player_state = player
+
+let init_state = {
+  name  = None;
+  coins = { gold_amount = 0; silver_amount = 0; total_coin = 0 };
+  date =
+    {
+      month_name = "Jan";
+      month_int = 1;
+      day_number = 1;
+      year = 2020;
+      time = Morning;
+    };
 }
 
 let date_info_from_json j n =
@@ -79,7 +93,7 @@ let coin_of_json j =
 let player_from_json (j : Yojson.Basic.t) =
   {
     name =
-      j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string;
+      Some( j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string);
     coins = coin_of_json j;
     date = date_of_json j;
   }
