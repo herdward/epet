@@ -8,7 +8,16 @@ open Yojson.Basic
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
 
-let save_game_state (player : player) =
+let init_player_state =
+  player_from_json
+    (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test1" ^ ".json"))
+
+let getOption input =
+  match input with
+  | Some a -> a
+  | None -> failwith "getOption failed"
+
+let save_game_state (player : Player_state.player_state) =
   let save_data =
     `Assoc
       [
@@ -17,7 +26,7 @@ let save_game_state (player : player) =
         ("gold coins", `Int (player_gold_total player));
         ("silver coins", `Int (player_silver_total player));
         ("day", `String "not working");
-        ("date", `String (date_to_string player));
+        ("date", `String (getOption (date_to_string player)));
         ("Time", `String (time_to_string player));
       ]
   in
