@@ -210,23 +210,23 @@ let rec select_action (state : State.state) : State.state =
 
 
 
-let rec pet_game_loop (state : State.state) : State.state =
+let rec pet_game_loop (state : State.state)(player_state: Player_state.player_state) : State.state =
+  Player_state.print_player_state player_state |> ignore;
   if state = init_pet_state then (
     ANSITerminal.print_string [ ANSITerminal.red ]
       "\nYou are currently not checking on any pet.\n";
-    pet_game_loop (select_pet state))
+    pet_game_loop (select_pet state) player_state)
   else (
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("\n\nWelcome to E-Pet Game!\nYou are currently checking on "
      ^ State.get_pet_name state ^ "\n");
-    pet_game_loop (select_action state))
+    pet_game_loop (select_action state) player_state)
 
 
 let init_player_state = Player_state.init_state
 
   
 let rec player_game_loop (player_state: Player_state.player_state) : Player_state.player_state = 
-  let () = Player_state.print_player_state player_state in
   if player_state = init_player_state then 
     begin
       ANSITerminal.print_string [ ANSITerminal.red ]
@@ -237,8 +237,14 @@ let rec player_game_loop (player_state: Player_state.player_state) : Player_stat
       | exception End_of_file -> exit 0 
     end
   else 
-    let new_pet_state = pet_game_loop (Option.get player_state.pet_state) in
-    let new_state = {player_state with pet_state = Some new_pet_state} in
+    let old_pet_state = player_state.pet_state in
+    match old_pet_state with 
+    | None -> let new_pet_state = Some (select_pet init_pet_state) in
+              let new_state = {player_state with pet_state = new_pet_state} in
+              Player_state.print_player_state new_state;
+              player_game_loop new_state
+    | Some old_pet_state -> let new_pet_state = pet_game_loop(old_pet_state) player_state in 
+    let new_state = {player_state with pet_state =Some  new_pet_state} in
     Player_state.print_player_state new_state;
     player_game_loop new_state
 
