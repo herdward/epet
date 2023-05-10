@@ -3,8 +3,28 @@
 open Stdlib
 open Game
 open Pet
+open Player_state
+open Yojson.Basic
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
+
+let save_game_state (player : player) =
+  let save_data =
+    `Assoc
+      [
+        ("player_name", `String (player_name player));
+        ("total_coins", `Int (player_coins_total player));
+        ("gold coins", `Int (player_gold_total player));
+        ("silver coins", `Int (player_silver_total player));
+        ("day", `String "not working");
+        ("date", `String (date_to_string player));
+        ("Time", `String (time_to_string player));
+      ]
+  in
+  let updated_json = to_string save_data in
+  let updated_file = open_out "player_state_test2.json" in
+  output_string updated_file updated_json;
+  close_out updated_file
 
 let pet_list =
   Pet.pets_of_json

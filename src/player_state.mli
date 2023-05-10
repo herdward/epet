@@ -32,6 +32,10 @@ val player_coins_total : player -> int
 (** [player_coins_total j] returns the int amount of total coins in player [j].
     Requires: [j] is a valid player representation. *)
 
+val player_gold_total : player -> int
+(** [player_gold_total j] returns the int amount of gold coins in player [j].
+    Requires: [j] is a valid player representation. *)
+
 val player_silver_total : player -> int
 (** [player_silver_total j] returns the int amount of silver coins in player
     [j]. Requires: [j] is a valid player representation. *)
