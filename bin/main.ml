@@ -213,7 +213,7 @@ let rec select_action (state : State.state) : State.state =
 let rec pet_game_loop (state : State.state) : State.state =
   if state = init_pet_state then (
     ANSITerminal.print_string [ ANSITerminal.red ]
-      "\n\nWelcome to E-Pet Game!\nYou are currently not checking on any pet.\n";
+      "\nYou are currently not checking on any pet.\n";
     pet_game_loop (select_pet state))
   else (
     ANSITerminal.print_string [ ANSITerminal.red ]
@@ -223,21 +223,34 @@ let rec pet_game_loop (state : State.state) : State.state =
 
 
 let init_player_state = Player_state.init_state
-let rec player_game_loop (player_state: Player_state.player) : Player_state.player = 
+
+  
+let rec player_game_loop (player_state: Player_state.player_state) : Player_state.player_state = 
+  let () = Player_state.print_player_state player_state in
   if player_state = init_player_state then 
     begin
       ANSITerminal.print_string [ ANSITerminal.red ]
         "\n\nWelcome to E-Pet Game!\nWhat is your name? .\n";
       match Stdlib.read_line () with
-      | input -> let new_state = {player_state with name = Some input} in player_game_loop new_state
+      | input -> let new_state = {player_state with name = Some input} in 
+                 player_game_loop new_state
       | exception End_of_file -> exit 0 
     end
-  else select_pet init_state
+  else 
+    let new_pet_state = pet_game_loop (Option.get player_state.pet_state) in
+    let new_state = {player_state with pet_state = Some new_pet_state} in
+    Player_state.print_player_state new_state;
+    player_game_loop new_state
+
+
+
+
 
 (*game_loop (select_action state)*)
 (* If current pet, select action *)
 
 (* Start the game *)
-let () = ignore (pet_game_loop init_pet_state)
+let () = ignore (player_game_loop init_player_state)
+(*let () = ignore (pet_game_loop init_pet_state)*)
 
 open Pet
