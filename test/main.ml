@@ -147,6 +147,10 @@ let pet_tests =
         (get_health
            (update_pet_health cat
               (get_good_food_effect (get_good_food cat "sausage")))) );
+    ( {|cat's hygiene after being bathed, should be 125|} >:: fun _ ->
+      assert_equal 125 (get_hygiene (update_pet_hygiene cat 25)) );
+    ( {|cat's hygiene after being brushed, should be 110|} >:: fun _ ->
+      assert_equal 110 (get_hygiene (update_pet_hygiene cat 10)) );
   ]
 
 (* BELOW CODE COPIED FROM EH538 A2 submission*)
