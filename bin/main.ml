@@ -8,32 +8,17 @@ open Yojson.Basic
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
 
-let init_player_state =
+
+(*
+let init_player_state_from_json =
   player_from_json
-    (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test1" ^ ".json"))
+    (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test" ^ ".json")) *)
 
 let getOption input =
   match input with
   | Some a -> a
   | None -> failwith "getOption failed"
 
-let save_game_state (player : Player_state.player_state) =
-  let save_data =
-    `Assoc
-      [
-        ("player_name", `String (player_name player));
-        ("total_coins", `Int (player_coins_total player));
-        ("gold coins", `Int (player_gold_total player));
-        ("silver coins", `Int (player_silver_total player));
-        ("day", `String "not working");
-        ("date", `String (getOption (date_to_string player)));
-        ("Time", `String (time_to_string player));
-      ]
-  in
-  let updated_json = to_string save_data in
-  let updated_file = open_out "player_state_test2.json" in
-  output_string updated_file updated_json;
-  close_out updated_file
 
 let pet_list =
   Pet.pets_of_json
@@ -280,30 +265,28 @@ let rec pet_game_loop (state : State.state)
 
 let init_player_state = Player_state.init_state
 
-let rec player_game_loop (player_state : Player_state.player_state) :
-    Player_state.player_state =
-  if player_state = init_player_state then begin
-    ANSITerminal.print_string [ ANSITerminal.red ]
-      "\n\nWelcome to E-Pet Game!\nWhat is your name? .\n";
-    match Stdlib.read_line () with
-    | input ->
-        let new_state = { player_state with name = Some input } in
-        player_game_loop new_state
-    | exception End_of_file -> exit 0
-  end
-  else
+  
+let rec player_game_loop (player_state: Player_state.player_state) : Player_state.player_state = 
+  if player_state = init_player_state then 
+    begin
+      ANSITerminal.print_string [ ANSITerminal.red ]
+        "\n\nWelcome to E-Pet Game!\nWhat is your name? .\n";
+      match Stdlib.read_line () with
+      | input -> let new_state = {player_state with name = Some input} in 
+                 player_game_loop new_state
+      | exception End_of_file -> exit 0 
+    end
+  else 
     let old_pet_state = player_state.pet_state in
-    match old_pet_state with
-    | None ->
-        let new_pet_state = Some (select_pet init_pet_state) in
-        let new_state = { player_state with pet_state = new_pet_state } in
-        Player_state.print_player_state new_state;
-        player_game_loop new_state
-    | Some old_pet_state ->
-        let new_pet_state = pet_game_loop old_pet_state player_state in
-        let new_state = { player_state with pet_state = Some new_pet_state } in
-        Player_state.print_player_state new_state;
-        player_game_loop new_state
+    match old_pet_state with 
+    | None -> let new_pet_state = Some (select_pet init_pet_state) in
+              let new_state = {player_state with pet_state = new_pet_state} in
+              Player_state.print_player_state new_state;
+              player_game_loop new_state
+    | Some old_pet_state -> let new_pet_state = pet_game_loop(old_pet_state) player_state in 
+    let new_state = {player_state with pet_state =Some  new_pet_state} in
+    Player_state.print_player_state new_state;
+    player_game_loop new_state
 
 (*game_loop (select_action state)*)
 (* If current pet, select action *)
