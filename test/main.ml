@@ -1,3 +1,21 @@
+(**Test plan:
+
+   We mainly tested our functions using OUnit, namely its assert_equals
+   function. Our tests test the functions in modules Pet and Command, which deal
+   with reading information from a JSON file to form the pet, and possible
+   commands that the player inputs during the game. These test cases were
+   developed so that the information read from JSON was what we expected. Also,
+   for functions in the Pet module that changed some of the pet's stats after an
+   action, we made sure the change in the pet's stats matched our expectations.
+   As for the Command test cases, we developed test cases so that it would cover
+   the player's possible inputs during the game, such as mispellings or excess
+   white space. Our testing approach demonstrates the correctness of the system
+   because it ensures that information is being read correctly from the JSON
+   file, as well as any action conducted on the pet produces the correct changes
+   in the pet. It also makes sure that commands from the player are being
+   interpreted correctly and that the system doesn't quit out because of an
+   error.*)
+
 open OUnit2
 open Game
 open Pet
@@ -151,6 +169,80 @@ let pet_tests =
       assert_equal 125 (get_hygiene (update_pet_hygiene cat 25)) );
     ( {|cat's hygiene after being brushed, should be 110|} >:: fun _ ->
       assert_equal 110 (get_hygiene (update_pet_hygiene cat 10)) );
+    ( {|cat's chocolate hunger effect in samplejson.json, should be 2|}
+    >:: fun _ ->
+      assert_equal 2 (get_food_hunger_effect (get_bad_food cat "chocolate")) );
+    ( {|cat's grapes hunger effect in samplejson.json, should be 2|} >:: fun _ ->
+      assert_equal 2 (get_food_hunger_effect (get_bad_food cat "grapes")) );
+    ( {|cat's egg hunger effect in samplejson.json, should be 3|} >:: fun _ ->
+      assert_equal 3 (get_food_hunger_effect (get_bad_food cat "egg")) );
+    ( {|cat's cod hunger effect in samplejson.json, should be 5|} >:: fun _ ->
+      assert_equal 5 (get_food_hunger_effect (get_good_food cat "cod")) );
+    ( {|cat's milk hunger effect in samplejson.json, should be 4|} >:: fun _ ->
+      assert_equal 4 (get_food_hunger_effect (get_good_food cat "milk")) );
+    ( {|cat's biscuit hunger effect in samplejson.json, should be 7|}
+    >:: fun _ ->
+      assert_equal 7 (get_food_hunger_effect (get_good_food cat "biscuit")) );
+    ( {|cat's sausage hunger effect in samplejson.json, should be 8|}
+    >:: fun _ ->
+      assert_equal 8 (get_food_hunger_effect (get_good_food cat "sausage")) );
+    ( {|cat's hunger after being fed chocolate, should be 8|} >:: fun _ ->
+      assert_equal 8
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_bad_food cat "chocolate")))) );
+    ( {|cat's hunger after being fed grapes, should be 8|} >:: fun _ ->
+      assert_equal 8
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_bad_food cat "grapes")))) );
+    ( {|cat's hunger after being fed egg, should be 7|} >:: fun _ ->
+      assert_equal 7
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_bad_food cat "egg")))) );
+    ( {|cat's hunger after being fed cod, should be 5|} >:: fun _ ->
+      assert_equal 5
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "cod")))) );
+    ( {|cat's hunger after being fed milk, should be 6|} >:: fun _ ->
+      assert_equal 6
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "milk")))) );
+    ( {|cat's hunger after being fed biscuit, should be 3|} >:: fun _ ->
+      assert_equal 3
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "biscuit")))) );
+    ( {|cat's hunger after being fed sausage, should be 2|} >:: fun _ ->
+      assert_equal 2
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "sausage")))) );
+    ( {|cat's hunger after being fed cod and biscuit, should be 0|} >:: fun _ ->
+      assert_equal 0
+        (get_hunger
+           (update_pet_hunger
+              (update_pet_hunger cat
+                 (get_food_hunger_effect (get_good_food cat "cod")))
+              (get_food_hunger_effect
+                 (get_good_food
+                    (update_pet_hunger cat
+                       (get_food_hunger_effect (get_good_food cat "cod")))
+                    "biscuit")))) );
+    ( {|cat's hunger after being fed egg and sausage, should be 0|} >:: fun _ ->
+      assert_equal 0
+        (get_hunger
+           (update_pet_hunger
+              (update_pet_hunger cat
+                 (get_food_hunger_effect (get_bad_food cat "egg")))
+              (get_food_hunger_effect
+                 (get_good_food
+                    (update_pet_hunger cat
+                       (get_food_hunger_effect (get_bad_food cat "egg")))
+                    "sausage")))) );
   ]
 
 (* BELOW CODE COPIED FROM EH538 A2 submission*)
