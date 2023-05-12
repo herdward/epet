@@ -5,6 +5,7 @@ open Game
 open Pet
 open Player_state
 open Yojson.Basic
+open Lwt
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
 
@@ -17,7 +18,6 @@ let getOption input =
   match input with
   | Some a -> a
   | None -> failwith "getOption failed"
-
 
 let pet_list =
   Pet.pets_of_json
@@ -192,80 +192,88 @@ let rec select_pet (state : State.state) : State.state =
           select_pet state)
   | exception End_of_file -> exit 0
 
-let rec select_action (state : State.state) : State.state =
-  ANSITerminal.print_string [ ANSITerminal.yellow ]
-    "\nWhat would you like to do? \n";
-  ANSITerminal.print_string [ ANSITerminal.yellow ]
-    "\n The available actions are:";
-  ANSITerminal.print_string [ ANSITerminal.yellow ] " feed, clean, quit\n";
-
-  match Stdlib.read_line () with
-  | action -> (
-      match action with
-      | "feed" -> begin
-          match state.current_pet with
-          | None ->
-              ANSITerminal.print_string [ ANSITerminal.red ]
-                "\nYou must select a pet before you can feed it.";
-              select_action state
-          | Some pet ->
-              let updatedpet = feedencounter pet in
-              let new_state =
-                {
-                  state with
-                  current_pet = Some updatedpet;
-                  pet_name = Some (Pet.get_name updatedpet);
-                  pet_health = Some (Pet.get_health updatedpet);
-                  pet_hunger = Some (Pet.get_hunger updatedpet);
-                }
-              in
-              select_action new_state
-        end
-      | "clean" -> begin
-          match state.current_pet with
-          | None ->
-              ANSITerminal.print_string [ ANSITerminal.red ]
-                "\nYou must select a pet before you can clean it.";
-              select_action state
-          | Some pet ->
-              let updatedpet = cleanencounter pet in
-              let new_state =
-                {
-                  state with
-                  current_pet = Some updatedpet;
-                  pet_name = Some (Pet.get_name updatedpet);
-                  pet_health = Some (Pet.get_health updatedpet);
-                  pet_hunger = Some (Pet.get_hunger updatedpet);
-                  pet_hygiene = Some (Pet.get_hygiene updatedpet);
-                }
-              in
-              select_action new_state
-        end
-      | "quit" -> Unix._exit 0
-      | _ ->
-          ANSITerminal.print_string [ ANSITerminal.red ]
-            "\nThat action does not exist. Please try again.";
-          select_action state)
-  | exception End_of_file -> exit 0
+  let select_action (state : State.state) : State.state =
+    ANSITerminal.print_string [ ANSITerminal.yellow ]
+      "\nWhat would you like to do? \n";
+    ANSITerminal.print_string [ ANSITerminal.yellow ]
+      "\n The available actions are:";
+    ANSITerminal.print_string [ ANSITerminal.yellow ] " feed, clean, quit\n";
+  
+    match Stdlib.read_line () with
+    | action -> (
+        match action with
+        | "feed" -> begin
+            match state.current_pet with
+            | None ->
+                ANSITerminal.print_string [ ANSITerminal.red ]
+                  "\nYou must select a pet before you can feed it.";
+                state
+            | Some pet ->
+                let updatedpet = feedencounter pet in
+                let new_state =
+                  {
+                    state with
+                    current_pet = Some updatedpet;
+                    pet_name = Some (Pet.get_name updatedpet);
+                    pet_health = Some (Pet.get_health updatedpet);
+                    pet_hunger = Some (Pet.get_hunger updatedpet);
+                  }
+                in
+                new_state
+          end
+        | "clean" -> begin
+            match state.current_pet with
+            | None ->
+                ANSITerminal.print_string [ ANSITerminal.red ]
+                  "\nYou must select a pet before you can clean it.";
+                state
+            | Some pet ->
+                let updatedpet = cleanencounter pet in
+                let new_state =
+                  {
+                    state with
+                    current_pet = Some updatedpet;
+                    pet_name = Some (Pet.get_name updatedpet);
+                    pet_health = Some (Pet.get_health updatedpet);
+                    pet_hunger = Some (Pet.get_hunger updatedpet);
+                    pet_hygiene = Some (Pet.get_hygiene updatedpet);
+                  }
+                in
+                new_state
+          end
+        | "quit" -> Unix._exit 0
+        | _ ->
+            ANSITerminal.print_string [ ANSITerminal.red ]
+              "\nThat action does not exist. Please try again.";
+            state)
+    | exception End_of_file -> exit 0
+  
 (* Game loop *)
-
-let rec pet_game_loop (state : State.state)
-    (player_state : Player_state.player_state) : State.state =
-  Player_state.print_player_state player_state |> ignore;
+let rec pet_game_loop (state : State.state) (player_state : Player_state.player_state) : (State.state * Player_state.player_state) Lwt.t =
   if state = init_pet_state then (
     ANSITerminal.print_string [ ANSITerminal.red ]
       "\nYou are currently not checking on any pet.\n";
-    pet_game_loop (select_pet state) player_state)
+    select_pet state |> Lwt.return >>= fun new_state ->
+    pet_game_loop new_state player_state)
   else (
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("\n\nWelcome to E-Pet Game!\nYou are currently checking on "
      ^ State.get_pet_name state ^ "\n");
-    pet_game_loop (select_action state) player_state)
+    select_action state |> Lwt.return >>= fun new_state ->
+    let new_player_state = Player_state.update_state_from_pet player_state (Some new_state) in
+    match State.get_health new_state with 
+    | Some health -> if health <= 0 then (
+      ANSITerminal.print_string [ ANSITerminal.red ]
+        ("\n\nOh no! " ^ State.get_pet_name state ^ " has passed away. You lost :(\n");
+      exit 0)
+    else
+      Lwt.return (new_state, new_player_state)
+    | None -> failwith "Error"
+    )
+
 
 let init_player_state = Player_state.init_state
-
-  
-let rec player_game_loop (player_state: Player_state.player_state) : Player_state.player_state = 
+let rec player_game_loop (player_state: Player_state.player_state) : unit Lwt.t =
   if player_state = init_player_state then 
     begin
       ANSITerminal.print_string [ ANSITerminal.red ]
@@ -279,13 +287,18 @@ let rec player_game_loop (player_state: Player_state.player_state) : Player_stat
     let old_pet_state = player_state.pet_state in
     match old_pet_state with 
     | None -> let new_pet_state = Some (select_pet init_pet_state) in
-              let new_state = {player_state with pet_state = new_pet_state} in
-              Player_state.print_player_state new_state;
-              player_game_loop new_state
-    | Some old_pet_state -> let new_pet_state = pet_game_loop(old_pet_state) player_state in 
-    let new_state = {player_state with pet_state =Some  new_pet_state} in
-    Player_state.print_player_state new_state;
-    player_game_loop new_state
+              let new_player_state = {player_state with pet_state = new_pet_state} in
+              select_pet init_pet_state |> Lwt.return >>= fun pet_state ->
+              let new_player_state = {new_player_state with pet_state = Some pet_state} in
+              player_game_loop new_player_state
+    | Some old_pet_state ->
+        pet_game_loop old_pet_state player_state >>= fun (new_pet_state, new_player_state) ->
+        Player_state.print_player_info new_player_state |> Lwt.return |> Lwt.ignore_result;
+        let updated_player_state = {new_player_state with pet_state = Some new_pet_state} in
+        player_game_loop updated_player_state
+
+
+
 
 (*game_loop (select_action state)*)
 (* If current pet, select action *)
