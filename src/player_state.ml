@@ -109,7 +109,7 @@ let coin_of_json j =
     silver_amount =
       j |> Yojson.Basic.Util.member "gold coins" |> Yojson.Basic.Util.to_int;
     total_coin =
-      j |> Yojson.Basic.Util.member "total coins" |> Yojson.Basic.Util.to_int;
+      j |> Yojson.Basic.Util.member "total_coins" |> Yojson.Basic.Util.to_int;
   }
 
 let player_from_json (j : Yojson.Basic.t) =
