@@ -285,6 +285,7 @@ let rec select_pet (state : State.state) : State.state =
                 in
                 new_state
           end
+
 | "clean" -> begin
     match state.current_pet with
     | None ->
@@ -302,7 +303,6 @@ let rec select_pet (state : State.state) : State.state =
         in
         new_state
   end
-
         | "quit" -> Unix._exit 0
         | _ ->
             ANSITerminal.print_string [ ANSITerminal.red ]
