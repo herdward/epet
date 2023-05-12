@@ -8,6 +8,8 @@ make sure your OPAM is updated.
 3) Also install ANSITerminal by running [opam install ANSITerminal] 
 as our system makes use of it. 
 
+4) Install Lwt by running [opam install lwt]
+
 Finally, change your working directory to our system, and run [code .] to open 
 our system in your code editor. Open a terminal in the code editor and use 
 [make play] to play our game. 
