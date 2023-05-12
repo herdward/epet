@@ -170,6 +170,7 @@ let rec select_pet (state : State.state) : State.state =
         (* update the interface*)
         (* ask what action want to do, currently the only action is feed*)
         print_pet_info pet |> ignore;
+        (* bro how do we get rid of this error, we basically have to explicitly list all of them since initially all of them are "None"*)
         let new_state =
           {
             state with
@@ -184,7 +185,7 @@ let rec select_pet (state : State.state) : State.state =
       with
       | Not_found ->
           ANSITerminal.print_string [ ANSITerminal.red ]
-            "That pet does not exist. Please try again.";
+            "That pet does not exist. Please try again.\n";
           select_pet state
       | exc ->
           ANSITerminal.print_string [ ANSITerminal.red ]
@@ -232,10 +233,6 @@ let rec select_pet (state : State.state) : State.state =
                 let new_state =
                   {
                     state with
-                    current_pet = Some updatedpet;
-                    pet_name = Some (Pet.get_name updatedpet);
-                    pet_health = Some (Pet.get_health updatedpet);
-                    pet_hunger = Some (Pet.get_hunger updatedpet);
                     pet_hygiene = Some (Pet.get_hygiene updatedpet);
                   }
                 in
@@ -249,26 +246,31 @@ let rec select_pet (state : State.state) : State.state =
     | exception End_of_file -> exit 0
   
 (* Game loop *)
+(* Lwt promises are used so that while in the pet_game_loop, control can actually be passed back to the player_game_loop*)
 let rec pet_game_loop (state : State.state) (player_state : Player_state.player_state) : (State.state * Player_state.player_state) Lwt.t =
   if state = init_pet_state then (
     ANSITerminal.print_string [ ANSITerminal.red ]
-      "\nYou are currently not checking on any pet.\n";
+      "\nWelcome to E-Pet Game!\nYou are currently not checking on any pet.\n";
+    (*wrap select_pet state into a promise that is already resolved so it can call back to pet_game_loop.  The reason why this is done in convoluted way is because the output has to be Lwt.t *)
     select_pet state |> Lwt.return >>= fun new_state ->
     pet_game_loop new_state player_state)
-  else (
+  else 
+    (* a pet is already selected *)
+    (
     ANSITerminal.print_string [ ANSITerminal.red ]
-      ("\n\nWelcome to E-Pet Game!\nYou are currently checking on "
+      ("You are currently checking on "
      ^ State.get_pet_name state ^ "\n");
-    select_action state |> Lwt.return >>= fun new_state ->
-    let new_player_state = Player_state.update_state_from_pet player_state (Some new_state) in
-    match State.get_health new_state with 
+     (* callback function that updates the player state from the updated pet state as a result of running select_action state*)
+    select_action state |> Lwt.return >>= fun new_pet_state ->
+    let new_player_state = Player_state.update_state_from_pet player_state (Some new_pet_state) in
+    match State.get_health new_pet_state with 
     | Some health -> if health <= 0 then (
       ANSITerminal.print_string [ ANSITerminal.red ]
-        ("\n\nOh no! " ^ State.get_pet_name state ^ " has passed away. You lost :(\n");
-      exit 0)
+        ("\n\nOh no! " ^ State.get_pet_name state ^ " got OOFED (UNALIVED). You lost :(\n");
+      Unix._exit 0)
     else
-      Lwt.return (new_state, new_player_state)
-    | None -> failwith "Error"
+      Lwt.return (new_pet_state, new_player_state)
+    | None -> failwith "Couldn't get the health. Notify the developers!"
     )
 
 
@@ -286,12 +288,16 @@ let rec player_game_loop (player_state: Player_state.player_state) : unit Lwt.t 
   else 
     let old_pet_state = player_state.pet_state in
     match old_pet_state with 
-    | None -> let new_pet_state = Some (select_pet init_pet_state) in
+    | None -> (* means that the pet state is currently empty, no pet has been selected yet*)
+              (* create a new pet state, and update player state accordingly*)
+              let new_pet_state = Some (select_pet init_pet_state) in
               let new_player_state = {player_state with pet_state = new_pet_state} in
+              (* callback function that updates the pet_state field of the player_state*)
               select_pet init_pet_state |> Lwt.return >>= fun pet_state ->
               let new_player_state = {new_player_state with pet_state = Some pet_state} in
               player_game_loop new_player_state
     | Some old_pet_state ->
+         (* callback function that updates the pet_state field of the player_state using the output of pet_game_loop, and prints info*)
         pet_game_loop old_pet_state player_state >>= fun (new_pet_state, new_player_state) ->
         Player_state.print_player_info new_player_state |> Lwt.return |> Lwt.ignore_result;
         let updated_player_state = {new_player_state with pet_state = Some new_pet_state} in
