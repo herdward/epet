@@ -1,4 +1,6 @@
 exception AlreadyFull
+exception AlreadyHealthy
+exception AlreadyClean
 
 type food = {
   fname : string;
@@ -106,9 +108,7 @@ let update_pet_hunger pet food_value =
     }
 
 let update_pet_health pet food_health_effect =
-  let current_pet_hunger = get_hunger pet in
-  if current_pet_hunger = 0 then raise AlreadyFull
-  else
+    if pet.health = 100 then raise AlreadyHealthy;
     {
       name = get_name pet;
       gender = get_gender pet;

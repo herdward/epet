@@ -76,21 +76,40 @@ let rec bad_food_result food pet =
     ^ " " ^ "health");
   updated_pet
 
-let rec good_food_result food pet =
-  let updated_pet =
-    Pet.update_pet_health pet
-      (Pet.get_good_food_effect (Pet.get_good_food pet food))
-  in
-  ANSITerminal.print_string [ ANSITerminal.green ]
-    ("\n You selected to feed " ^ Pet.get_name pet ^ " with "
-    ^ Pet.get_good_food_name (Pet.get_good_food pet food));
-  print_endline
-    ("\nYum! " ^ Pet.get_name pet ^ " loved that! They gained health :)");
-  print_string
-    ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
-    ^ string_of_int (Pet.get_good_food_effect (Pet.get_good_food pet food))
-    ^ " " ^ "health" ^ "\n");
-  updated_pet
+  let good_food_result food pet =
+    try
+    let updated_health_pet = 
+      Pet.update_pet_health pet (Pet.get_good_food_effect (Pet.get_good_food pet food))
+    in
+    try
+      let updated_pet = 
+        Pet.update_pet_hunger updated_health_pet (Pet.get_food_hunger_effect (Pet.get_good_food updated_health_pet food))
+      in
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        ("\nYou selected to feed " ^ Pet.get_name pet ^ " with "
+        ^ Pet.get_good_food_name (Pet.get_good_food pet food));
+      print_endline
+        ("\nYum! " ^ Pet.get_name pet ^ " loved that! They gained health :)");
+      print_string
+        ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
+        ^ string_of_int (Pet.get_good_food_effect (Pet.get_good_food pet food))
+        ^ " " ^ "health" ^ "\n");
+      updated_pet
+    with
+    | Pet.AlreadyFull ->
+      let updated_pet = updated_health_pet  in
+      ANSITerminal.print_string [ ANSITerminal.red ]
+        ("\nOops! " ^ Pet.get_name pet ^ " is already full. No change in hunger.\n");
+      updated_pet
+    with
+     | Pet.AlreadyHealthy  -> let updated_health_pet = pet in
+      ANSITerminal.print_string [ ANSITerminal.red ]
+        ("\nOops! " ^ Pet.get_name pet ^ " is already healthy. No change in health.\n");
+      if Pet.get_hunger updated_health_pet = 0 then
+        ANSITerminal.print_string [ ANSITerminal.red ]
+          ("\nOops! " ^ Pet.get_name pet ^ " is already full. No change in hunger.\n");
+      updated_health_pet
+  
 
 let food_result food pet =
   if check_if_bad_food food (Pet.get_bad_foods pet) then
@@ -118,6 +137,8 @@ let feedencounter (pet : pet) : pet =
   match Stdlib.read_line () with
   | input_food ->
       let updatedpet = food_result input_food pet in
+      (* decrement hygiene by 1*)
+      let updatedpet = Pet.update_pet_hygiene updatedpet (-1) in
       print_pet_info updatedpet |> ignore;
       updatedpet (* this is to make sure that the UI gets updated*)
 
