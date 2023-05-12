@@ -37,11 +37,11 @@ val player_name : player_state -> string option
 (** [player_name j] is the string value of the player name from [j]. Requires:
     [j] is a valid player representation. *)
 
-val time_to_string : player_state -> string
+val time_to_string : player_state -> string option
 (** [time_to_string j] is the string representaion of the time in player [j].
     Requires: [j] is a valid player representation. *)
 
-val date_to_string : player_state -> string
+val date_to_string : player_state -> string 
 (** [date_to_string j] is the string representaion of the current mm/dd/yyyy
     from player [j]. Requires: [j] is a valid player representation. *)
 
@@ -71,10 +71,15 @@ val update_player_time : player_state -> player_state
 val init_state : player_state
 (** [init_state] is the initial player state. *)
 
-val print_player_info : 'a -> unit
+val print_player_info : player_state -> unit
 
 (** [print_player_info ()] prints the player's name, and coins. *)
 
-val print_player_state : player_state -> unit
+
 (** [print_player_state j] prints the player's name, coins, date, and time from
     player [j]. Requires: [j] is a valid player representation. *)
+
+val update_state_from_pet : player_state -> State.state option -> player_state
+(** [update_state_from_pet j s] returns an updated player state by updating the
+    pet state to [s] from player [j]. Requires: [j] is a valid player
+    representation. *)

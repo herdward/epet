@@ -1,5 +1,5 @@
 open Pet
-
+open Yojson
 type state = {
   current_pet : pet option;
   pet_name : string option;
@@ -49,9 +49,7 @@ let get_pet_name (st : state) : string =
   | None -> ""
   | Some x -> x
 
-let get_health = function
-  | Legal st -> st.pet_health
-  | Illegal -> Some 0
+let get_health st = st.pet_health
 
 let get_hunger = function
   | Legal st -> st.pet_hunger
@@ -68,3 +66,6 @@ let set_health = function
 let set_hunger = function
   | Legal st -> st.pet_hunger
   | Illegal -> Some 0
+
+
+  

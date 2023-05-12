@@ -45,23 +45,16 @@ let init_state = {
   pet_state =Some  State.init_state
 
 }
-let print_player_info player= 
-  ANSITerminal.print_string [ ANSITerminal.green ] "Player Info:"
-let print_player_name player =
-  ANSITerminal.print_string [ ANSITerminal.green ] "Name: ";
+let print_player_info player =
+  ANSITerminal.print_string [ ANSITerminal.green ] "Player Name: ";
   match player.name with 
   | None -> ANSITerminal.print_string [ ANSITerminal.green ] "None"
-  | Some name -> ANSITerminal.print_string [ ANSITerminal.green ] name;
-  print_endline ""
-let print_player_coins player =
+  | Some name -> ANSITerminal.print_string [ ANSITerminal.green ] (name ^ " |");
   ANSITerminal.print_string [ ANSITerminal.green ] "Coins: ";
   ANSITerminal.print_string [ ANSITerminal.green ] (string_of_int player.coins.total_coin);
   print_endline ""
 
-let print_player_state player = 
-  print_player_info player;
-  print_player_name player;
-  print_player_coins player
+
 let date_info_from_json j n =
   int_of_string
     (List.nth
@@ -116,8 +109,8 @@ let player_from_json (j : Yojson.Basic.t) =
   {
     name =
       Some( j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string);
-    coins = coin_of_json j;
-    date = date_of_json j;
+    coins =  (coin_of_json j);
+    date = (date_of_json j);
     pet_state = None;
   }
 
@@ -128,9 +121,9 @@ let player_silver_total coin = coin.coins.silver_amount
 
 let time_to_string player =
   match player.date.time with
-  | Morning -> "Morning"
-  | Afternoon -> "Afternoon"
-  | Evening -> "Evening"
+  | Morning -> Some "Morning"
+  | Afternoon -> Some "Afternoon"
+  | Evening -> Some "Evening"
 
 let date_to_string player =
   player.date.month_name ^ " "
@@ -191,3 +184,8 @@ let update_player_time player =
       };
       pet_state = player.pet_state;
   }
+
+
+let update_state_from_pet player_state pet_state =
+  match player_state with
+  |  state ->  {state with pet_state = pet_state}
