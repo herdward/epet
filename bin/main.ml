@@ -75,6 +75,10 @@ let rec bad_food_result food pet =
     ("\n" ^ Pet.get_name pet ^ " lost" ^ " "
     ^ string_of_int (abs (Pet.get_health updated_pet - Pet.get_health pet))
     ^ " " ^ "health");
+  if Pet.get_health updated_pet  <= 0 then (
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      ("\nOh no! " ^ Pet.get_name pet ^ " got OOFED! You lost :( \n");
+    exit 0 ) else 
   updated_pet
 
   let good_food_result food pet =
