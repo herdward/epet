@@ -10,6 +10,8 @@
  * submission.
  **********************************************************************)
 
+(** The type representing the state of an adventure game. *)
+
 type state = {
   current_pet : Pet.pet option;
   pet_name : string option;
@@ -43,5 +45,11 @@ val feed : int -> Pet.pet -> state -> result
 (* note for now, i made it int -> Pet.pet but it should be changed back to
    string, or a Food type later.*)
 
+val get_health : state -> int option
+(** [get_health st] is the health of the pet in state [st]. *)
+
 val get_pet_name : state -> string
 (** [get_pet_name pet] is the name of the pet [pet]. *)
+
+
+(** [pet_state_to_json st] is the json representation of the pet state [st]. *)

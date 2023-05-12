@@ -8,6 +8,8 @@
     "Sample" pet list found in [data/samplejson.json]. *)
 
 exception AlreadyFull
+exception AlreadyHealthy
+exception AlreadyClean
 
 type pets
 (** The abstract type of values representing pets. *)
@@ -33,7 +35,7 @@ val get_pet : pets -> string -> pet
 val get_health : pet -> int
 (** [getHealth p] is the health of pet [p]. *)
 
-val get_hygiene: pet -> int 
+val get_hygiene : pet -> int
 (** [getHygiene p] is the hygiene of pet [p]. *)
 
 val get_hunger : pet -> int
@@ -58,9 +60,11 @@ val get_good_foods : pet -> food list
 val get_good_food : pet -> string -> food
 val get_good_food_name : food -> string
 val get_good_food_effect : food -> int
-val get_hygiene : pet -> int 
+val get_hygiene : pet -> int
+val get_food_hunger_effect : food -> int
 val update_pet_health : pet -> int -> pet
-val update_pet_hygiene: pet -> int -> pet 
+
+val update_pet_hygiene : pet -> int -> pet
 (** [update_pet_health p health_value] gives a pet with its health attribute
     updated, to the maximum of (0, current health + health_value.) Raises
     [AlreadyDead pet] if [pet]'s health level is already 0. This is equivalent
