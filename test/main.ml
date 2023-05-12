@@ -1,5 +1,7 @@
 (**Test plan:
-
+  We had two main approaches to testing our system. The first approach were the 
+  OUnit tests, which tested the correctness of our functions. The second approach
+  was manual testing, which tested the functionality of our system.
    We mainly tested our functions using OUnit, namely its assert_equals
    function. Our tests test the functions in modules Pet and Command, which deal
    with reading information from a JSON file to form the pet, and possible
@@ -14,7 +16,15 @@
    file, as well as any action conducted on the pet produces the correct changes
    in the pet. It also makes sure that commands from the player are being
    interpreted correctly and that the system doesn't quit out because of an
-   error.*)
+   error.
+   
+   With regards to manual testing, we tested the functionality of our system by
+   tweaking the initial values of a pet's stats in the JSON file and seeing if
+    the expected behavior was shown in the game. For example, if we set the
+    initial hunger of the pet to 0, then feeding should not have an effect on the hunger.  
+   Similarly, if the pet was already healthy, then feeding would not increment it past the capacity (100).
+    We also tested to make sure that the floor and ceiling of the pet's stats were respected.
+   *)
 
 open OUnit2
 open Game

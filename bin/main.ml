@@ -58,6 +58,7 @@ let print_pet_info pet =
     pet_info_str
 
 let rec bad_food_result food pet =
+  (* doesn't do anything to hunger for now*)
   let updated_pet =
     Pet.update_pet_health pet
       (Pet.get_bad_food_effect (Pet.get_bad_food pet food))
@@ -72,7 +73,7 @@ let rec bad_food_result food pet =
    ^ " did not like that! They lost health :(");
   print_string
     ("\n" ^ Pet.get_name pet ^ " lost" ^ " "
-    ^ string_of_int (abs (Pet.get_bad_food_effect (Pet.get_bad_food pet food)))
+    ^ string_of_int (abs (Pet.get_health updated_pet - Pet.get_health pet))
     ^ " " ^ "health");
   updated_pet
 
@@ -92,7 +93,7 @@ let rec bad_food_result food pet =
         ("\nYum! " ^ Pet.get_name pet ^ " loved that! They gained health :)");
       print_string
         ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
-        ^ string_of_int (Pet.get_good_food_effect (Pet.get_good_food pet food))
+        ^ string_of_int (Pet.get_health updated_pet - Pet.get_health pet)
         ^ " " ^ "health" ^ "\n");
       updated_pet
     with
@@ -100,16 +101,26 @@ let rec bad_food_result food pet =
       let updated_pet = updated_health_pet  in
       ANSITerminal.print_string [ ANSITerminal.red ]
         ("\nOops! " ^ Pet.get_name pet ^ " is already full. No change in hunger.\n");
-      updated_pet
-    with
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        ("\nYou selected to feed " ^ Pet.get_name pet ^ " with "
+        ^ Pet.get_good_food_name (Pet.get_good_food pet food));
+      print_endline
+        ("\nYum! " ^ Pet.get_name pet ^ " loved that! They gained health :)");
+      print_string
+        ("\n" ^ Pet.get_name pet ^ " gained" ^ " " ^ string_of_int (Pet.get_health updated_pet - Pet.get_health pet)  ^ " " ^ "health" ^ "\n");
+      updated_pet 
+    with 
      | Pet.AlreadyHealthy  -> let updated_health_pet = pet in
       ANSITerminal.print_string [ ANSITerminal.red ]
         ("\nOops! " ^ Pet.get_name pet ^ " is already healthy. No change in health.\n");
-      if Pet.get_hunger updated_health_pet = 0 then
+      if Pet.get_hunger updated_health_pet = 0 then begin 
         ANSITerminal.print_string [ ANSITerminal.red ]
           ("\nOops! " ^ Pet.get_name pet ^ " is already full. No change in hunger.\n");
-      updated_health_pet
-  
+           updated_health_pet  end 
+        else 
+            let updated_hunger_pet = 
+              Pet.update_pet_hunger updated_health_pet (Pet.get_food_hunger_effect (Pet.get_good_food updated_health_pet food)) in updated_hunger_pet
+
 
 let food_result food pet =
   if check_if_bad_food food (Pet.get_bad_foods pet) then
@@ -142,33 +153,64 @@ let feedencounter (pet : pet) : pet =
       print_pet_info updatedpet |> ignore;
       updatedpet (* this is to make sure that the UI gets updated*)
 
-let cleanencounter (pet : pet) : pet =
+  let cleanencounter (pet : pet) : pet =
   ANSITerminal.print_string [ ANSITerminal.blue ]
-    "\n How would you like to clean your pet? \n";
+  "\n How would you like to clean your pet? \n";
   ANSITerminal.print_string [ ANSITerminal.blue ] "\n 1. Take a bath \n";
   ANSITerminal.print_string [ ANSITerminal.blue ] "\n 2. Brush their fur \n";
-  ANSITerminal.print_string [ ANSITerminal.blue ] "\n 3. Quit \n";
+  ANSITerminal.print_string [ANSITerminal.blue ] "\n 3. Go to the groomer \n";
+  ANSITerminal.print_string [ ANSITerminal.blue ] "\n 4. Quit \n";
   ANSITerminal.print_string [ ANSITerminal.blue ]
-    "\n Type 1 or 2 to select your choice \n";
+  "\n Type 1 or 2 to select your choice \n";
   match Stdlib.read_line () with
   | "1" ->
-      let updatedpet = Pet.update_pet_hygiene pet 25 in
-      ANSITerminal.print_string [ ANSITerminal.green ]
-        "\n Your pet is now cleaner! \n";
-      print_pet_info updatedpet |> ignore;
-      updatedpet
+    begin
+      try
+        let updatedpet = Pet.update_pet_hygiene pet 25 in
+        ANSITerminal.print_string [ ANSITerminal.green ]
+          "\n Your pet is now cleaner! \n";
+        print_pet_info updatedpet |> ignore;
+        updatedpet
+      with
+      | AlreadyClean ->
+        ANSITerminal.print_string [ ANSITerminal.red ]
+          "\n Your pet is already clean! \n";
+        pet
+    end
   | "2" ->
-      let updatedpet = Pet.update_pet_hygiene pet 10 in
-      ANSITerminal.print_string [ ANSITerminal.green ]
-        "\n Your pet is now cleaner! \n";
-      print_pet_info updatedpet |> ignore;
-      updatedpet
-  | "3" -> Unix._exit 0
+    begin
+      try
+        let updatedpet = Pet.update_pet_hygiene pet 10 in
+        ANSITerminal.print_string [ ANSITerminal.green ]
+          "\n Your pet is now cleaner! \n";
+        print_pet_info updatedpet |> ignore;
+        updatedpet
+      with
+      | AlreadyClean ->
+        ANSITerminal.print_string [ ANSITerminal.red ]
+          "\n Your pet is already clean! \n";
+        pet
+    end
+  | "3" -> begin 
+    try let updatedpet = Pet.update_pet_hygiene pet 100 in 
+    (*TODO :  decrement player coins by 5*)
+    
+    ANSITerminal.print_string [ANSITerminal.green] 
+    "\n Your pet is now cleaner! \n";
+    print_pet_info updatedpet |> ignore;
+    updatedpet
+    with
+    | AlreadyClean ->
+        ANSITerminal.print_string [ ANSITerminal.red ]
+          "\n Your pet is already clean! \n";
+        pet
+    end 
+  | "4" -> Unix._exit 0
   | _ ->
-      ANSITerminal.print_string [ ANSITerminal.red ]
-        "\n That is not a valid choice! \n";
-      pet
-
+    ANSITerminal.print_string [ ANSITerminal.red ]
+      "\n That is not a valid choice! \n";
+    pet
+      
 let available_actions = [ "feed"; "clean" ]
 
 (* Define the game state record *)
@@ -243,22 +285,24 @@ let rec select_pet (state : State.state) : State.state =
                 in
                 new_state
           end
-        | "clean" -> begin
-            match state.current_pet with
-            | None ->
-                ANSITerminal.print_string [ ANSITerminal.red ]
-                  "\nYou must select a pet before you can clean it.";
-                state
-            | Some pet ->
-                let updatedpet = cleanencounter pet in
-                let new_state =
-                  {
-                    state with
-                    pet_hygiene = Some (Pet.get_hygiene updatedpet);
-                  }
-                in
-                new_state
-          end
+| "clean" -> begin
+    match state.current_pet with
+    | None ->
+        ANSITerminal.print_string [ ANSITerminal.red ]
+          "\nYou must select a pet before you can clean it.";
+        state
+    | Some pet ->
+        let updatedpet = cleanencounter pet in
+        let new_state =
+          {
+            state with
+            current_pet = Some updatedpet;
+            pet_hygiene = Some (Pet.get_hygiene updatedpet);
+          }
+        in
+        new_state
+  end
+
         | "quit" -> Unix._exit 0
         | _ ->
             ANSITerminal.print_string [ ANSITerminal.red ]

@@ -4,9 +4,9 @@
       "gender": "male",
       "name": "cat",
       "description": "cat says: 'nice to meet you' in cat language. It looks hungry!",
-      "health": 50,
-      "hunger": 50,
-      "hygiene": 50,
+      "health": 28,
+      "hunger": 52,
+      "hygiene": 61,
       "affection": 50,
       "bad food": [
         {
