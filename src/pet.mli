@@ -8,6 +8,8 @@
     "Sample" pet list found in [data/samplejson.json]. *)
 
 exception AlreadyFull
+exception AlreadyHealthy
+exception AlreadyClean
 
 type pets
 (** The abstract type of values representing pets. *)

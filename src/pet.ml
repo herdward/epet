@@ -1,4 +1,6 @@
 exception AlreadyFull
+exception AlreadyHealthy
+exception AlreadyClean
 
 type food = {
   fname : string;
@@ -106,14 +108,12 @@ let update_pet_hunger pet food_value =
     }
 
 let update_pet_health pet food_health_effect =
-  let current_pet_hunger = get_hunger pet in
-  if current_pet_hunger = 0 then raise AlreadyFull
-  else
+    if pet.health >= 100 then raise AlreadyHealthy;
     {
       name = get_name pet;
       gender = get_gender pet;
       description = get_description pet;
-      health = get_health pet + food_health_effect;
+      health = min (get_health pet + food_health_effect) 100;
       hunger = get_hunger pet;
       bad_foods = pet.bad_foods;
       good_foods = pet.good_foods;
@@ -121,4 +121,6 @@ let update_pet_health pet food_health_effect =
     }
 
 let update_pet_hygiene pet hygiene_effect =
-  { pet with hygiene = get_hygiene pet + hygiene_effect }
+  if pet.hygiene >= 100 then raise AlreadyClean
+  else
+  { pet with hygiene = min (get_hygiene pet + hygiene_effect) 100 }
