@@ -11,7 +11,7 @@ let data_dir_prefix = "data" ^ Filename.dir_sep
 
 let init_player_state_from_json =
   player_from_json
-    (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test1" ^ ".json")) 
+    (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test" ^ ".json")) 
 
 let getOption input =
   match input with
