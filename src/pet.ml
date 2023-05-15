@@ -186,5 +186,7 @@ let update_pet_bad_food food pet =
   }
 
 let update_pet_hygiene pet hygiene_effect =
-  if pet.hygiene >= 100 then raise AlreadyClean
+  if pet.hygiene > 100 then raise AlreadyClean
+  else 
+if pet.hygiene = 100 then { pet with hygiene = 100}
   else { pet with hygiene = min (get_hygiene pet + hygiene_effect) 100 }
