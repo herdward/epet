@@ -16,7 +16,7 @@ let save_game_state player =
       [
         ("player_name", `String (player_name player));
         ("total_coins", `Int (player_coins_total player));
-        ("day", `String "not working");
+        ("day", `String (string_of_int player.date.day_number));
         ("date", `String (date_to_string player));
         ("Time", `String (time_to_string player));
       ]

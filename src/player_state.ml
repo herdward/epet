@@ -40,16 +40,6 @@ let init_state =
     numer_of_actions = 0;
   }
 
-let print_player_info player =
-  ANSITerminal.print_string [ ANSITerminal.green ] "Player Name: ";
-  match player.name with
-  | name ->
-      ANSITerminal.print_string [ ANSITerminal.green ] (name ^ " |");
-      ANSITerminal.print_string [ ANSITerminal.green ] "Coins: ";
-      ANSITerminal.print_string [ ANSITerminal.green ]
-        (string_of_int player.coins);
-      print_endline ""
-
 let date_info_from_json j n =
   int_of_string
     (List.nth
@@ -117,6 +107,17 @@ let date_to_string player =
   ^ string_of_int player.date.day_number
   ^ " "
   ^ string_of_int player.date.year
+
+let print_player_info player =
+  ANSITerminal.print_string [ ANSITerminal.green ] "Player Name: ";
+  match player.name with
+  | name ->
+      ANSITerminal.print_string [ ANSITerminal.green ] (name ^ " |");
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" Coins: " ^ string_of_int player.coins);
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" | Date : " ^ date_to_string player);
+      print_endline ""
 
 let update_time time =
   match time with
