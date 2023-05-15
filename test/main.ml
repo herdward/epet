@@ -303,6 +303,54 @@ let pet_tests =
     ( {|update_food_amount for sausage, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
         (food_amount (update_food_amount (get_good_food ocat "sausage"))) );
+    ( {| update food amount for sausage two times, food amount should be 1|}
+    >:: fun _ ->
+      assert_equal 1
+        (food_amount
+           (update_food_amount
+              (update_food_amount (get_good_food ocat "sausage")))) );
+    ( {| update food amount for sausage three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "sausage"))))) );
+    ( {| update food amount for cod three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "cod"))))) );
+    ( {| update food amount for milk three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "milk"))))) );
+    ( {| update food amount for chocolate three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "chocolate"))))) );
+    ( {| update food amount for grapes three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "grapes"))))) );
+    ( {| update food amount for egg three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "egg"))))) );
     ( {|update_pet_good_food for cod, good_foods should be still have cod|}
     >:: fun _ ->
       assert_equal
@@ -336,4 +384,4 @@ let pet_tests =
   ]
 
 let suite = "test suite for final project" >::: List.flatten [ pet_tests ]
-let _ = run_test_tt_main suite
+let () = run_test_tt_main suite
