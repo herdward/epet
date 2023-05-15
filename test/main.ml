@@ -2,20 +2,14 @@
    approach were the OUnit tests, which tested the correctness of our functions.
    The second approach was manual testing, which tested the functionality of our
    system. We mainly tested our functions using OUnit, namely its assert_equals
-   function. Our tests test the functions in modules Pet and Command, which deal
-   with reading information from a JSON file to form the pet, and possible
-   commands that the player inputs during the game. These test cases were
+   function. Our tests test the functions in module Pet, which deals with
+   reading information from a JSON file to form the pet. These test cases were
    developed so that the information read from JSON was what we expected. Also,
    for functions in the Pet module that changed some of the pet's stats after an
    action, we made sure the change in the pet's stats matched our expectations.
-   As for the Command test cases, we developed test cases so that it would cover
-   the player's possible inputs during the game, such as mispellings or excess
-   white space. Our testing approach demonstrates the correctness of the system
-   because it ensures that information is being read correctly from the JSON
-   file, as well as any action conducted on the pet produces the correct changes
-   in the pet. It also makes sure that commands from the player are being
-   interpreted correctly and that the system doesn't quit out because of an
-   error.
+   Our testing approach demonstrates the correctness of the system because it
+   ensures that information is being read correctly from the JSON file, as well
+   as any action conducted on the pet produces the correct changes in the pet.
 
    With regards to manual testing, we tested the functionality of our system by
    tweaking the initial values of a pet's stats in the JSON file and seeing if
@@ -28,7 +22,6 @@
 open OUnit2
 open Game
 open Pet
-open Command
 
 (*Loading files from data directory*)
 let data_dir_prefix = "data" ^ Filename.dir_sep
@@ -273,6 +266,15 @@ let pet_tests =
         (food_equality
            (get_bad_food cat "chocolate")
            (get_bad_food cat "grapes")) );
+    ( {|food equality of chocolate and biscuit, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_good_food cat "biscuit")) );
+    ( {|food equality of sausage and egg, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality (get_good_food cat "sausage") (get_bad_food cat "egg"))
+    );
     ( {|food equality of milk and milk, should be true|} >:: fun _ ->
       assert_equal true
         (food_equality (get_good_food cat "milk") (get_good_food cat "milk")) );
@@ -303,34 +305,5 @@ let pet_tests =
         (food_amount (update_food_amount (get_good_food cat "sausage"))) );
   ]
 
-(* BELOW CODE COPIED FROM EH538 A2 submission*)
-let parse_test (name : string) (input_str : string) (expected_output : command)
-    : test =
-  name >:: fun _ -> assert_equal expected_output (parse input_str)
-
-let parse_malformed_test (name : string) (input_str : string) : test =
-  name >:: fun _ -> assert_raises Malformed (fun x -> parse input_str)
-
-let parse_empty_test (name : string) (input_str : string) : test =
-  name >:: fun _ -> assert_raises Empty (fun x -> parse input_str)
-
-let command_tests =
-  [
-    parse_test "quit" "quit" Quit;
-    parse_test "feed orange juice" "feed orange juice"
-      (Feed [ "orange"; "juice" ]);
-    parse_test "feed orange juice with excess whitespace"
-      "    feed  orange   juice   "
-      (Feed [ "orange"; "juice" ]);
-    parse_test "feed watermelon" " feed    watermelon    "
-      (Feed [ "watermelon" ]);
-    parse_malformed_test "feed, with nothing after" "  feed    ";
-    parse_malformed_test "quit, with something after" "quit sus";
-    parse_empty_test "empty" "";
-  ]
-
-(* END CODE COPIED FROM EH538 A2 SUBMISSION*)
-let suite =
-  "test suite for final project" >::: List.flatten [ pet_tests; command_tests ]
-
+let suite = "test suite for final project" >::: List.flatten [ pet_tests ]
 let _ = run_test_tt_main suite
