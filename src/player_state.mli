@@ -61,11 +61,9 @@ val init_state : player_state
 (** [init_state] is the initial player state. *)
 
 val print_player_info : player_state -> unit
-
-(** [print_player_info ()] prints the player's name, and coins. *)
-
-(** [print_player_state j] prints the player's name, coins, date, and time from
-    player [j]. Requires: [j] is a valid player representation. *)
+(** [print_player_info] prints all the important information about the player
+    state to the terminal such as the player's name, current date, time, and
+    coin amount. *)
 
 val update_state_from_pet : player_state -> State.state option -> player_state
 (** [update_state_from_pet j s] returns an updated player state by updating the
@@ -73,4 +71,10 @@ val update_state_from_pet : player_state -> State.state option -> player_state
     representation. *)
 
 val get_actions : player_state -> int
+(** [get_actions player_state] returns the amount of actions the player has used
+    such as feed, clean since the game has began. This is used for updating the
+    time / date in the game loop *)
+
 val update_player_action : player_state -> player_state
+(** [update_player_action player_state] returns an updated [player_state] with
+    the number of actions for [player_state] increased by one. *)

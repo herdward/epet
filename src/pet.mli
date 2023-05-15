@@ -112,9 +112,15 @@ val food_equality : food -> food -> bool
     are the same. Returns true if so, and false otherwise. *)
 
 val update_pet_good_food : food -> pet -> pet
+(** [update_pet_good_food food pet] updates the good food list of a [pet] after
+    it has been fed. If a cetrain good [food] has an amount 1 and this function
+    is called, then said food is deleted from good food list from [pet] . *)
+
 val update_pet_bad_food : food -> pet -> pet
+(** [update_pet_nad_food food pet] updates the bad food list of a [pet] after it
+    has been fed. If a cetrain bad [food] has an amount 1 and this function is
+    called, then said food is deleted from bad food list from [pet]. *)
 
 val update_food_amount : food -> food
 (** [update_food_amount f] is food [f], but with its amount attribute changed to
     be amount - 1. *)
-val food_amount : food -> int
