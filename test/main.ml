@@ -249,6 +249,58 @@ let pet_tests =
                   (update_pet_hunger cat
                      (get_food_hunger_effect (get_good_food cat "cod")))
                   "sausage"))) );
+    ( {|food amount of chocolate, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food cat "chocolate")) );
+    ( {|food amount of grapes, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food cat "grapes")) );
+    ( {|food amount of egg, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food cat "egg")) );
+    ( {|food amount of cod, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food cat "cod")) );
+    ( {|food amount of milk, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food cat "milk")) );
+    ( {|food amount of biscuit, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food cat "biscuit")) );
+    ( {|food amount of sausage, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food cat "sausage")) );
+    ( {|food equality of chocolate and chocolate, should be true|} >:: fun _ ->
+      assert_equal true
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_bad_food cat "chocolate")) );
+    ( {|food equality of chocolate and grapes, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_bad_food cat "grapes")) );
+    ( {|food equality of milk and milk, should be true|} >:: fun _ ->
+      assert_equal true
+        (food_equality (get_good_food cat "milk") (get_good_food cat "milk")) );
+    ( {|food equality of milk and biscuit, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality (get_good_food cat "milk") (get_good_food cat "biscuit"))
+    );
+    ( {|update_food_amount for chocolate, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food cat "chocolate"))) );
+    ( {|update_food_amount for grapes, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food cat "grapes"))) );
+    ( {|update_food_amount for egg, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2 (food_amount (update_food_amount (get_bad_food cat "egg")))
+    );
+    ( {|update_food_amount for cod, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food cat "cod"))) );
+    ( {|update_food_amount for milk, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food cat "milk"))) );
+    ( {|update_food_amount for biscuit, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food cat "biscuit"))) );
+    ( {|update_food_amount for sausage, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food cat "sausage"))) );
   ]
 
 (* BELOW CODE COPIED FROM EH538 A2 submission*)

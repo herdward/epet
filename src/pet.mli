@@ -79,3 +79,5 @@ val update_pet_hunger : pet -> int -> pet
 val update_pet_good_food : food -> pet -> pet
 val update_pet_bad_food : food -> pet -> pet
 val food_equality : food -> food -> bool
+val food_amount : food -> int
+val update_food_amount : food -> food
