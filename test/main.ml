@@ -1,187 +1,387 @@
+(**Test plan: We had two main approaches to testing our system. The first
+   approach were the OUnit tests, which tested the correctness of our functions.
+   The second approach was manual testing, which tested the functionality of our
+   system. We mainly tested our functions using OUnit, namely its assert_equals
+   function. Our tests test the functions in module Pet, which deals with
+   reading information from a JSON file to form the pet. These test cases were
+   developed so that the information read from JSON was what we expected. Also,
+   for functions in the Pet module that changed some of the pet's stats after an
+   action, we made sure the change in the pet's stats matched our expectations.
+   Our testing approach demonstrates the correctness of the system because it
+   ensures that information is being read correctly from the JSON file, as well
+   as any action conducted on the pet produces the correct changes in the pet.
+
+   With regards to manual testing, we tested the functionality of our system by
+   tweaking the initial values of a pet's stats in the JSON file and seeing if
+   the expected behavior was shown in the game. For example, if we set the
+   initial hunger of the pet to 0, then feeding should not have an effect on the
+   hunger. Similarly, if the pet was already healthy, then feeding would not
+   increment it past the capacity (100). We also tested to make sure that the
+   floor and ceiling of the pet's stats were respected. *)
+
 open OUnit2
 open Game
 open Pet
-open Command
-
-(********************************************************************
-   Here are some helper functions for your testing of set-like lists.
- ********************************************************************)
-
-(** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
-    equivalent set-like lists. That means checking two things. First, they must
-    both be "set-like", meaning that they do not contain any duplicates. Second,
-    they must contain the same elements, though not necessarily in the same
-    order. *)
-let cmp_set_like_lists lst1 lst2 =
-  let uniq1 = List.sort_uniq compare lst1 in
-  let uniq2 = List.sort_uniq compare lst2 in
-  List.length lst1 = List.length uniq1
-  && List.length lst2 = List.length uniq2
-  && uniq1 = uniq2
-
-(** [pp_string s] pretty-prints string [s]. *)
-let pp_string s = "\"" ^ s ^ "\""
-
-(** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt] to
-    pretty-print each element of [lst]. *)
-let pp_list pp_elt lst =
-  let pp_elts lst =
-    let rec loop n acc = function
-      | [] -> acc
-      | [ h ] -> acc ^ pp_elt h
-      | h1 :: (h2 :: t as t') ->
-          if n = 100 then acc ^ "..." (* stop printing long list *)
-          else loop (n + 1) (acc ^ pp_elt h1 ^ "; ") t'
-    in
-    loop 0 "" lst
-  in
-  "[" ^ pp_elts lst ^ "]"
-
-(* These tests demonstrate how to use [cmp_set_like_lists] and [pp_list] to get
-   helpful output from OUnit. *)
-let cmp_demo =
-  [
-    ( "order is irrelevant" >:: fun _ ->
-      assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-        [ "foo"; "bar" ] [ "bar"; "foo" ] )
-    (* Uncomment this test to see what happens when a test case fails.
-       "duplicates not allowed" >:: (fun _ -> assert_equal
-       ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string) ["foo"; "foo"]
-       ["foo"]); *);
-  ]
-
-(********************************************************************
-       End helper functions.
- ********************************************************************)
 
 (*Loading files from data directory*)
 let data_dir_prefix = "data" ^ Filename.dir_sep
+let sample2 = Yojson.Basic.from_file (data_dir_prefix ^ "samplejson2.json")
 let sample = Yojson.Basic.from_file (data_dir_prefix ^ "samplejson.json")
-let cat = get_pet (pets_of_json sample) "cat"
+let cat = get_pet (pets_of_json sample2) "cat"
+let ocat = get_pet (pets_of_json sample) "cat"
 
 let pet_tests =
   [
-    ( {|name of cat in samplejson.json, should be "cat"|} >:: fun _ ->
+    ( {|name of cat in samplejson2.json, should be "cat"|} >:: fun _ ->
       assert_equal "cat" (get_name cat) );
-    ( {|health of cat in samplejson.json, should be 100|} >:: fun _ ->
-      assert_equal 100 (get_health cat) );
-    ( {|gender of cat in samplejson.json, should be male|} >:: fun _ ->
+    ( {|health of cat in samplejson2.json, should be 100|} >:: fun _ ->
+      assert_equal 99 (get_health cat) );
+    ( {|gender of cat in samplejson2.json, should be male|} >:: fun _ ->
       assert_equal "male" (get_gender cat) );
-    ( {|hunger of cat in samplejson.json, should be 10|} >:: fun _ ->
-      assert_equal 10 (get_hunger cat) );
-    ( {|description of samplejson.json, should be "cat says: 'nice to meet you' in cat language. It looks hungry!"|}
+    ( {|hunger of cat in samplejson2.json, should be 5|} >:: fun _ ->
+      assert_equal 5 (get_hunger cat) );
+    ( {|description of samplejson2.json, should be "cat says: 'nice to meet you' in cat language. It looks hungry!"|}
     >:: fun _ ->
       assert_equal
         "cat says: 'nice to meet you' in cat language. It looks hungry!"
         (get_description cat) );
-    ( {|a bad food of cat in samplejson.json with input "chocolate", should be "chocolate"|}
+    ( {|a bad food of cat in samplejson2.json with input "chocolate", should be "chocolate"|}
     >:: fun _ ->
       assert_equal "chocolate"
         (get_bad_food_name (get_bad_food cat "chocolate")) );
-    ( {|a bad food of cat in samplejson.json with input "grapes", should be "grapes"|}
+    ( {|a bad food of cat in samplejson2.json with input "grapes", should be "grapes"|}
     >:: fun _ ->
       assert_equal "grapes" (get_bad_food_name (get_bad_food cat "grapes")) );
-    ( {|a bad food of cat in samplejson.json with input "egg", should be "egg"|}
+    ( {|a bad food of cat in samplejson2.json with input "egg", should be "egg"|}
     >:: fun _ -> assert_equal "egg" (get_bad_food_name (get_bad_food cat "egg"))
     );
-    ( {|cat's chocolate effect in samplejson.json, should be -10|} >:: fun _ ->
+    ( {|cat's chocolate effect in samplejson2.json, should be -10|} >:: fun _ ->
       assert_equal (-10) (get_bad_food_effect (get_bad_food cat "chocolate")) );
-    ( {|cat's grapes effect in samplejson.json, should be -8|} >:: fun _ ->
+    ( {|cat's grapes effect in samplejson2.json, should be -8|} >:: fun _ ->
       assert_equal (-8) (get_bad_food_effect (get_bad_food cat "grapes")) );
-    ( {|cat's egg effect in samplejson.json, should be -5|} >:: fun _ ->
+    ( {|cat's egg effect in samplejson2.json, should be -5|} >:: fun _ ->
       assert_equal (-5) (get_bad_food_effect (get_bad_food cat "egg")) );
-    ( {|a good food of cat in samplejson.json with input "cod", should be "cod"|}
+    ( {|a good food of cat in samplejson2.json with input "cod", should be "cod"|}
     >:: fun _ ->
       assert_equal "cod" (get_good_food_name (get_good_food cat "cod")) );
-    ( {|a good food of cat in samplejson.json with input "milk", should be "milk"|}
+    ( {|a good food of cat in samplejson2.json with input "milk", should be "milk"|}
     >:: fun _ ->
       assert_equal "milk" (get_good_food_name (get_good_food cat "milk")) );
-    ( {|a good food of cat in samplejson.json with input "biscuit", should be "biscuit"|}
+    ( {|a good food of cat in samplejson2.json with input "biscuit", should be "biscuit"|}
     >:: fun _ ->
       assert_equal "biscuit" (get_good_food_name (get_good_food cat "biscuit"))
     );
-    ( {|a good food of cat in samplejson.json with input "sausage", should be "sausage"|}
+    ( {|a good food of cat in samplejson2.json with input "sausage", should be "sausage"|}
     >:: fun _ ->
       assert_equal "sausage" (get_good_food_name (get_good_food cat "sausage"))
     );
-    ( {|cat's cod effect in samplejson.json, should be 5|} >:: fun _ ->
+    ( {|cat's cod effect in samplejson2.json, should be 5|} >:: fun _ ->
       assert_equal 5 (get_good_food_effect (get_good_food cat "cod")) );
-    ( {|cat's milk effect in samplejson.json, should be 3|} >:: fun _ ->
+    ( {|cat's milk effect in samplejson2.json, should be 3|} >:: fun _ ->
       assert_equal 3 (get_good_food_effect (get_good_food cat "milk")) );
-    ( {|cat's biscuit effect in samplejson.json, should be 1|} >:: fun _ ->
+    ( {|cat's biscuit effect in samplejson2.json, should be 1|} >:: fun _ ->
       assert_equal 1 (get_good_food_effect (get_good_food cat "biscuit")) );
-    ( {|cat's sausage effect in samplejson.json, should be 2|} >:: fun _ ->
+    ( {|cat's sausage effect in samplejson2.json, should be 2|} >:: fun _ ->
       assert_equal 2 (get_good_food_effect (get_good_food cat "sausage")) );
-    ( {|cat's health after being fed chocolate, should be 90|} >:: fun _ ->
-      assert_equal 90
-        (get_health
-           (update_pet_health cat
-              (get_bad_food_effect (get_bad_food cat "chocolate")))) );
-    ( {|cat's health after being fed grapes, should be 92|} >:: fun _ ->
-      assert_equal 92
-        (get_health
-           (update_pet_health cat
-              (get_bad_food_effect (get_bad_food cat "grapes")))) );
-    ( {|cat's health after being fed egg, should be 95|} >:: fun _ ->
-      assert_equal 95
-        (get_health
-           (update_pet_health cat
-              (get_bad_food_effect (get_bad_food cat "egg")))) );
-    ( {|cat's health after being fed cod, should be 105|} >:: fun _ ->
-      assert_equal 105
+    ( {|cat's health after being fed cod and biscuit, with health = 99, should
+       raise AlreadyHealthy exception|}
+    >:: fun _ ->
+      assert_raises AlreadyHealthy (fun () ->
+          get_health
+            (update_pet_health
+               (update_pet_health cat
+                  (get_good_food_effect (get_good_food cat "cod")))
+               (get_good_food_effect
+                  (get_good_food
+                     (update_pet_health cat
+                        (get_good_food_effect (get_good_food cat "cod")))
+                     "biscuit")))) );
+    ( {|cat's health after being fed cod and chocolate, with health = 99, should
+       raise AlreadyHealthy exception|}
+    >:: fun _ ->
+      assert_raises AlreadyHealthy (fun () ->
+          get_health
+            (update_pet_health
+               (update_pet_health cat
+                  (get_good_food_effect (get_good_food cat "cod")))
+               (get_bad_food_effect
+                  (get_bad_food
+                     (update_pet_health cat
+                        (get_good_food_effect (get_good_food cat "cod")))
+                     "chocolate")))) );
+    ( {|cat's health after being fed cod, with health = 99, should be 100|}
+    >:: fun _ ->
+      assert_equal 100
         (get_health
            (update_pet_health cat
               (get_good_food_effect (get_good_food cat "cod")))) );
-    ( {|cat's health after being fed milk, should be 103|} >:: fun _ ->
-      assert_equal 103
-        (get_health
-           (update_pet_health cat
-              (get_good_food_effect (get_good_food cat "milk")))) );
-    ( {|cat's health after being fed biscuit, should be 101|} >:: fun _ ->
-      assert_equal 101
+    ( {|cat's health after being fed biscuit, with health = 99, should be 100|}
+    >:: fun _ ->
+      assert_equal 100
         (get_health
            (update_pet_health cat
               (get_good_food_effect (get_good_food cat "biscuit")))) );
-    ( {|cat's health after being fed sausage, should be 102|} >:: fun _ ->
-      assert_equal 102
+    ( {|ocat's health after being fed chocolate, health = 28, should be 18|}
+    >:: fun _ ->
+      assert_equal 18
         (get_health
-           (update_pet_health cat
-              (get_good_food_effect (get_good_food cat "sausage")))) );
-    ( {|cat's hygiene after being bathed, should be 125|} >:: fun _ ->
-      assert_equal 125 (get_hygiene (update_pet_hygiene cat 25)) );
-    ( {|cat's hygiene after being brushed, should be 110|} >:: fun _ ->
-      assert_equal 110 (get_hygiene (update_pet_hygiene cat 10)) );
+           (update_pet_health ocat
+              (get_bad_food_effect (get_bad_food ocat "chocolate")))) );
+    ( {|ocat's health after being fed grapes, health = 28, should be 20|}
+    >:: fun _ ->
+      assert_equal 20
+        (get_health
+           (update_pet_health ocat
+              (get_bad_food_effect (get_bad_food ocat "grapes")))) );
+    ( {|ocat's health after being fed egg, should be 23|} >:: fun _ ->
+      assert_equal 23
+        (get_health
+           (update_pet_health ocat
+              (get_bad_food_effect (get_bad_food ocat "egg")))) );
+    ( {|ocat's health after being fed cod, should be 33|} >:: fun _ ->
+      assert_equal 33
+        (get_health
+           (update_pet_health ocat
+              (get_good_food_effect (get_good_food ocat "cod")))) );
+    ( {|ocat's health after being fed milk, should be 31|} >:: fun _ ->
+      assert_equal 31
+        (get_health
+           (update_pet_health ocat
+              (get_good_food_effect (get_good_food ocat "milk")))) );
+    ( {|ocat's health after being fed biscuit, should be 29|} >:: fun _ ->
+      assert_equal 29
+        (get_health
+           (update_pet_health ocat
+              (get_good_food_effect (get_good_food ocat "biscuit")))) );
+    ( {|ocat's health after being fed sausage, should be 30|} >:: fun _ ->
+      assert_equal 30
+        (get_health
+           (update_pet_health ocat
+              (get_good_food_effect (get_good_food ocat "sausage")))) );
+    ( {|cat's hygiene after being bathed, when cat hygiene = 100, should raise AlreadyClean exception|}
+    >:: fun _ ->
+      assert_raises AlreadyClean (fun () ->
+          get_hygiene (update_pet_hygiene cat 25)) );
+    ( {|ocat's hygiene after being brushed, should be 71|} >:: fun _ ->
+      assert_equal 71 (get_hygiene (update_pet_hygiene ocat 10)) );
+    ( {|ocat's hygiene after being cleaned a lot (testing the min function), should be 100|}
+    >:: fun _ -> assert_equal 100 (get_hygiene (update_pet_hygiene ocat 50)) );
+    ( {|ocat's hygiene after being cleaned a lot (testing the min function), should be 100|}
+    >:: fun _ -> assert_equal 100 (get_hygiene (update_pet_hygiene ocat 39)) );
+    ( {|cat's chocolate hunger effect in samplejson2.json, should be 2|}
+    >:: fun _ ->
+      assert_equal 2 (get_food_hunger_effect (get_bad_food cat "chocolate")) );
+    ( {|cat's grapes hunger effect in samplejson2.json, should be 2|}
+    >:: fun _ ->
+      assert_equal 2 (get_food_hunger_effect (get_bad_food cat "grapes")) );
+    ( {|cat's egg hunger effect in samplejson.2json, should be 3|} >:: fun _ ->
+      assert_equal 3 (get_food_hunger_effect (get_bad_food cat "egg")) );
+    ( {|cat's cod hunger effect in samplejson2.json, should be 5|} >:: fun _ ->
+      assert_equal 5 (get_food_hunger_effect (get_good_food cat "cod")) );
+    ( {|cat's milk hunger effect in samplejson2.json, should be 4|} >:: fun _ ->
+      assert_equal 4 (get_food_hunger_effect (get_good_food cat "milk")) );
+    ( {|cat's biscuit hunger effect in samplejson2.json, should be 7|}
+    >:: fun _ ->
+      assert_equal 7 (get_food_hunger_effect (get_good_food cat "biscuit")) );
+    ( {|cat's sausage hunger effect in samplejson2.json, should be 8|}
+    >:: fun _ ->
+      assert_equal 8 (get_food_hunger_effect (get_good_food cat "sausage")) );
+    ( {|ocat's hunger after being fed chocolate, should be 50|} >:: fun _ ->
+      assert_equal 50
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_bad_food ocat "chocolate")))) );
+    ( {|ocat's hunger after being fed grapes, should be 50|} >:: fun _ ->
+      assert_equal 50
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_bad_food ocat "grapes")))) );
+    ( {|ocat's hunger after being fed egg, should be 49|} >:: fun _ ->
+      assert_equal 49
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_bad_food ocat "egg")))) );
+    ( {|ocat's hunger after being fed cod, should be 47|} >:: fun _ ->
+      assert_equal 47
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_good_food ocat "cod")))) );
+    ( {|ocat's hunger after being fed milk, should be 48|} >:: fun _ ->
+      assert_equal 48
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_good_food ocat "milk")))) );
+    ( {|ocat's hunger after being fed biscuit, should be 45|} >:: fun _ ->
+      assert_equal 45
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_good_food ocat "biscuit")))) );
+    ( {|ocat's hunger after being fed sausage, should be 44|} >:: fun _ ->
+      assert_equal 44
+        (get_hunger
+           (update_pet_hunger ocat
+              (get_food_hunger_effect (get_good_food ocat "sausage")))) );
+    ( {|cat's hunger after being fed cod, should be 0|} >:: fun _ ->
+      assert_equal 0
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "cod")))) );
+    ( {|cat's hunger after being fed sausage, should be 0|} >:: fun _ ->
+      assert_equal 0
+        (get_hunger
+           (update_pet_hunger cat
+              (get_food_hunger_effect (get_good_food cat "sausage")))) );
+    ( {|cat's hunger after being fed cod and sausage, should raise AlreadyFull exception|}
+    >:: fun _ ->
+      assert_raises AlreadyFull (fun () ->
+          update_pet_hunger
+            (update_pet_hunger cat
+               (get_food_hunger_effect (get_good_food cat "cod")))
+            (get_food_hunger_effect
+               (get_good_food
+                  (update_pet_hunger cat
+                     (get_food_hunger_effect (get_good_food cat "cod")))
+                  "sausage"))) );
+    ( {|food amount of chocolate, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food ocat "chocolate")) );
+    ( {|food amount of grapes, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food ocat "grapes")) );
+    ( {|food amount of egg, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_bad_food ocat "egg")) );
+    ( {|food amount of cod, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food ocat "cod")) );
+    ( {|food amount of milk, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food ocat "milk")) );
+    ( {|food amount of biscuit, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food ocat "biscuit")) );
+    ( {|food amount of sausage, should be 3|} >:: fun _ ->
+      assert_equal 3 (food_amount (get_good_food ocat "sausage")) );
+    ( {|food equality of chocolate and chocolate, should be true|} >:: fun _ ->
+      assert_equal true
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_bad_food cat "chocolate")) );
+    ( {|food equality of chocolate and grapes, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_bad_food cat "grapes")) );
+    ( {|food equality of chocolate and biscuit, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality
+           (get_bad_food cat "chocolate")
+           (get_good_food cat "biscuit")) );
+    ( {|food equality of sausage and egg, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality (get_good_food cat "sausage") (get_bad_food cat "egg"))
+    );
+    ( {|food equality of milk and milk, should be true|} >:: fun _ ->
+      assert_equal true
+        (food_equality (get_good_food cat "milk") (get_good_food cat "milk")) );
+    ( {|food equality of milk and biscuit, should be false|} >:: fun _ ->
+      assert_equal false
+        (food_equality (get_good_food cat "milk") (get_good_food cat "biscuit"))
+    );
+    ( {|update_food_amount for chocolate, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food ocat "chocolate"))) );
+    ( {|update_food_amount for grapes, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food ocat "grapes"))) );
+    ( {|update_food_amount for egg, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food ocat "egg"))) );
+    ( {|update_food_amount for cod, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food ocat "cod"))) );
+    ( {|update_food_amount for milk, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food ocat "milk"))) );
+    ( {|update_food_amount for biscuit, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food ocat "biscuit"))) );
+    ( {|update_food_amount for sausage, food_amount should be 2|} >:: fun _ ->
+      assert_equal 2
+        (food_amount (update_food_amount (get_good_food ocat "sausage"))) );
+    ( {| update food amount for sausage two times, food amount should be 1|}
+    >:: fun _ ->
+      assert_equal 1
+        (food_amount
+           (update_food_amount
+              (update_food_amount (get_good_food ocat "sausage")))) );
+    ( {| update food amount for sausage three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "sausage"))))) );
+    ( {| update food amount for cod three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "cod"))))) );
+    ( {| update food amount for milk three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_good_food ocat "milk"))))) );
+    ( {| update food amount for chocolate three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "chocolate"))))) );
+    ( {| update food amount for grapes three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "grapes"))))) );
+    ( {| update food amount for egg three times, food amount should be 0 |}
+    >:: fun _ ->
+      assert_equal 0
+        (food_amount
+           (update_food_amount
+              (update_food_amount
+                 (update_food_amount (get_bad_food ocat "egg"))))) );
+    ( {|update_pet_good_food for cod, good_foods should be still have cod|}
+    >:: fun _ ->
+      assert_equal
+        (food_amount (update_food_amount (get_good_food cat "cod")))
+        (food_amount
+           (get_good_food
+              (update_pet_good_food (get_good_food cat "cod") cat)
+              "cod")) );
+    ( {|update_pet_good_food for cod, good_foods should be not have biscuit|}
+    >:: fun _ ->
+      assert_raises Not_found (fun () ->
+          food_amount
+            (get_good_food
+               (update_pet_good_food (get_good_food cat "biscuit") cat)
+               "biscuit")) );
+    ( {|update_pet_bad_food for grapes, bad_foods should be still have grapes|}
+    >:: fun _ ->
+      assert_equal
+        (food_amount (update_food_amount (get_bad_food cat "grapes")))
+        (food_amount
+           (get_bad_food
+              (update_pet_bad_food (get_bad_food cat "grapes") cat)
+              "grapes")) );
+    ( {|update_pet_bad_food for chocolate, bad_foods should be not have chocolate|}
+    >:: fun _ ->
+      assert_raises Not_found (fun () ->
+          food_amount
+            (get_bad_food
+               (update_pet_bad_food (get_bad_food cat "chocolate") cat)
+               "chocolate")) );
   ]
 
-(* BELOW CODE COPIED FROM EH538 A2 submission*)
-let parse_test (name : string) (input_str : string) (expected_output : command)
-    : test =
-  name >:: fun _ -> assert_equal expected_output (parse input_str)
-
-let parse_malformed_test (name : string) (input_str : string) : test =
-  name >:: fun _ -> assert_raises Malformed (fun x -> parse input_str)
-
-let parse_empty_test (name : string) (input_str : string) : test =
-  name >:: fun _ -> assert_raises Empty (fun x -> parse input_str)
-
-let command_tests =
-  [
-    parse_test "quit" "quit" Quit;
-    parse_test "feed orange juice" "feed orange juice"
-      (Feed [ "orange"; "juice" ]);
-    parse_test "feed orange juice with excess whitespace"
-      "    feed  orange   juice   "
-      (Feed [ "orange"; "juice" ]);
-    parse_test "feed watermelon" " feed    watermelon    "
-      (Feed [ "watermelon" ]);
-    parse_malformed_test "feed, with nothing after" "  feed    ";
-    parse_malformed_test "quit, with something after" "quit sus";
-    parse_empty_test "empty" "";
-  ]
-
-(* END CODE COPIED FROM EH538 A2 SUBMISSION*)
-let suite =
-  "test suite for final project"
-  >::: List.flatten [ cmp_demo; pet_tests; command_tests ]
-
-let _ = run_test_tt_main suite
+let suite = "test suite for final project" >::: List.flatten [ pet_tests ]
+let () = run_test_tt_main suite

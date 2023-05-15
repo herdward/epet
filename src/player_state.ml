@@ -6,11 +6,7 @@ type time =
   | Afternoon
   | Evening
 
-type coin = {
-  gold_amount : int;
-  silver_amount : int;
-  total_coin : int;
-}
+type coin = int
 
 type date = {
   month_name : string;
@@ -20,11 +16,29 @@ type date = {
   time : time;
 }
 
-type player = {
+type player_state = {
   name : string;
   coins : coin;
   date : date;
+  pet_state : State.state option;
+  numer_of_actions : int;
 }
+
+let init_state =
+  {
+    name = "Unamed Player";
+    coins = 40;
+    date =
+      {
+        month_name = "Jan";
+        month_int = 1;
+        day_number = 1;
+        year = 2020;
+        time = Morning;
+      };
+    pet_state = Some State.init_state;
+    numer_of_actions = 0;
+  }
 
 let date_info_from_json j n =
   int_of_string
@@ -67,14 +81,7 @@ let date_of_json j =
   }
 
 let coin_of_json j =
-  {
-    gold_amount =
-      j |> Yojson.Basic.Util.member "silver coins" |> Yojson.Basic.Util.to_int;
-    silver_amount =
-      j |> Yojson.Basic.Util.member "gold coins" |> Yojson.Basic.Util.to_int;
-    total_coin =
-      j |> Yojson.Basic.Util.member "total coins" |> Yojson.Basic.Util.to_int;
-  }
+  j |> Yojson.Basic.Util.member "total_coins" |> Yojson.Basic.Util.to_int
 
 let player_from_json (j : Yojson.Basic.t) =
   {
@@ -82,12 +89,12 @@ let player_from_json (j : Yojson.Basic.t) =
       j |> Yojson.Basic.Util.member "player_name" |> Yojson.Basic.Util.to_string;
     coins = coin_of_json j;
     date = date_of_json j;
+    pet_state = None;
+    numer_of_actions = 0;
   }
 
 let player_name p = p.name
-let player_coins_total coin = coin.coins.total_coin
-let player_gold_total coin = coin.coins.gold_amount
-let player_silver_total coin = coin.coins.silver_amount
+let player_coins_total coin = coin.coins
 
 let time_to_string player =
   match player.date.time with
@@ -101,17 +108,35 @@ let date_to_string player =
   ^ " "
   ^ string_of_int player.date.year
 
+let print_player_info player =
+  ANSITerminal.print_string [ ANSITerminal.green ] "Player Name: ";
+  match player.name with
+  | name ->
+      ANSITerminal.print_string [ ANSITerminal.green ] (name ^ " |");
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" Coins: " ^ string_of_int player.coins);
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" | Date : " ^ date_to_string player);
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" | Time : " ^ time_to_string player);
+      print_endline ""
+
 let update_time time =
   match time with
   | Morning -> Afternoon
   | Afternoon -> Evening
   | Evening -> Afternoon
 
-let update_month_int date =
-  if date.month_int < 12 then 1 else date.month_int + 1
+let get_actions player = player.numer_of_actions
+let should_year_be_updated a : bool = if a + 1 >= 13 then true else false
+let should_month_be_updated a : bool = if a + 1 > 30 then true else false
 
-let update_player_date player =
-  if player.date.day_number < 30 then
+let update_player_date (player : player_state) =
+  if
+    (should_month_be_updated player.date.month_int
+    && should_year_be_updated player.date.year)
+    == false
+  then
     {
       name = player.name;
       coins = player.coins;
@@ -123,6 +148,26 @@ let update_player_date player =
           year = player.date.year;
           time = player.date.time;
         };
+      pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
+    }
+  else if
+    should_month_be_updated player.date.month_int
+    && not (should_year_be_updated player.date.year)
+  then
+    {
+      name = player.name;
+      coins = player.coins;
+      date =
+        {
+          month_name = month_name (player.date.month_int + 1);
+          month_int = player.date.month_int + 1;
+          day_number = 0;
+          year = player.date.year;
+          time = player.date.time;
+        };
+      pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
     }
   else
     {
@@ -130,12 +175,14 @@ let update_player_date player =
       coins = player.coins;
       date =
         {
-          month_name = month_name (update_month_int player.date);
-          month_int = update_month_int player.date;
-          day_number = player.date.day_number;
-          year = player.date.year;
+          month_name = "Jan";
+          month_int = player.date.month_int;
+          day_number = 1;
+          year = player.date.year + 1;
           time = player.date.time;
         };
+      pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
     }
 
 let update_player_time player =
@@ -146,8 +193,30 @@ let update_player_time player =
       {
         month_name = player.date.month_name;
         month_int = player.date.month_int;
-        day_number = player.date.day_number + 1;
+        day_number = player.date.day_number;
         year = player.date.year;
         time = update_time player.date.time;
       };
+    pet_state = player.pet_state;
+    numer_of_actions = player.numer_of_actions;
   }
+
+let update_player_action player =
+  {
+    name = player.name;
+    coins = player.coins;
+    date =
+      {
+        month_name = player.date.month_name;
+        month_int = player.date.month_int;
+        day_number = player.date.day_number;
+        year = player.date.year;
+        time = update_time player.date.time;
+      };
+    pet_state = player.pet_state;
+    numer_of_actions = player.numer_of_actions + 1;
+  }
+
+let update_state_from_pet player_state pet_state =
+  match player_state with
+  | state -> { state with pet_state }
