@@ -18,7 +18,8 @@ let save_game_state player =
         ("total_coins", `Int (player_coins_total player));
         ("day", `String (string_of_int player.date.day_number));
         ("date", `String (date_to_string player));
-        ("Time", `String (time_to_string player));
+        ("time", `String (time_to_string player));
+        ("number of actions", `Int (get_actions player));
       ]
   in
   let updated_json = to_string save_data in
@@ -248,12 +249,15 @@ let init_pet_state = State.init_state
 
 (* Function to prompt the user to select a pet *)
 
-let rec select_pet (state : State.state) : State.state =
+let rec select_pet (state : State.state) (player : Player_state.player_state) :
+    State.state =
   print_string "\n Please type the name of the pet you would like to check on.";
   print_string "You can currently check on: cat\n> ";
   (* right now this is just hardcoded but may need to change*)
   match Stdlib.read_line () with
-  | "quit" -> Unix._exit 0
+  | "quit" ->
+      save_game_state player;
+      Unix._exit 0
   | petname -> (
       try
         let pet = Pet.get_pet pet_list petname in
@@ -277,11 +281,11 @@ let rec select_pet (state : State.state) : State.state =
       | Not_found ->
           ANSITerminal.print_string [ ANSITerminal.red ]
             "That pet does not exist. Please try again.\n";
-          select_pet state
+          select_pet state player
       | exc ->
           ANSITerminal.print_string [ ANSITerminal.red ]
             "\nAn error occurred while selecting a pet. Please try again.\n";
-          select_pet state)
+          select_pet state player)
   | exception End_of_file -> exit 0
 
 let select_action (player : Player_state.player_state) (state : State.state) :
@@ -331,7 +335,9 @@ let select_action (player : Player_state.player_state) (state : State.state) :
               in
               new_state
         end
-      | "quit" -> Unix._exit 0
+      | "quit" ->
+          save_game_state player;
+          Unix._exit 0
       | _ ->
           ANSITerminal.print_string [ ANSITerminal.red ]
             "\nThat action does not exist. Please try again.";
@@ -350,7 +356,7 @@ let rec pet_game_loop (state : State.state)
     (*wrap select_pet state into a promise that is already resolved so it can
       call back to pet_game_loop. The reason why this is done in convoluted way
       is because the output has to be Lwt.t *)
-    select_pet state |> Lwt.return >>= fun new_state ->
+    select_pet state player_state |> Lwt.return >>= fun new_state ->
     pet_game_loop new_state player_state)
   else (
     (* a pet is already selected *)
@@ -405,7 +411,7 @@ let rec player_game_loop (player_state : Player_state.player_state) : unit Lwt.t
     | None ->
         (* means that the pet state is currently empty, no pet has been selected yet*)
         (* create a new pet state, and update player state accordingly*)
-        let new_pet_state = Some (select_pet init_pet_state) in
+        let new_pet_state = Some (select_pet init_pet_state player_state) in
         let new_player_state =
           { player_state with pet_state = new_pet_state }
         in
@@ -413,7 +419,7 @@ let rec player_game_loop (player_state : Player_state.player_state) : unit Lwt.t
            player_state*)
         select_pet init_pet_state |> Lwt.return >>= fun pet_state ->
         let new_player_state =
-          { new_player_state with pet_state = Some pet_state }
+          { new_player_state with pet_state = Some (pet_state player_state) }
         in
         player_game_loop new_player_state
     | Some old_pet_state ->
