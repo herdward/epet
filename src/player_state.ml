@@ -124,13 +124,16 @@ let update_time time =
   | Afternoon -> Evening
   | Evening -> Afternoon
 
-let update_month_int date =
-  if date.month_int < 12 then 1 else date.month_int + 1
-
 let get_actions player = player.numer_of_actions
+let should_year_be_updated a : bool = if a + 1 >= 13 then true else false
+let should_month_be_updated a : bool = if a + 1 > 30 then true else false
 
-let update_player_date player =
-  if player.date.day_number < 30 then
+let update_player_date (player : player_state) =
+  if
+    (should_month_be_updated player.date.month_int
+    && should_year_be_updated player.date.year)
+    == false
+  then
     {
       name = player.name;
       coins = player.coins;
@@ -145,16 +148,34 @@ let update_player_date player =
       pet_state = player.pet_state;
       numer_of_actions = player.numer_of_actions;
     }
+  else if
+    should_month_be_updated player.date.month_int
+    && not (should_year_be_updated player.date.year)
+  then
+    {
+      name = player.name;
+      coins = player.coins;
+      date =
+        {
+          month_name = month_name (player.date.month_int + 1);
+          month_int = player.date.month_int + 1;
+          day_number = 0;
+          year = player.date.year;
+          time = player.date.time;
+        };
+      pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
+    }
   else
     {
       name = player.name;
       coins = player.coins;
       date =
         {
-          month_name = month_name (update_month_int player.date);
-          month_int = update_month_int player.date;
-          day_number = player.date.day_number;
-          year = player.date.year;
+          month_name = "Jan";
+          month_int = player.date.month_int;
+          day_number = 1;
+          year = player.date.year + 1;
           time = player.date.time;
         };
       pet_state = player.pet_state;
