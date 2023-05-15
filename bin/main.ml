@@ -287,8 +287,6 @@ let rec select_pet (state : State.state) : State.state =
 let select_action (player : Player_state.player_state) (state : State.state) :
     State.state =
   ANSITerminal.print_string [ ANSITerminal.yellow ]
-    (Player_state.date_to_string player);
-  ANSITerminal.print_string [ ANSITerminal.yellow ]
     "\nWhat would you like to do? \n";
   ANSITerminal.print_string [ ANSITerminal.yellow ]
     "\n The available actions are:";
