@@ -284,7 +284,10 @@ let rec select_pet (state : State.state) : State.state =
           select_pet state)
   | exception End_of_file -> exit 0
 
-let select_action (state : State.state) : State.state =
+let select_action (player : Player_state.player_state) (state : State.state) :
+    State.state =
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    (Player_state.date_to_string player);
   ANSITerminal.print_string [ ANSITerminal.yellow ]
     "\nWhat would you like to do? \n";
   ANSITerminal.print_string [ ANSITerminal.yellow ]
@@ -357,7 +360,7 @@ let rec pet_game_loop (state : State.state)
       ("You are currently checking on " ^ State.get_pet_name state ^ "\n");
     (* callback function that updates the player state from the updated pet
        state as a result of running select_action state*)
-    select_action state |> Lwt.return >>= fun new_pet_state ->
+    select_action player_state state |> Lwt.return >>= fun new_pet_state ->
     let new_player_state =
       if
         Player_state.get_actions
