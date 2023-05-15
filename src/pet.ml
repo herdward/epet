@@ -147,18 +147,18 @@ let rec update_bad_food food acc (bad_foods : food list) =
   | [] -> acc
   | a :: b ->
       if food_equality a food then
-        if food_amount food == 1 then update_bad_food food acc bad_foods
-        else update_food_amount a :: update_bad_food food acc bad_foods
-      else update_bad_food food acc b
+        if food_amount food == 1 then update_bad_food food acc b
+        else update_food_amount a :: update_bad_food food acc b
+      else a :: update_bad_food food acc b
 
 let rec update_good_food food acc (good_foods : food list) =
   match good_foods with
   | [] -> acc
   | a :: b ->
       if food_equality a food then
-        if food_amount food == 1 then update_good_food food acc good_foods
-        else update_food_amount a :: update_good_food food acc good_foods
-      else update_good_food food acc b
+        if food_amount food == 1 then update_good_food food acc b
+        else update_food_amount a :: update_good_food food acc b
+      else a :: update_good_food food acc b
 
 let update_pet_good_food food pet =
   {

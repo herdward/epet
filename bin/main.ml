@@ -125,6 +125,8 @@ let good_food_result food pet =
                 (Pet.get_good_food updated_health_pet food)))
       in
       ANSITerminal.print_string [ ANSITerminal.green ]
+        (string_of_int (food_amount (get_good_food pet food)));
+      ANSITerminal.print_string [ ANSITerminal.green ]
         ("\nYou selected to feed " ^ Pet.get_name pet ^ " with "
         ^ Pet.get_good_food_name (Pet.get_good_food pet food));
       print_endline
@@ -148,12 +150,14 @@ let good_food_result food pet =
         ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
         ^ string_of_int (Pet.get_health updated_pet - Pet.get_health pet)
         ^ " " ^ "health" ^ "\n");
+
       updated_pet
   with Pet.AlreadyHealthy ->
     let updated_health_pet = pet in
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("\nOops! " ^ Pet.get_name pet
      ^ " is already healthy. No change in health.\n");
+
     if Pet.get_hunger updated_health_pet = 0 then begin
       ANSITerminal.print_string [ ANSITerminal.red ]
         ("\nOops! " ^ Pet.get_name pet
