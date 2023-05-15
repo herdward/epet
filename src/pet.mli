@@ -61,34 +61,59 @@ val get_name : pet -> string
 val get_bad_foods : pet -> food list
 (** [get_bad_foods p] is the list of bad foods for pet [p]. *)
 
+val get_good_foods : pet -> food list
+(** [get_good_foods p] is the list of good foods for pet [p]. *)
+
 val food_amount : food -> int
 (** [food_amount f] is the amount of food [f].*)
 
 val get_food_hunger_effect : food -> int
-(** [get_food_hunger_effect f] f is the hunger effect of food [f].*)
+(** [get_food_hunger_effect f] is the hunger effect of food [f].*)
+
+val get_bad_food_name : food -> string
+(** [get_bad_food_name f] is the fname of food [f].*)
+
+val get_good_food_name : food -> string
+(** [get_good_food_name f] is the fname of food [f].*)
 
 val get_bad_food : pet -> string -> food
-val get_bad_food_effect : food -> int
-val get_bad_food_name : food -> string
-val get_good_foods : pet -> food list
+(** [get_bad_food p n] is the food with name [n] in the list of bad foods for
+    pet [p].*)
+
 val get_good_food : pet -> string -> food
-val get_good_food_name : food -> string
+(** [get_good_food p n] is the food with name [n] in the list of good foods for
+    pet [p].*)
+
+val get_bad_food_effect : food -> int
+(** [get_bad_food_effect f] is the bad health effect of food [f]. *)
+
 val get_good_food_effect : food -> int
+(** [get_good_food_effect f] is the good health effect of food [f]. *)
+
 val update_pet_health : pet -> int -> pet
+(** [update_pet_health p health_value] gives a pet with its health attribute
+    updated, to the minimum of (100, current health + health_value.) Raises
+    [AlreadyHealthy pet] if [p]'s health level is already 100. *)
 
 val update_pet_hygiene : pet -> int -> pet
-(** [update_pet_health p health_value] gives a pet with its health attribute
-    updated, to the maximum of (0, current health + health_value.) Raises
-    [AlreadyDead pet] if [pet]'s health level is already 0. This is equivalent
-    to [pet]'s health level being 100. *)
+(** [update_pet_hygiene p hygiene_effect] gives a pet with its hygiene attribute
+    updated, to the minimum of (100, current hygiene + hygiene_effect.) Raises
+    [AlreadyClean pet] if [p]'s hygiene level is already 100. *)
 
 val update_pet_hunger : pet -> int -> pet
 (** [update_pet_hunger p food_value] gives a pet with its hunger attribute
     updated, to the maximum of (0, current hunger - food_value.) Raises
-    [AlreadyFull pet] if [pet]'s fullness level is already 100. This is
-    equivalent to [pet]'s hunger level being 0. *)
+    [AlreadyFull pet] if [p]'s fullness level is already 100. This is equivalent
+    to [p]'s hunger level being 0. *)
+
+val food_equality : food -> food -> bool
+(** [food_equality f1 f2] checks if food [f1] and food [f2] are equivalent by
+    checking if their names, health_effect, hunger_effect, and amount attributes
+    are the same. Returns true if so, and false otherwise. *)
 
 val update_pet_good_food : food -> pet -> pet
 val update_pet_bad_food : food -> pet -> pet
-val food_equality : food -> food -> bool
+
 val update_food_amount : food -> food
+(** [update_food_amount f] is food [f], but with its amount attribute changed to
+    be amount - 1. *)
