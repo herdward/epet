@@ -85,8 +85,10 @@ let print_pet_info pet =
 let rec bad_food_result food pet =
   (* doesn't do anything to hunger for now*)
   let updated_pet =
-    Pet.update_pet_health pet
-      (Pet.get_bad_food_effect (Pet.get_bad_food pet food))
+    Pet.update_pet_bad_food
+      (Pet.get_bad_food pet food)
+      (Pet.update_pet_health pet
+         (Pet.get_bad_food_effect (Pet.get_bad_food pet food)))
   in
 
   ANSITerminal.print_string [ ANSITerminal.red ]
@@ -109,14 +111,18 @@ let rec bad_food_result food pet =
 let good_food_result food pet =
   try
     let updated_health_pet =
-      Pet.update_pet_health pet
-        (Pet.get_good_food_effect (Pet.get_good_food pet food))
+      Pet.update_pet_good_food
+        (Pet.get_good_food pet food)
+        (Pet.update_pet_health pet
+           (Pet.get_good_food_effect (Pet.get_good_food pet food)))
     in
     try
       let updated_pet =
-        Pet.update_pet_hunger updated_health_pet
-          (Pet.get_food_hunger_effect
-             (Pet.get_good_food updated_health_pet food))
+        Pet.update_pet_good_food
+          (Pet.get_good_food pet food)
+          (Pet.update_pet_hunger updated_health_pet
+             (Pet.get_food_hunger_effect
+                (Pet.get_good_food updated_health_pet food)))
       in
       ANSITerminal.print_string [ ANSITerminal.green ]
         ("\nYou selected to feed " ^ Pet.get_name pet ^ " with "
@@ -189,7 +195,7 @@ let feedencounter (pet : pet) : pet =
   | input_food ->
       let updatedpet = food_result input_food pet in
       (* decrement hygiene by 1*)
-      let updatedpet = Pet.update_pet_hygiene updatedpet (-1) in
+      let updatedpet = (Pet.update_pet_hygiene updatedpet) (-1) in
       print_pet_info updatedpet |> ignore;
       updatedpet (* this is to make sure that the UI gets updated*)
 

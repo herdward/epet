@@ -75,3 +75,6 @@ val update_pet_hunger : pet -> int -> pet
     updated, to the maximum of (0, current hunger - food_value.) Raises
     [AlreadyFull pet] if [pet]'s fullness level is already 100. This is
     equivalent to [pet]'s hunger level being 0. *)
+
+val update_pet_good_food : food -> pet -> pet
+val update_pet_bad_food : food -> pet -> pet

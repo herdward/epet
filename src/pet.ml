@@ -127,20 +127,56 @@ let update_pet_health pet food_health_effect =
 
 let food_amount food = food.amount
 
+let update_food_amount food =
+  {
+    fname = food.fname;
+    health_effect = food.health_effect;
+    hunger_effect = food.hunger_effect;
+    amount = food.amount - 1;
+  }
+
 (* Acc is acumulator, always use [] *)
 let rec update_good_food food acc pet =
   match pet.good_foods with
   | [] -> []
   | a :: b ->
       if a == food then
-        if food_amount food >= 2 then [] else a :: update_good_food food b pet
+        if food_amount food == 2 then []
+        else update_food_amount a :: update_good_food food b pet
       else a :: update_good_food food b pet
 
-let rec food_list_tostring food_list =
-  match food_list with
-  | [] -> ""
-  | [ a ] -> a.fname ^ ""
-  | a :: b -> a.fname ^ ", " ^ food_list_tostring b
+let rec update_bad_food food acc pet =
+  match pet.bad_foods with
+  | [] -> []
+  | a :: b ->
+      if a == food then
+        if food_amount food == 1 then []
+        else update_food_amount a :: update_bad_food food b pet
+      else a :: update_bad_food food b pet
+
+let update_pet_good_food food pet =
+  {
+    name = get_name pet;
+    gender = get_gender pet;
+    description = get_description pet;
+    health = get_health pet;
+    hunger = get_hunger pet;
+    bad_foods = pet.bad_foods;
+    good_foods = update_bad_food food [] pet;
+    hygiene = get_hygiene pet;
+  }
+
+let update_pet_bad_food food pet =
+  {
+    name = get_name pet;
+    gender = get_gender pet;
+    description = get_description pet;
+    health = get_health pet;
+    hunger = get_hunger pet;
+    bad_foods = update_good_food food [] pet;
+    good_foods = pet.good_foods;
+    hygiene = get_hygiene pet;
+  }
 
 let update_pet_hygiene pet hygiene_effect =
   if pet.hygiene >= 100 then raise AlreadyClean
