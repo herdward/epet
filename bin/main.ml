@@ -382,10 +382,11 @@ let rec pet_game_loop (state : State.state)
         mod 3
         == 0
       then
-        Player_state.update_player_action
-          (Player_state.update_player_date
-             (Player_state.update_state_from_pet player_state
-                (Some new_pet_state)))
+        Player_state.update_player_time
+          (Player_state.update_player_action
+             (Player_state.update_player_date
+                (Player_state.update_state_from_pet player_state
+                   (Some new_pet_state))))
       else
         update_player_time
           (Player_state.update_player_action
