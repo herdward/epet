@@ -27,6 +27,14 @@ let save_game_state player =
   output_string updated_file updated_json;
   close_out updated_file
 
+(* let save_pet_state pet_state = let save_data = `Assoc [ ("player_name",
+   `String (player_name player)); ("total_coins", `Int (player_coins_total
+   player)); ("day", `String (string_of_int player.date.day_number)); ("date",
+   `String (date_to_string player)); ("time", `String (time_to_string player));
+   ("number of actions", `Int (get_actions player)); ] in let updated_json =
+   to_string save_data in let updated_file = open_out "pet_state_test2.json" in
+   output_string updated_file updated_json; close_out updated_file *)
+
 let init_player_state_from_json =
   player_from_json
     (Yojson.Basic.from_file (data_dir_prefix ^ "player_state_test" ^ ".json"))
@@ -379,8 +387,10 @@ let rec pet_game_loop (state : State.state)
              (Player_state.update_state_from_pet player_state
                 (Some new_pet_state)))
       else
-        Player_state.update_player_action
-          (Player_state.update_state_from_pet player_state (Some new_pet_state))
+        update_player_time
+          (Player_state.update_player_action
+             (Player_state.update_state_from_pet player_state
+                (Some new_pet_state)))
     in
     match State.get_health new_pet_state with
     | Some health ->

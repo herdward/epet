@@ -117,6 +117,8 @@ let print_player_info player =
         (" Coins: " ^ string_of_int player.coins);
       ANSITerminal.print_string [ ANSITerminal.green ]
         (" | Date : " ^ date_to_string player);
+      ANSITerminal.print_string [ ANSITerminal.green ]
+        (" | Time : " ^ time_to_string player);
       print_endline ""
 
 let update_time time =
@@ -191,7 +193,7 @@ let update_player_time player =
       {
         month_name = player.date.month_name;
         month_int = player.date.month_int;
-        day_number = player.date.day_number + 1;
+        day_number = player.date.day_number;
         year = player.date.year;
         time = update_time player.date.time;
       };
