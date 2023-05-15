@@ -243,19 +243,19 @@ let pet_tests =
                      (get_food_hunger_effect (get_good_food cat "cod")))
                   "sausage"))) );
     ( {|food amount of chocolate, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_bad_food cat "chocolate")) );
+      assert_equal 3 (food_amount (get_bad_food ocat "chocolate")) );
     ( {|food amount of grapes, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_bad_food cat "grapes")) );
+      assert_equal 3 (food_amount (get_bad_food ocat "grapes")) );
     ( {|food amount of egg, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_bad_food cat "egg")) );
+      assert_equal 3 (food_amount (get_bad_food ocat "egg")) );
     ( {|food amount of cod, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_good_food cat "cod")) );
+      assert_equal 3 (food_amount (get_good_food ocat "cod")) );
     ( {|food amount of milk, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_good_food cat "milk")) );
+      assert_equal 3 (food_amount (get_good_food ocat "milk")) );
     ( {|food amount of biscuit, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_good_food cat "biscuit")) );
+      assert_equal 3 (food_amount (get_good_food ocat "biscuit")) );
     ( {|food amount of sausage, should be 3|} >:: fun _ ->
-      assert_equal 3 (food_amount (get_good_food cat "sausage")) );
+      assert_equal 3 (food_amount (get_good_food ocat "sausage")) );
     ( {|food equality of chocolate and chocolate, should be true|} >:: fun _ ->
       assert_equal true
         (food_equality
@@ -284,25 +284,25 @@ let pet_tests =
     );
     ( {|update_food_amount for chocolate, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_bad_food cat "chocolate"))) );
+        (food_amount (update_food_amount (get_bad_food ocat "chocolate"))) );
     ( {|update_food_amount for grapes, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_bad_food cat "grapes"))) );
+        (food_amount (update_food_amount (get_bad_food ocat "grapes"))) );
     ( {|update_food_amount for egg, food_amount should be 2|} >:: fun _ ->
-      assert_equal 2 (food_amount (update_food_amount (get_bad_food cat "egg")))
-    );
+      assert_equal 2
+        (food_amount (update_food_amount (get_bad_food ocat "egg"))) );
     ( {|update_food_amount for cod, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_good_food cat "cod"))) );
+        (food_amount (update_food_amount (get_good_food ocat "cod"))) );
     ( {|update_food_amount for milk, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_good_food cat "milk"))) );
+        (food_amount (update_food_amount (get_good_food ocat "milk"))) );
     ( {|update_food_amount for biscuit, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_good_food cat "biscuit"))) );
+        (food_amount (update_food_amount (get_good_food ocat "biscuit"))) );
     ( {|update_food_amount for sausage, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
-        (food_amount (update_food_amount (get_good_food cat "sausage"))) );
+        (food_amount (update_food_amount (get_good_food ocat "sausage"))) );
   ]
 
 let suite = "test suite for final project" >::: List.flatten [ pet_tests ]
