@@ -359,7 +359,21 @@ let rec pet_game_loop (state : State.state)
        state as a result of running select_action state*)
     select_action state |> Lwt.return >>= fun new_pet_state ->
     let new_player_state =
-      Player_state.update_state_from_pet player_state (Some new_pet_state)
+      if
+        Player_state.get_actions
+          (Player_state.update_player_action
+             (Player_state.update_state_from_pet player_state
+                (Some new_pet_state)))
+        mod 3
+        == 0
+      then
+        Player_state.update_player_action
+          (Player_state.update_player_date
+             (Player_state.update_state_from_pet player_state
+                (Some new_pet_state)))
+      else
+        Player_state.update_player_action
+          (Player_state.update_state_from_pet player_state (Some new_pet_state))
     in
     match State.get_health new_pet_state with
     | Some health ->

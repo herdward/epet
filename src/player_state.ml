@@ -127,6 +127,8 @@ let update_time time =
 let update_month_int date =
   if date.month_int < 12 then 1 else date.month_int + 1
 
+let get_actions player = player.numer_of_actions
+
 let update_player_date player =
   if player.date.day_number < 30 then
     {
@@ -173,6 +175,22 @@ let update_player_time player =
       };
     pet_state = player.pet_state;
     numer_of_actions = player.numer_of_actions;
+  }
+
+let update_player_action player =
+  {
+    name = player.name;
+    coins = player.coins;
+    date =
+      {
+        month_name = player.date.month_name;
+        month_int = player.date.month_int;
+        day_number = player.date.day_number;
+        year = player.date.year;
+        time = update_time player.date.time;
+      };
+    pet_state = player.pet_state;
+    numer_of_actions = player.numer_of_actions + 1;
   }
 
 let update_state_from_pet player_state pet_state =

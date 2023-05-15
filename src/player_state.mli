@@ -16,7 +16,6 @@ type date = {
   day_number : int;
   year : int;
   time : time;
-  number_of_actions : int;
 }
 
 type player_state = {
@@ -24,6 +23,7 @@ type player_state = {
   coins : coin;
   date : date;
   pet_state : State.state option;
+  numer_of_actions : int;
 }
 
 val player_from_json : Yojson.Basic.t -> player_state
@@ -71,3 +71,6 @@ val update_state_from_pet : player_state -> State.state option -> player_state
 (** [update_state_from_pet j s] returns an updated player state by updating the
     pet state to [s] from player [j]. Requires: [j] is a valid player
     representation. *)
+
+val get_actions : player_state -> int
+val update_player_action : player_state -> player_state
