@@ -85,7 +85,7 @@ let get_bad_food (pet : pet) name : food =
 
 let get_bad_food_effect food = food.health_effect
 let get_bad_food_name (food : food) : string = food.fname
-let get_good_foods pet = pet.good_foods
+let get_good_foods pet = try  pet.good_foods with Not_found -> []
 
 let get_good_food (pet : pet) name : food =
   List.find (fun (food : food) -> food.fname = name) pet.good_foods
@@ -147,18 +147,18 @@ let rec update_bad_food food acc (bad_foods : food list) =
   | [] -> acc
   | a :: b ->
       if food_equality a food then
-        if food_amount food == 1 then update_bad_food food acc bad_foods
-        else update_food_amount a :: update_bad_food food acc bad_foods
-      else update_bad_food food acc b
+        if food_amount food == 1 then update_bad_food food acc b
+        else update_food_amount a :: update_bad_food food acc b
+      else a :: update_bad_food food acc b
 
 let rec update_good_food food acc (good_foods : food list) =
   match good_foods with
   | [] -> acc
   | a :: b ->
       if food_equality a food then
-        if food_amount food == 1 then update_good_food food acc good_foods
-        else update_food_amount a :: update_good_food food acc good_foods
-      else update_good_food food acc b
+        if food_amount food == 1 then update_good_food food acc b
+        else update_food_amount a :: update_good_food food acc b
+      else a :: update_good_food food acc b
 
 let update_pet_good_food food pet =
   {
@@ -167,8 +167,9 @@ let update_pet_good_food food pet =
     description = get_description pet;
     health = get_health pet;
     hunger = get_hunger pet;
-    bad_foods = update_bad_food food [] pet.bad_foods;
-    good_foods = pet.good_foods;
+    bad_foods = pet.bad_foods;
+    (* making the bad foods [] *)
+    good_foods = update_good_food food [] pet.good_foods;
     hygiene = get_hygiene pet;
   }
 
@@ -179,8 +180,8 @@ let update_pet_bad_food food pet =
     description = get_description pet;
     health = get_health pet;
     hunger = get_hunger pet;
-    bad_foods = pet.bad_foods;
-    good_foods = update_good_food food [] pet.good_foods;
+    bad_foods = update_bad_food food [] pet.bad_foods;
+    good_foods = pet.good_foods;
     hygiene = get_hygiene pet;
   }
 

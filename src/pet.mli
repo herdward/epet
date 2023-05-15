@@ -117,3 +117,4 @@ val update_pet_bad_food : food -> pet -> pet
 val update_food_amount : food -> food
 (** [update_food_amount f] is food [f], but with its amount attribute changed to
     be amount - 1. *)
+val food_amount : food -> int

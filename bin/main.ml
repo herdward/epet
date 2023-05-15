@@ -111,8 +111,6 @@ let rec bad_food_result food pet =
 let good_food_result food pet =
   try
     let updated_health_pet =
-      Pet.update_pet_good_food
-        (Pet.get_good_food pet food)
         (Pet.update_pet_health pet
            (Pet.get_good_food_effect (Pet.get_good_food pet food)))
     in
@@ -125,6 +123,8 @@ let good_food_result food pet =
                 (Pet.get_good_food updated_health_pet food)))
       in
       ANSITerminal.print_string [ ANSITerminal.green ]
+        (string_of_int (food_amount (get_good_food pet food)));
+      ANSITerminal.print_string [ ANSITerminal.green ]
         ("\nYou selected to feed " ^ Pet.get_name pet ^ " with "
         ^ Pet.get_good_food_name (Pet.get_good_food pet food));
       print_endline
@@ -135,7 +135,7 @@ let good_food_result food pet =
         ^ " " ^ "health" ^ "\n");
       updated_pet
     with Pet.AlreadyFull ->
-      let updated_pet = updated_health_pet in
+      let updated_pet = updated_health_pet  in
       ANSITerminal.print_string [ ANSITerminal.red ]
         ("\nOops! " ^ Pet.get_name pet
        ^ " is already full. No change in hunger.\n");
@@ -148,12 +148,15 @@ let good_food_result food pet =
         ("\n" ^ Pet.get_name pet ^ " gained" ^ " "
         ^ string_of_int (Pet.get_health updated_pet - Pet.get_health pet)
         ^ " " ^ "health" ^ "\n");
+
       updated_pet
-  with Pet.AlreadyHealthy ->
+  with
+  |  Pet.AlreadyHealthy ->
     let updated_health_pet = pet in
     ANSITerminal.print_string [ ANSITerminal.red ]
       ("\nOops! " ^ Pet.get_name pet
      ^ " is already healthy. No change in health.\n");
+
     if Pet.get_hunger updated_health_pet = 0 then begin
       ANSITerminal.print_string [ ANSITerminal.red ]
         ("\nOops! " ^ Pet.get_name pet
@@ -167,6 +170,7 @@ let good_food_result food pet =
              (Pet.get_good_food updated_health_pet food))
       in
       updated_hunger_pet
+
 
 let food_result food pet =
   if check_if_bad_food food (Pet.get_bad_foods pet) then
