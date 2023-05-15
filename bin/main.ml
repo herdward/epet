@@ -6,8 +6,25 @@ open Pet
 open Player_state
 open Yojson.Basic
 open Lwt
+open Unix
 
 let data_dir_prefix = "data" ^ Filename.dir_sep
+
+let save_game_state player =
+  let save_data =
+    `Assoc
+      [
+        ("player_name", `String (player_name player));
+        ("total_coins", `Int (player_coins_total player));
+        ("day", `String "not working");
+        ("date", `String (date_to_string player));
+        ("Time", `String (time_to_string player));
+      ]
+  in
+  let updated_json = to_string save_data in
+  let updated_file = open_out "player_state_test2.json" in
+  output_string updated_file updated_json;
+  close_out updated_file
 
 let init_player_state_from_json =
   player_from_json

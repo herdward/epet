@@ -16,6 +16,7 @@ type date = {
   day_number : int;
   year : int;
   time : time;
+  number_of_actions : int;
 }
 
 type player_state = {

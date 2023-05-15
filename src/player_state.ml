@@ -21,6 +21,7 @@ type player_state = {
   coins : coin;
   date : date;
   pet_state : State.state option;
+  numer_of_actions : int;
 }
 
 let init_state =
@@ -36,6 +37,7 @@ let init_state =
         time = Morning;
       };
     pet_state = Some State.init_state;
+    numer_of_actions = 0;
   }
 
 let print_player_info player =
@@ -98,6 +100,7 @@ let player_from_json (j : Yojson.Basic.t) =
     coins = coin_of_json j;
     date = date_of_json j;
     pet_state = None;
+    numer_of_actions = 0;
   }
 
 let player_name p = p.name
@@ -138,6 +141,7 @@ let update_player_date player =
           time = player.date.time;
         };
       pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
     }
   else
     {
@@ -152,6 +156,7 @@ let update_player_date player =
           time = player.date.time;
         };
       pet_state = player.pet_state;
+      numer_of_actions = player.numer_of_actions;
     }
 
 let update_player_time player =
@@ -167,6 +172,7 @@ let update_player_time player =
         time = update_time player.date.time;
       };
     pet_state = player.pet_state;
+    numer_of_actions = player.numer_of_actions;
   }
 
 let update_state_from_pet player_state pet_state =
