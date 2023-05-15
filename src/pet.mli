@@ -8,8 +8,16 @@
     "Sample" pet list found in [data/samplejson.json]. *)
 
 exception AlreadyFull
+(** Raised when the pet's hunger is already 0, and an attempt at raising it
+    through actions such as feeding occurred.*)
+
 exception AlreadyHealthy
+(** Raised when the pet's health is already 100, and an attempt at raising it
+    through actions such as feeding occurred.*)
+
 exception AlreadyClean
+(** Raised when the pet's hygiene is already 100, and an attempt at raising it
+    through actions such as cleaning occurred.*)
 
 type pets
 (** The abstract type of values representing pets. *)
@@ -53,6 +61,12 @@ val get_name : pet -> string
 val get_bad_foods : pet -> food list
 (** [get_bad_foods p] is the list of bad foods for pet [p]. *)
 
+val food_amount : food -> int
+(** [food_amount f] is the amount of food [f].*)
+
+val get_food_hunger_effect : food -> int
+(** [get_food_hunger_effect f] f is the hunger effect of food [f].*)
+
 val get_bad_food : pet -> string -> food
 val get_bad_food_effect : food -> int
 val get_bad_food_name : food -> string
@@ -60,8 +74,6 @@ val get_good_foods : pet -> food list
 val get_good_food : pet -> string -> food
 val get_good_food_name : food -> string
 val get_good_food_effect : food -> int
-val get_hygiene : pet -> int
-val get_food_hunger_effect : food -> int
 val update_pet_health : pet -> int -> pet
 
 val update_pet_hygiene : pet -> int -> pet
@@ -79,5 +91,4 @@ val update_pet_hunger : pet -> int -> pet
 val update_pet_good_food : food -> pet -> pet
 val update_pet_bad_food : food -> pet -> pet
 val food_equality : food -> food -> bool
-val food_amount : food -> int
 val update_food_amount : food -> food
