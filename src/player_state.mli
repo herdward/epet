@@ -3,6 +3,7 @@
     This module represents the data stored in the player data JSON file,
     including player name, amount of coins, time, etc.. It handles loading of
     that data from JSON as well as querying the data. *)
+
 type time =
   | Morning
   | Afternoon
