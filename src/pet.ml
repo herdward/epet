@@ -6,6 +6,7 @@ type food = {
   fname : string;
   health_effect : int;
   hunger_effect : int;
+  amount : int;
 }
 
 type pet = {
@@ -31,6 +32,8 @@ let bad_food_of_json (j : Yojson.Basic.t) =
       |> Yojson.Basic.Util.to_int;
     hunger_effect =
       j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
+    amount =
+      j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
   }
 
 let good_food_of_json (j : Yojson.Basic.t) =
@@ -44,6 +47,8 @@ let good_food_of_json (j : Yojson.Basic.t) =
       |> Yojson.Basic.Util.member "good health effect"
       |> Yojson.Basic.Util.to_int;
     hunger_effect =
+      j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
+    amount =
       j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
   }
 
@@ -108,19 +113,35 @@ let update_pet_hunger pet food_value =
     }
 
 let update_pet_health pet food_health_effect =
-    if pet.health >= 100 then raise AlreadyHealthy;
-    {
-      name = get_name pet;
-      gender = get_gender pet;
-      description = get_description pet;
-      health = min (get_health pet + food_health_effect) 100;
-      hunger = get_hunger pet;
-      bad_foods = pet.bad_foods;
-      good_foods = pet.good_foods;
-      hygiene = get_hygiene pet;
-    }
+  if pet.health >= 100 then raise AlreadyHealthy;
+  {
+    name = get_name pet;
+    gender = get_gender pet;
+    description = get_description pet;
+    health = min (get_health pet + food_health_effect) 100;
+    hunger = get_hunger pet;
+    bad_foods = pet.bad_foods;
+    good_foods = pet.good_foods;
+    hygiene = get_hygiene pet;
+  }
+
+let food_amount food = food.amount
+
+(* Acc is acumulator, always use [] *)
+let rec update_good_food food acc pet =
+  match pet.good_foods with
+  | [] -> []
+  | a :: b ->
+      if a == food then
+        if food_amount food >= 2 then [] else a :: update_good_food food b pet
+      else a :: update_good_food food b pet
+
+let rec food_list_tostring food_list =
+  match food_list with
+  | [] -> ""
+  | [ a ] -> a.fname ^ ""
+  | a :: b -> a.fname ^ ", " ^ food_list_tostring b
 
 let update_pet_hygiene pet hygiene_effect =
   if pet.hygiene >= 100 then raise AlreadyClean
-  else
-  { pet with hygiene = min (get_hygiene pet + hygiene_effect) 100 }
+  else { pet with hygiene = min (get_hygiene pet + hygiene_effect) 100 }
