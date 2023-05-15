@@ -303,6 +303,36 @@ let pet_tests =
     ( {|update_food_amount for sausage, food_amount should be 2|} >:: fun _ ->
       assert_equal 2
         (food_amount (update_food_amount (get_good_food ocat "sausage"))) );
+    ( {|update_pet_good_food for cod, good_foods should be still have cod|}
+    >:: fun _ ->
+      assert_equal
+        (food_amount (update_food_amount (get_good_food cat "cod")))
+        (food_amount
+           (get_good_food
+              (update_pet_good_food (get_good_food cat "cod") cat)
+              "cod")) );
+    ( {|update_pet_good_food for cod, good_foods should be not have biscuit|}
+    >:: fun _ ->
+      assert_raises Not_found (fun () ->
+          food_amount
+            (get_good_food
+               (update_pet_good_food (get_good_food cat "biscuit") cat)
+               "biscuit")) );
+    ( {|update_pet_bad_food for grapes, bad_foods should be still have grapes|}
+    >:: fun _ ->
+      assert_equal
+        (food_amount (update_food_amount (get_bad_food cat "grapes")))
+        (food_amount
+           (get_bad_food
+              (update_pet_bad_food (get_bad_food cat "grapes") cat)
+              "grapes")) );
+    ( {|update_pet_bad_food for chocolate, bad_foods should be not have chocolate|}
+    >:: fun _ ->
+      assert_raises Not_found (fun () ->
+          food_amount
+            (get_bad_food
+               (update_pet_bad_food (get_bad_food cat "chocolate") cat)
+               "chocolate")) );
   ]
 
 let suite = "test suite for final project" >::: List.flatten [ pet_tests ]
