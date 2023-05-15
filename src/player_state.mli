@@ -8,11 +8,7 @@ type time =
   | Afternoon
   | Evening
 
-type coin = {
-  gold_amount : int;
-  silver_amount : int;
-  total_coin : int;
-}
+type coin = int
 
 type date = {
   month_name : string;
@@ -23,7 +19,7 @@ type date = {
 }
 
 type player_state = {
-  name : string option;
+  name : string;
   coins : coin;
   date : date;
   pet_state : State.state option;
@@ -33,15 +29,15 @@ val player_from_json : Yojson.Basic.t -> player_state
 (** [player_from_json j] is the player representaion from [j]. Requires: [j] is
     a valid player JSON data file. *)
 
-val player_name : player_state -> string option
+val player_name : player_state -> string
 (** [player_name j] is the string value of the player name from [j]. Requires:
     [j] is a valid player representation. *)
 
-val time_to_string : player_state -> string option
+val time_to_string : player_state -> string
 (** [time_to_string j] is the string representaion of the time in player [j].
     Requires: [j] is a valid player representation. *)
 
-val date_to_string : player_state -> string 
+val date_to_string : player_state -> string
 (** [date_to_string j] is the string representaion of the current mm/dd/yyyy
     from player [j]. Requires: [j] is a valid player representation. *)
 
@@ -53,14 +49,6 @@ val update_player_date : player_state -> player_state
 val player_coins_total : player_state -> int
 (** [player_coins_total j] returns the int amount of total coins in player [j].
     Requires: [j] is a valid player representation. *)
-
-val player_gold_total : player_state -> int
-(** [player_gold_total j] returns the int amount of gold coins in player [j].
-    Requires: [j] is a valid player representation. *)
-
-val player_silver_total : player_state -> int
-(** [player_silver_total j] returns the int amount of silver coins in player
-    [j]. Requires: [j] is a valid player representation. *)
 
 val update_player_time : player_state -> player_state
 (** [update_player_time j] returns the an updated player state by changing the
@@ -74,7 +62,6 @@ val init_state : player_state
 val print_player_info : player_state -> unit
 
 (** [print_player_info ()] prints the player's name, and coins. *)
-
 
 (** [print_player_state j] prints the player's name, coins, date, and time from
     player [j]. Requires: [j] is a valid player representation. *)
