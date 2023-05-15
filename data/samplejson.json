@@ -12,39 +12,46 @@
         {
           "bad food name": "chocolate",
           "bad health effect": -10,
-          "hunger effect": 2
+          "hunger effect": 2,
+          "amount": 3
         },
         {
           "bad food name": "grapes",
           "bad health effect": -8,
-          "hunger effect": 2
+          "hunger effect": 2,
+          "amount": 3
         },
         {
           "bad food name": "egg",
           "bad health effect": -5,
-          "hunger effect": 3
+          "hunger effect": 3,
+          "amount": 3
         }
       ],
       "good food": [
         {
           "good food name": "cod",
           "good health effect": 5,
-          "hunger effect": 5
+          "hunger effect": 5,
+          "amount": 3
         },
         {
           "good food name": "milk",
           "good health effect": 3,
-          "hunger effect": 4
+          "hunger effect": 4,
+          "amount": 3
         },
         {
           "good food name": "biscuit",
           "good health effect": 1,
-          "hunger effect": 7
+          "hunger effect": 7,
+          "amount": 3
         },
         {
           "good food name": "sausage",
           "good health effect": 2,
-          "hunger effect": 8
+          "hunger effect": 8,
+          "amount": 3
         }
       ]
     }

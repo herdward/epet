@@ -32,8 +32,7 @@ let bad_food_of_json (j : Yojson.Basic.t) =
       |> Yojson.Basic.Util.to_int;
     hunger_effect =
       j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
-    amount =
-      j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
+    amount = j |> Yojson.Basic.Util.member "amount" |> Yojson.Basic.Util.to_int;
   }
 
 let good_food_of_json (j : Yojson.Basic.t) =
@@ -48,8 +47,7 @@ let good_food_of_json (j : Yojson.Basic.t) =
       |> Yojson.Basic.Util.to_int;
     hunger_effect =
       j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
-    amount =
-      j |> Yojson.Basic.Util.member "hunger effect" |> Yojson.Basic.Util.to_int;
+    amount = j |> Yojson.Basic.Util.member "amount" |> Yojson.Basic.Util.to_int;
   }
 
 type pets = { pets : pet list }
@@ -97,6 +95,15 @@ let get_good_food_name (food : food) : string = food.fname
 let get_foods pet = List.flatten [ pet.bad_foods; pet.good_foods ]
 let get_food_hunger_effect food = food.hunger_effect
 
+let food_equality food1 food2 =
+  if
+    String.equal food1.fname food2.fname
+    && food1.health_effect == food2.health_effect
+    && food1.hunger_effect == food2.hunger_effect
+    && food1.amount = food2.amount
+  then true
+  else false
+
 let update_pet_hunger pet food_value =
   let current_pet_hunger = get_hunger pet in
   if current_pet_hunger <= 0 then raise AlreadyFull
@@ -138,19 +145,19 @@ let update_food_amount food =
 (* Acc is acumulator, always use [] *)
 let rec update_good_food food acc pet =
   match pet.good_foods with
-  | [] -> []
+  | [] -> acc
   | a :: b ->
-      if a == food then
-        if food_amount food == 2 then []
+      if food_equality a food then
+        if food_amount food == 1 then update_good_food food acc pet
         else update_food_amount a :: update_good_food food b pet
       else a :: update_good_food food b pet
 
 let rec update_bad_food food acc pet =
   match pet.bad_foods with
-  | [] -> []
+  | [] -> acc
   | a :: b ->
-      if a == food then
-        if food_amount food == 1 then []
+      if food_equality a food then
+        if food_amount food == 1 then update_bad_food food acc pet
         else update_food_amount a :: update_bad_food food b pet
       else a :: update_bad_food food b pet
 
@@ -161,8 +168,8 @@ let update_pet_good_food food pet =
     description = get_description pet;
     health = get_health pet;
     hunger = get_hunger pet;
-    bad_foods = pet.bad_foods;
-    good_foods = update_bad_food food [] pet;
+    bad_foods = update_bad_food food [] pet;
+    good_foods = pet.good_foods;
     hygiene = get_hygiene pet;
   }
 
@@ -173,8 +180,8 @@ let update_pet_bad_food food pet =
     description = get_description pet;
     health = get_health pet;
     hunger = get_hunger pet;
-    bad_foods = update_good_food food [] pet;
-    good_foods = pet.good_foods;
+    bad_foods = pet.bad_foods;
+    good_foods = update_good_food food [] pet;
     hygiene = get_hygiene pet;
   }
 
