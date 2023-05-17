@@ -1,6 +1,6 @@
-Edward He (eh538)
-Troy Moslemi (tcm83) \
-Amy Li (ayl53) \
+Edward He (eh538@cornell.edu)
+Troy Moslemi (tcm83@cornell.edu) \
+Amy Li (ayl53@cornell.edu) \
 
 
 
