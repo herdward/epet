@@ -1,3 +1,6 @@
+Reference https://cs3110.github.io/textbook/chapters/preface/install.html 
+as to how to install OCaml.
+
 After downloading and unzipping the zip file with our system in it,
 make sure your OPAM is updated. 
 
