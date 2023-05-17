@@ -1,7 +1,7 @@
-
+Edward He (eh538)
 Troy Moslemi (tcm83) \
 Amy Li (ayl53) \
-Edward He (eh538)
+
 
 
 This is a project that I have worked on with 2 other people, 
