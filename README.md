@@ -9,7 +9,7 @@ for the class "CS 3110" at Cornell University,
 a functional programming and data structures course
 that uses OCaml as the language of instruction.
 
-What is seen here is the state of the project at 
+What is seen here in this branch "1" is the state of the project at 
 the time of submission of our last milestone
 (MS3). 
 
