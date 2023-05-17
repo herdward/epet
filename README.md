@@ -22,3 +22,6 @@ Remember that there is no specific functionality you are required to achieve, bu
 
 Indeed, there is alot more functionality that could be added. I do plan to continue working on this project on my own free time, 
 as more practice with my OCaml skills. 
+
+
+For installation instructions, reference INSTALL.txt .
